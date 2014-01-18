@@ -1,14 +1,18 @@
 passport = require('passport')
 Vk = require('passport-vkontakte').Strategy
 conf = require('../conf')('auth')
+Player = require('../models/player')
 
 AUTH_URL = '/auth'
 AUTH_CALLBACK_URL = '/auth/callback'
 
 module.exports = (app) ->
     onProfileGot = (accessToken, refreshToken, profile, done) ->
-        console.log 'profile', profile
-        done(null, profile)
+        Player.find({where: {vk_id: profile.id}}).complete((err, player) ->
+            return done(err, null) if err
+            return done(null, player) if player
+            Player.createFromProfile(profile, done)
+        )
 
     passport.use('vk', new Vk({
         clientID: conf.id
@@ -24,11 +28,9 @@ module.exports = (app) ->
     }))
 
     passport.serializeUser((user, done) ->
-        console.log 'ser', user
         done(null, user.id)
     )
 
     passport.deserializeUser((id, done) ->
-        console.log 'deser', id
         done(null, {id})
     )

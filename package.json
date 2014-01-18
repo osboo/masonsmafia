@@ -9,6 +9,7 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "coffeecup": "~0.3.21"
+    "coffeecup": "~0.3.21",
+    "mysql": "~2.0.1"
   }
 }
