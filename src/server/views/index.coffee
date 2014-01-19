@@ -29,6 +29,9 @@ html ->
 
         form ->
             div class: 'fromDate', ->
-                label "Период"
+                i class: 'icon-calendar icon-large'
                 span class: 'js-daterange', ->
+                    label "Период"
+                b class: 'caret'
+
 
