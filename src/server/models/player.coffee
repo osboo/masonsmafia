@@ -2,6 +2,7 @@ Sequelize = require('sequelize')
 db = require('./db')
 PlayerGame = require('./player_game')
 BestPlayerMarker = require('./best_player_marker')
+SERVICE_ROLES = require('./constants').SERVICE_ROLES
 
 Player = db.define('Player', {
     vk_id:
@@ -11,8 +12,8 @@ Player = db.define('Player', {
         type: Sequelize.STRING
         allowNull: false
     service_role:
-        type: Sequelize.ENUM('user', 'admin')
-        defaultValue: 'user'
+        type: Sequelize.ENUM(SERVICE_ROLES.USER, SERVICE_ROLES.ADMIN)
+        defaultValue: SERVICE_ROLES.USER
 
 }, classMethods: {
     createFromProfile: (profile, callback) ->
