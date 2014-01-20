@@ -10,6 +10,10 @@ Player = db.define('Player', {
     name:
         type: Sequelize.STRING
         allowNull: false
+    service_role:
+        type: Sequelize.ENUM('user', 'admin')
+        defaultValue: 'user'
+
 }, classMethods: {
     createFromProfile: (profile, callback) ->
         Player.create({
