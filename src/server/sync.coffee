@@ -1,4 +1,7 @@
 require('./models/player')
+require('./models/game')
+require('./models/player_game')
+require('./models/best_player_marker')
 db = require('./models/db')
 
 db.sync({force: true}).complete((err) ->

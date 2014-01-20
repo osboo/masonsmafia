@@ -1,5 +1,7 @@
 Sequelize = require('sequelize')
 db = require('./db')
+PlayerGame = require('./player_game')
+BestPlayerMarker = require('./best_player_marker')
 
 Player = db.define('Player', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
@@ -12,5 +14,8 @@ Player = db.define('Player', {
             name: profile.displayName
         }).complete(callback)
 })
+
+Player.hasMany(PlayerGame, {foreignKey: 'player_id',  foreignKeyConstraint: true})
+Player.hasMany(BestPlayerMarker, {foreignKey: 'player_id',  foreignKeyConstraint: true})
 
 module.exports = Player
