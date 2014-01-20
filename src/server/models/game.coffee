@@ -7,6 +7,7 @@ Game = db.define('Game', {
     date:
         type: Sequelize.DATE
         allowNull: false
+        defaultValue: Sequelize.NOW
     result: Sequelize.INTEGER
 }, {
 })
