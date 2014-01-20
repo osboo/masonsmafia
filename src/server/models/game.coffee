@@ -4,7 +4,9 @@ PlayerGame = require('./player_game')
 BestPlayerMarker = require('./best_player_marker')
 
 Game = db.define('Game', {
-    date: Sequelize.DATE
+    date:
+        type: Sequelize.DATE
+        allowNull: false
     result: Sequelize.INTEGER
 }, {
 })

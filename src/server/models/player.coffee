@@ -4,9 +4,12 @@ PlayerGame = require('./player_game')
 BestPlayerMarker = require('./best_player_marker')
 
 Player = db.define('Player', {
-    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
-    vk_id: Sequelize.STRING,
-    name: Sequelize.STRING
+    vk_id:
+        type: Sequelize.STRING
+        allowNull: false
+    name:
+        type: Sequelize.STRING
+        allowNull: false
 }, classMethods: {
     createFromProfile: (profile, callback) ->
         Player.create({

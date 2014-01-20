@@ -2,9 +2,17 @@ Sequelize = require('sequelize')
 db = require('./db')
 
 PlayerGame = db.define('PlayerGame', {
-    role: Sequelize.INTEGER
-    fall_count: Sequelize.INTEGER
-    like_count: Sequelize.INTEGER
+    role:
+        type: Sequelize.INTEGER
+        allowNull: false
+    fall_count:
+        type: Sequelize.INTEGER
+        allowNull: false
+        defaultValue: 0
+    like_count:
+        type: Sequelize.INTEGER
+        allowNull: false
+        defaultValue: 0
 }, {
 })
 
