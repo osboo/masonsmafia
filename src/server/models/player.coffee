@@ -21,6 +21,9 @@ Player = db.define('Player', {
             vk_id: profile.id
             name: profile.displayName
         }).complete(callback)
+}, instanceMethods: {
+    isAdmin: () ->
+        return @service_role == SERVICE_ROLES.ADMIN
 })
 
 Player.hasMany(PlayerGame, {foreignKey: 'player_id',  foreignKeyConstraint: true})

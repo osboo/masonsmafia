@@ -1,4 +1,8 @@
 module.exports = (app) ->
     app.get('/', (req, res) ->
-        res.render('index', {user: req.user})
+        user = req.user
+        viewName = 'anonymous_index'
+        if user
+            viewName = if user.isAdmin() then 'admin_index' else 'logged_index'
+        res.render(viewName)
     )
