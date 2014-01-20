@@ -27,10 +27,15 @@ module.exports = (app) ->
         failureRedirect: AUTH_URL
     }))
 
+    app.get('/logout', (req, res) ->
+        req.logout()
+        res.redirect('/')
+    )
+
     passport.serializeUser((user, done) ->
         done(null, user.id)
     )
 
     passport.deserializeUser((id, done) ->
-        done(null, {id})
+        Player.find(id).complete(done)
     )
