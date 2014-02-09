@@ -15,8 +15,7 @@ app.configure(() ->
     app.use(app.router)
 )
 app.set('views', "#{__dirname}/views")
-app.set('view engine', 'coffee')
-app.engine('coffee', require('coffeecup').__express)
+app.set('view engine', 'jade')
 
 require('./controllers/index')(app)
 require('./controllers/auth')(app)
