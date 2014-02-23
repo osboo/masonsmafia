@@ -13,6 +13,12 @@ PlayerGame = db.define('PlayerGame', {
         type: Sequelize.INTEGER
         allowNull: false
         defaultValue: 0
+    isFirstKilledNight:
+        type: Sequelize.BOOLEAN
+        defaultValue: false
+    isFirstKilledDay:
+        type: Sequelize.BOOLEAN
+        defaultValue: false
 }, {
 })
 
