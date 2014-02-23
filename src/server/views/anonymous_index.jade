@@ -13,4 +13,62 @@ html(lang="ru")
         script(src='/js/daterangepicker.js', type='text/javascript')
         script(src='/js/app.js', type='text/javascript')
     body
-        div.js-daterange Начало период - конец периода
+        div
+            input(type='text').search
+            input(type='submit', value='Найти')
+            div.js-daterange Начало период - конец периода
+        div.result-block
+            div.rating
+                span Рейтинг:
+                span.rating 12.5
+            table.player-stats
+                tr.headers
+                    td
+                    td.citizen мирным
+                    td.sherif шерифом
+                    td.mafia мафией
+                    td.don доном
+                    td.total всего
+                tr
+                    td побед
+                    td.wins-citizen 1
+                    td.wins-sheriff 0
+                    td.wins-mafia 1
+                    td.wins-don 0
+                    td.wins-total 2
+                tr
+                    td игр
+                    td.games-citizen 1
+                    td.games-sheriff 1
+                    td.games-mafia 1
+                    td.games-don 1
+                    td.games-total 4
+                tr
+                    td лайков
+                    td.likes-citizen 0
+                    td.likes-sheriff 0
+                    td.likes-mafia 3
+                    td.likes-don 0
+                    td.likes-total 3
+                tr
+                    td фолов
+                    td.penalties-citizen 0
+                    td.penalties-sheriff 0
+                    td.penalties-mafia 3
+                    td.penalties-don 0
+                    td.penalties-total 3
+                tr
+                    td застрелен первым
+                    td.first-killed-at-night-cititzen 0
+                    td.first-Killed-at-night-sheriff 0
+                    td.first-killed-at-night-mafia 0
+                    td.first-Killed-at-night-don 0
+                    td.first-Killed-at-night-total 0
+                tr
+                    td выведен первым
+                    td.first-killed-at-day-cititzen 0
+                    td.first-Killed-at-day-sheriff 0
+                    td.first-killed-at-day-mafia 0
+                    td.first-Killed-at-day-don 0
+                    td.first-Killed-at-day-total 0
+
