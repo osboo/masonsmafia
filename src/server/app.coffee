@@ -1,5 +1,6 @@
 express = require('express')
 passport = require('passport')
+RedisStore = require('connect-redis')(express)
 conf = require('./conf')('app')
 
 app = express()
@@ -9,7 +10,7 @@ app.configure(() ->
     app.use(express.cookieParser())
     app.use(express.bodyParser())
     app.use(express.logger())
-    app.use(express.session({ secret: conf.sessionSecret}));
+    app.use(express.session({ store: new RedisStore({db: 2}), secret: conf.sessionSecret}));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router)
