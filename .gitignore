@@ -11,3 +11,4 @@ src/server/models/player.js
 src/server/models/player_game.js
 src/server/sync.js
 src/static/js
+src/server/views/*.html

@@ -1,4 +1,4 @@
-->
+$(->
     moment.lang('ru')
     $('.js-daterange').daterangepicker({
             ranges: {
@@ -15,3 +15,4 @@
     (start, end) ->
         $('.js-daterange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     )
+)
