@@ -10,7 +10,7 @@ app.configure(() ->
     app.use(express.cookieParser())
     app.use(express.bodyParser())
     app.use(express.logger())
-    app.use(express.session({ store: new RedisStore({db: 2}), secret: conf.sessionSecret}));
+    app.use(express.session({ store: new RedisStore(conf.storeOptions), secret: conf.sessionSecret}))
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router)
