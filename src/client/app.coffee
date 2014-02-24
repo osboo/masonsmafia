@@ -1,5 +1,4 @@
 $(->
-    moment.lang('ru')
     $('.js-daterange').daterangepicker({
             ranges: {
                 'За 7 дней': [moment().subtract('days', 6), moment()],
