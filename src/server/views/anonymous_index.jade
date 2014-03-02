@@ -15,3 +15,14 @@ html(lang="ru")
         script(src='/js/app.js', type='text/javascript')
     body
         include navigation
+        div.container
+            legend Общий рейтинг
+            table.table.table-striped.table-bordered
+                tr.headers
+                    td.name Игрок
+                    td.average Средний рейтинг
+                    td.rating Общий рейтинг
+                    td.games-total Игр
+                    td.wins Побед
+                        span &nbsp
+                        small (мир/шер/маф/дон)
