@@ -1,0 +1,105 @@
+doctype html
+html(lang="ru")
+    head
+        title= "Masons mafia club statistics"
+        meta(charset='utf-8', name='viewport', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='/css/bootstrap.css')
+        link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
+        link(rel='stylesheet', href='/css/daterangepicker-bs3.css')
+        link(rel='stylesheet', href='/css/app.css')
+        script(src='/js/jquery.js', type='text/javascript')
+        script(src='/js/bootstrap.js', type='text/javascript')
+        script(src='/js/moment.js', type='text/javascript')
+        script(src='/js/ru.js', type='text/javascript')
+        script(src='/js/daterangepicker.js', type='text/javascript')
+        script(src='/js/app.js', type='text/javascript')
+    body
+        div.container
+            form(role='form').form-inline
+                legend Персональная статистика
+                div.form-group
+                    label.sr-only Поиск по имени
+                    input(type='text', placeholder='Имя игрока...').form-control
+                div.form-group
+                    input(type='submit', value='Найти').btn.btn-default
+                div.form-group.pull-right
+                    div.form-control
+                        i.fa.fa-calendar.fa-lg.pull-right
+                        label.sr-only Период
+                        span.js-daterange За всё время
+                        b.caret
+            div.result-block.table-responsive
+                legend
+                    h2 Рейтинг:
+                        span &nbsp
+                        strong.rating 12
+                        small
+                            span &nbsp
+                            span в
+                            span &nbsp
+                            span.games-total 4
+                            span &nbsp
+                            span играх
+                div Среднее:
+                    span &nbsp
+                    strong.average-rating 3
+                div Лучшая карта:
+                    span &nbsp
+                    strong.recommended-card Мирный
+                table.table.table-striped.table-bordered
+                    tr.headers
+                        td
+                        td.citizen Мирным
+                        td.sherif Шерифом
+                        td.mafia Мафией
+                        td.don Доном
+                        td.total Всего
+                    tr
+                        td.row-header Побед
+                        td.wins-citizen 1
+                        td.wins-sheriff 0
+                        td.wins-mafia 1
+                        td.wins-don 0
+                        td.wins-total 2
+                    tr
+                        td.row-header Игр
+                        td.games-citizen 1
+                        td.games-sheriff 1
+                        td.games-mafia 1
+                        td.games-don 1
+                        td.games-total 4
+                    tr
+                        td.row-header Лучший игрок
+                        td.best-citizen 1
+                        td.best-sheriff 0
+                        td.best-mafia 1
+                        td.best-don 0
+                        td.best-total 2
+                    tr
+                        td.row-header Лайков
+                        td.likes-citizen 0
+                        td.likes-sheriff 0
+                        td.likes-mafia 3
+                        td.likes-don 0
+                        td.likes-total 3
+                    tr
+                        td.row-header Фолов
+                        td.penalties-citizen 0
+                        td.penalties-sheriff 0
+                        td.penalties-mafia 3
+                        td.penalties-don 0
+                        td.penalties-total 3
+                    tr
+                        td.row-header Застрелен первым
+                        td.first-killed-at-night-cititzen 0
+                        td.first-Killed-at-night-sheriff 0
+                        td.first-killed-at-night-mafia 0
+                        td.first-Killed-at-night-don 0
+                        td.first-Killed-at-night-total 0
+                    tr
+                        td.row-header Выведен первым
+                        td.first-killed-at-day-cititzen 0
+                        td.first-Killed-at-day-sheriff 0
+                        td.first-killed-at-day-mafia 0
+                        td.first-Killed-at-day-don 0
+                        td.first-Killed-at-day-total 0
