@@ -29,6 +29,13 @@ $(->
                 numberOfGamesInOneDate[game.date] = 1
                 gamesByDate[game.date] = game.rating
         efficiencyData = []
+        efficiencyData2 = [
+            { 'date': '2012-01-03', 'efficiency': 3 },
+            { 'date': '2012-01-03', 'efficiency': 0 },
+            { 'date': '2012-01-07', 'efficiency': 0 },
+            { 'date': '2012-01-07', 'efficiency': 5 },
+            { 'date': '2012-01-07', 'efficiency': 3 }
+        ]
         for inDate, totalRating of gamesByDate
             efficiencyData.push({'date': inDate, 'efficiency': totalRating * 100 / numberOfGamesInOneDate[inDate] / maximumPossibleRating})
         graph.setData(efficiencyData)
