@@ -18,14 +18,14 @@ html(lang="ru")
         script(src='/js/app.js', type='text/javascript')
     body
         include navigation
-        div.container-fluid
+        div.container.container-fluid
             legend Персональная статистика
             form(role='form').form-inline
                 div.form-group
                     label.sr-only Поиск по имени
                     input(type='text', placeholder='Имя игрока...').form-control
                 div.form-group
-                    input(type='submit', value='Найти').btn.btn-default
+                    input(type='submit', value='Загрузить').btn.btn-default
                 div.form-group.pull-right
                     div.form-control
                         i.fa.fa-calendar.fa-lg.pull-right

@@ -1,4 +1,13 @@
 evenings = {}
+updateEvenings = (games) ->
+    evenings = {};
+    for game in games
+        gameResults = {'rating': game.rating, 'role': game.role, 'maxPossibleRating': game.maxPossibleRating}
+        if (evenings[game.date])
+            evenings[game.date].push(gameResults)
+        else
+            evenings[game.date] = [gameResults]
+    evenings
 
 $(->
     $('.js-daterange').daterangepicker({
@@ -23,21 +32,14 @@ $(->
             { 'date': new Date('2011-10-22').getTime(), 'rating': 3, 'role': 'citizen', 'maxPossibleRating': 4 },
         ]
 
-        evenings = {};
-
-        for game in games
-            gameResults = {'rating': game.rating, 'role': game.role, 'maxPossibleRating': game.maxPossibleRating}
-            if (evenings[game.date])
-                evenings[game.date].push(gameResults)
-            else
-                evenings[game.date] = [gameResults]
+        evenings = updateEvenings(games)
 
         efficiencyData = []
         for milliseconds, evening of evenings
             milliseconds = parseInt(milliseconds, 10)
             eveningTotalRating = (gameResults.rating for gameResults in evening).reduce (x, y) -> x + y
             maxPossibleRatingPerGame = (gameResults.maxPossibleRating for gameResults in evening).reduce (x, y) -> x + y
-            efficiency = eveningTotalRating * 100 / (maxPossibleRatingPerGame * evening.length)
+            efficiency = eveningTotalRating * 100 / maxPossibleRatingPerGame
             efficiencyData.push({'date': milliseconds, 'efficiency': efficiency.toFixed(1)})
         graph.setData(efficiencyData)
     )
@@ -47,7 +49,7 @@ $(->
         data: [],
         xkey: 'date',
         ykeys: ['efficiency'],
-        labels: ['Результативность'],
+        labels: ['Винрейт'],
         postUnits: '%'
         dateFormat: (milliseconds) ->
             d = new Date(milliseconds)
@@ -62,10 +64,9 @@ $(->
             translatedRole['don'] = 'Дон'
             stats = ""
             for gameResults in evening
-                stats += "<b>" + translatedRole[gameResults.role] + "</b>: " + gameResults.rating + "<br>"
+                stats += "<b>" + translatedRole[gameResults.role] + "</b>: " + gameResults.rating + "/" + gameResults.maxPossibleRating  + "<br>"
             content += stats
-    });
-
+    })
 )
 
 
