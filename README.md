@@ -1,4 +1,4 @@
-apt-get instll mysql redis-server nodejs npm phpmyadmin
+apt-get install mysql redis-server nodejs npm phpmyadmin
 
 npm install -g coffee-script
 
