@@ -1,3 +1,21 @@
+loadGames = (start, end, playerName) ->
+    games = [
+        {
+            'date': new Date('2011-10-10').getTime(),
+            'role': 'citizen',
+            'rating': 3,
+            'maxPossibleRating': 4,
+            'win': 1,
+            'isBestPlayer': 0,
+            'hasBestMove': 0,
+            'likes': 2,
+            'fauls': 3,
+            'isKilledNight': 0,
+            'isKilledDay': 0
+        }
+    ]
+    games
+
 evenings = {}
 updateEvenings = (games) ->
     evenings = {};
@@ -21,17 +39,7 @@ $(->
         },
     (start, end) ->
         $('.js-daterange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-#        retrive games data for all controls
-        games = [
-            { 'date': new Date('2011-10-10').getTime(), 'rating': 3, 'role': 'citizen', 'maxPossibleRating': 4 },
-            { 'date': new Date('2011-10-10').getTime(), 'rating': 0, 'role': 'sheriff', 'maxPossibleRating': 5 },
-            { 'date': new Date('2011-10-10').getTime(), 'rating': 4, 'role': 'citizen', 'maxPossibleRating': 4 },
-            { 'date': new Date('2011-10-15').getTime(), 'rating': 0.5, 'role': 'mafia', 'maxPossibleRating': 4 },
-            { 'date': new Date('2011-10-15').getTime(), 'rating': 3, 'role': 'citizen', 'maxPossibleRating': 4 },
-            { 'date': new Date('2011-10-22').getTime(), 'rating': 4, 'role': 'don', 'maxPossibleRating': 5 },
-            { 'date': new Date('2011-10-22').getTime(), 'rating': 3, 'role': 'citizen', 'maxPossibleRating': 4 },
-        ]
-
+        games = loadGames(start, end, 'some vk id')
         evenings = updateEvenings(games)
 
         efficiencyData = []
@@ -49,7 +57,7 @@ $(->
         data: [],
         xkey: 'date',
         ykeys: ['efficiency'],
-        labels: ['Винрейт'],
+        labels: ['Результативность'],
         postUnits: '%'
         dateFormat: (milliseconds) ->
             d = new Date(milliseconds)
