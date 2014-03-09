@@ -21,6 +21,18 @@ Player = db.define('Player', {
             vk_id: profile.id
             name: profile.displayName
         }).complete(callback)
+    createOrUpdate: (profile, callback) ->
+        query = """
+            INSERT INTO Players
+            (vk_id, name) VALUES(:id, :name)
+            ON DUPLICATE KEY UPDATE vk_id=:id, name=:name
+        """
+        placeholders =
+            id: profile.id
+            name: profile.name
+        db.query(query, null, {raw: true}, placeholders).success((err, data) ->
+            console.log("111", err, data)
+        )
 }, instanceMethods: {
     isAdmin: () ->
         return @service_role == SERVICE_ROLES.ADMIN

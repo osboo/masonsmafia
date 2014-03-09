@@ -1,5 +1,5 @@
 (function() {
-  var AdminController, BaseController, app,
+  var AdminController, BaseController, app, userTypeahead,
     __slice = Array.prototype.slice,
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
@@ -39,7 +39,7 @@
       AdminController.__super__.constructor.call(this);
       this.$scope.MAX_PLAYER_COUNT = 2;
       this.$scope.players = [];
-      this.$scope.currentPlayerId = null;
+      this.$scope.currentPlayer = {};
       this.$scope.wonParty = null;
       this.$scope.roles = [
         {
@@ -69,11 +69,11 @@
     }
 
     AdminController.prototype.addPlayer = function() {
-      if (!this.$scope.currentPlayerId || (this.$scope.currentPlayerId.length = 0)) {
+      if (!this.$scope.currentPlayer.id || (this.$scope.currentPlayer.id.length = 0)) {
         return;
       }
       return this.$scope.players.push({
-        id: this.$scope.currentPlayerId
+        id: this.$scope.currentPlayer.id
       });
     };
 
@@ -90,7 +90,7 @@
     AdminController.prototype.createGame = function() {
       var payload, player, _i, _len, _ref;
       payload = {
-        result: this.$scope.wonParty.name,
+        result: this.$scope.wonParty.id,
         players: []
       };
       _ref = this.$scope.players;
@@ -98,10 +98,10 @@
         player = _ref[_i];
         payload.players.push({
           id: player.id,
-          role: player.role,
+          role: player.role.id,
           fallCount: player.fallCount,
           likeCount: player.likeCount,
-          firstKilled: player.firstKilled,
+          firstKilled: player.firstKilled.id,
           bestPlayerScores: player.bestPlayerScores
         });
       }
@@ -112,6 +112,45 @@
 
   })(BaseController);
 
+  userTypeahead = function() {
+    return {
+      restrict: 'A',
+      scope: {
+        currentPlayer: '='
+      },
+      link: function(scope, element, attrs) {
+        var users;
+        users = new Bloodhound({
+          datumTokenizer: function(item) {
+            return Bloodhound.tokenizers.whitespace(item.name);
+          },
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          local: [
+            {
+              name: 'foo',
+              id: 1
+            }, {
+              name: 'bar',
+              id: 2
+            }
+          ]
+        });
+        users.initialize();
+        return element.typeahead(null, {
+          displayKey: 'name',
+          source: users.ttAdapter()
+        }).on('typeahead:selected', function(element, user) {
+          return scope.$apply(function() {
+            console.log('111111111', scope, user);
+            return scope.currentPlayer.id = user.id;
+          });
+        });
+      }
+    };
+  };
+
   app.controller('admnController', AdminController);
+
+  app.directive('userTypeahead', userTypeahead);
 
 }).call(this);

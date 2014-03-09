@@ -11,7 +11,7 @@ class AdminController extends BaseController
         super()
         @$scope.MAX_PLAYER_COUNT = 2
         @$scope.players = []
-        @$scope.currentPlayerId = null
+        @$scope.currentPlayer = {}
         @$scope.wonParty = null
         @$scope.roles = [
             {name: 'Дон'}
@@ -29,8 +29,8 @@ class AdminController extends BaseController
         ]
 
     addPlayer: () ->
-        return if not @$scope.currentPlayerId or @$scope.currentPlayerId.length = 0
-        @$scope.players.push({id: @$scope.currentPlayerId})
+        return if not @$scope.currentPlayer.id or @$scope.currentPlayer.id.length = 0
+        @$scope.players.push({id: @$scope.currentPlayer.id})
 
     removePlayer: (playerToRemove) ->
         for player, index in @$scope.players
@@ -52,4 +52,29 @@ class AdminController extends BaseController
             })
         @$http.post('/game', payload)
 
+userTypeahead = () ->
+    restrict: 'A'
+    scope:
+        currentPlayer: '='
+    link: (scope, element, attrs) ->
+        users = new Bloodhound({
+            datumTokenizer: (item) -> Bloodhound.tokenizers.whitespace(item.name)
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+            local: [
+                {name: 'foo', id: 1}
+                {name: 'bar', id: 2}
+            ]
+        })
+        users.initialize()
+        element.typeahead(null, {
+            displayKey: 'name'
+            source: users.ttAdapter()
+        }).on('typeahead:selected', (element, user) ->
+            scope.$apply(() ->
+                console.log '111111111', scope, user
+                scope.currentPlayer.id = user.id
+            )
+        )
+
 app.controller('admnController', AdminController)
+app.directive('userTypeahead', userTypeahead)

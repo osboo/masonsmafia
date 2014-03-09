@@ -20,6 +20,7 @@ app.set('view engine', 'jade')
 
 require('./controllers/index')(app)
 require('./controllers/auth')(app)
+require('./controllers/game')(app)
 
 app.listen(conf.port)
 console.log("Start listening #{conf.port}")

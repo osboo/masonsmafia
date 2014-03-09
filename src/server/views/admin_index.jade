@@ -7,6 +7,7 @@ html(lang="ru", ng-app='adminApp')
         link(rel='stylesheet', href='/css/app.css')
         script(src='/js/jquery.js', type='text/javascript')
         script(src='/js/bootstrap.js', type='text/javascript')
+        script(src='/js/typeahead.bundle.js', type='text/javascript')
         script(src='/js/angular.js', type='text/javascript')
         script(src='/js/app_admin.js', type='text/javascript')
     body(ng-controller="admnController")
@@ -22,7 +23,7 @@ html(lang="ru", ng-app='adminApp')
                         a(href='/twitter') Twitter
             form.row
                 .col-md-4
-                        input.form-control(type="text", ng-model="currentPlayerId")
+                        input.form-control(type="text", currentPlayer)
                 .col-md-4
                         button.btn.btn-success(ng-click="addPlayer()", ng-disabled="players.length>=MAX_PLAYER_COUNT") Добавить
             .row(ng-show="players.length")
