@@ -70,18 +70,21 @@ loadGames = (start, end, playerName) ->
         }
     ]
 
-    playersEvenings = {}
+    playerGamesAtEvenings = {}
     games.sort (a, b) ->
         return if a.date >= b.date then 1 else -1
     for game in games
         date = game.date
         delete game.date
-        if (playersEvenings[date])
-            playersEvenings[date].push(game)
+        if (playerGamesAtEvenings[date])
+            playerGamesAtEvenings[date].push(game)
         else
-            playersEvenings[date] = [game]
-    evenings[playerName] = playersEvenings
+            playerGamesAtEvenings[date] = [game]
+    evenings[playerName] = playerGamesAtEvenings
     return evenings
+
+getUserOnPage = () ->
+    ["foo", "bar"]
 
 $(->
     $('.js-daterange').daterangepicker({
@@ -98,7 +101,7 @@ $(->
         $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
         $('#efficiency').hide()
 
-        usersOnPage = ['foo', 'bar']
+        usersOnPage = getUserOnPage()
         temp = {}
         for user in usersOnPage
             loadGames(start, end, user)
@@ -114,34 +117,43 @@ $(->
                     record = {}
                     record[user] = efficiency.toFixed(1)
                     temp[dateTimestamp] = record
-        plotData = []
+
         yLabels = [];
+        for user in usersOnPage
+            yLabels.push("efficiency-#{user}")
+
+        plotData = []
         for dateTimestamp, efficiencyRecords of temp
             points = {'date': parseInt(dateTimestamp, 10)}
             for user in usersOnPage
-                yLabels.push("efficiency-#{user}")
                 points["efficiency-#{user}"] = if efficiencyRecords[user]? then efficiencyRecords[user] else null
             plotData.push(points)
+
         $('#efficiency').remove()
         $('<div id = "efficiency"><div/>').appendTo('.efficiency-chart')
-        graph = new Morris.Line({
+
+        new Morris.Line({
             element: 'efficiency',
             data: plotData,
             xkey: 'date',
             ykeys: yLabels,
-            labels: ['результативность'],
-            postUnits: '%'
+            labels: usersOnPage,
+            postUnits: '%',
             dateFormat: (milliseconds) ->
                 moment(new Date(milliseconds)).format('D MMMM, YYYY')
             hoverCallback: (index, options, content) ->
-#                console.log(options)
-#                atDate = options.data[index].date
-#                evening = evenings[atDate]
-#                translatedRole = {'citizen': 'мирный', 'sheriff': 'шериф', 'mafia': 'мафия', 'don': 'дон'}
-#                stats = ''
-#                for gameResults in evening
-#                    stats += "<b>" + translatedRole[gameResults.role] + "</b>: " + gameResults.rating + "/" + gameResults.maxPossibleRating + "<br>"
-#                content += stats
+                atDate = options.data[index].date
+                for user in getUserOnPage()
+                    eveningOfUser = evenings[user]
+                    evening = eveningOfUser[atDate]
+                    results = ""
+                    if evening?
+                        efficiency = options.data[index]["efficiency-#{user}"]
+                        results += "#{user}: #{efficiency}%<br>"
+                        translatedRole = {'citizen': 'мирный', 'sheriff': 'шериф', 'mafia': 'мафия', 'don': 'дон'}
+                        for game in evening
+                            results += "<b>#{translatedRole[game.role]}:</b>#{game.rating}/#{game.maxPossibleRating}<br>"
+                    results
         })
 
     )
