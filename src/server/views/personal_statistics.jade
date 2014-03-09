@@ -23,14 +23,12 @@ html(lang="ru")
             form(role='form').form-inline
                 div.form-group
                     label.sr-only Поиск по имени
-                    input(type='text', placeholder='Имя игрока...').form-control
+                    input.form-control(type='text', placeholder='Имя игрока...', tabindex='1')
                 div.form-group
-                    input(type='submit', value='Загрузить').btn.btn-default
-                div.form-group.pull-right
                     div.form-control
                         i.fa.fa-calendar.fa-lg.pull-right
                         label.sr-only Период
-                        span.js-daterange За всё время
+                        span.js-daterange(tabindex='2') За всё время
                         b.caret
             div.result-block.table-responsive
                 h2 Рейтинг:

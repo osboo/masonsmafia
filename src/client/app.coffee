@@ -1,3 +1,4 @@
+evenings = {}
 loadGames = (start, end, playerName) ->
     games = [
         {
@@ -7,16 +8,41 @@ loadGames = (start, end, playerName) ->
             'maxPossibleRating': 4,
             'win': 1,
             'isBestPlayer': 0,
-            'hasBestMove': 0,
+            'bestMove': -1,
             'likes': 2,
             'fauls': 3,
-            'isKilledNight': 0,
+            'isKilledFirstNight': 0,
+            'isKilledDay': 0
+        }
+        {
+            'date': new Date('2011-10-10').getTime(),
+            'role': 'citizen',
+            'rating': 0,
+            'maxPossibleRating': 4,
+            'win': 0,
+            'isBestPlayer': 1,
+            'bestMove': -1,
+            'likes': 3,
+            'fauls': 1,
+            'isKilledFirstNight': 0,
+            'isKilledDay': 0
+        }
+        {
+            'date': new Date('2011-10-10').getTime(),
+            'role': 'mafia',
+            'rating': 0,
+            'maxPossibleRating': 4,
+            'win': 0,
+            'isBestPlayer': 1,
+            'bestMove': -1,
+            'likes': 3,
+            'fauls': 1,
+            'isKilledFirstNight': 0,
             'isKilledDay': 0
         }
     ]
     games
 
-evenings = {}
 updateEvenings = (games) ->
     evenings = {};
     for game in games
@@ -32,13 +58,13 @@ $(->
             ranges: {
                 'За 7 дней': [moment().subtract('days', 6), moment()],
                 'За 30 дней': [moment().subtract('days', 29), moment()],
-                'За месяц': [moment().startOf('month'), moment().endOf('month')],
+                'С начала месяца': [moment().startOf('month'), moment()],
             },
             startDate: moment().subtract('days', 1),
             endDate: moment()
         },
     (start, end) ->
-        $('.js-daterange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
         games = loadGames(start, end, 'some vk id')
         evenings = updateEvenings(games)
 
@@ -60,8 +86,7 @@ $(->
         labels: ['Результативность'],
         postUnits: '%'
         dateFormat: (milliseconds) ->
-            d = new Date(milliseconds)
-            d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear()
+            moment(new Date(milliseconds)).format('D MMMM, YYYY')
         hoverCallback: (index, options, content) ->
             milliseconds = options.data[index].date
             evening = evenings[milliseconds]
