@@ -6,40 +6,41 @@ html(lang="ru")
         link(rel='stylesheet', href='/css/bootstrap.css')
         link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
         link(rel='stylesheet', href='/css/daterangepicker-bs3.css')
+        link(rel="stylesheet", href='/css/morris.css')
         link(rel='stylesheet', href='/css/app.css')
         script(src='/js/jquery.js', type='text/javascript')
         script(src='/js/bootstrap.js', type='text/javascript')
         script(src='/js/moment.js', type='text/javascript')
         script(src='/js/ru.js', type='text/javascript')
         script(src='/js/daterangepicker.js', type='text/javascript')
+        script(src="/js/raphael.js", type='text/javascript')
+        script(src="/js/morris.js", type='text/javascript')
         script(src='/js/app.js', type='text/javascript')
     body
-        div.container
-            form(role='form').form-inline
-                legend Персональная статистика
+        include navigation
+        div.container.container-fluid
+            legend Персональная статистика
+            form.form-inline(role='form')
                 div.form-group
                     label.sr-only Поиск по имени
-                    input(type='text', placeholder='Имя игрока...').form-control
+                    input.form-control(type='text', placeholder='Имя игрока...', tabindex='1')
                 div.form-group
-                    input(type='submit', value='Найти').btn.btn-default
-                div.form-group.pull-right
                     div.form-control
                         i.fa.fa-calendar.fa-lg.pull-right
                         label.sr-only Период
-                        span.js-daterange За всё время
+                        span.js-daterange(tabindex='2') За всё время
                         b.caret
             div.result-block.table-responsive
-                legend
-                    h2 Рейтинг:
+                h2 Рейтинг:
+                    span &nbsp
+                    strong.rating 12
+                    small
                         span &nbsp
-                        strong.rating 12
-                        small
-                            span &nbsp
-                            span в
-                            span &nbsp
-                            span.games-total 4
-                            span &nbsp
-                            span играх
+                        span в
+                        span &nbsp
+                        span.games-total 4
+                        span &nbsp
+                        span играх
                 div Среднее:
                     span &nbsp
                     strong.average-rating 3
@@ -76,6 +77,13 @@ html(lang="ru")
                         td.best-don 0
                         td.best-total 2
                     tr
+                        td.row-header Лучший ход
+                        td.best-move-citizen 2
+                        td.best-move-sheriff 1
+                        td 0
+                        td 0
+                        td.best-move-total 3
+                    tr
                         td.row-header Лайков
                         td.likes-citizen 0
                         td.likes-sheriff 0
@@ -103,3 +111,7 @@ html(lang="ru")
                         td.first-killed-at-day-mafia 0
                         td.first-Killed-at-day-don 0
                         td.first-Killed-at-day-total 0
+            h2 Рейтинг за вечер
+                span &nbsp
+                    small в % от максимального
+            div#efficiency
