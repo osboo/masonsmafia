@@ -83,7 +83,7 @@ loadGames = (start, end, playerName) ->
     evenings[playerName] = playerGamesAtEvenings
     return evenings
 
-getUserOnPage = () ->
+getUsersOnPage = () ->
     ["foo", "bar"]
 
 $(->
@@ -99,10 +99,16 @@ $(->
 
     (start, end) ->
         $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
-        $('#efficiency').hide()
+        $('#efficiency').remove()
 
-        usersOnPage = getUserOnPage()
-        temp = {}
+        usersOnPage = getUsersOnPage()
+        for user in usersOnPage
+            $("<div id = 'evenings-#{user}'></div>").remove()
+        $('<div id = "efficiency"><div/>').appendTo('.efficiency-chart')
+        for user in usersOnPage
+            $("<div id = 'evenings-#{user}'> </div>").appendTo('.efficiency-chart')
+
+        efficiencies = {}
         for user in usersOnPage
             loadGames(start, end, user)
             playerEvenings = evenings[user]
@@ -111,26 +117,23 @@ $(->
                 eveningTotalRating = (game.rating for game in evening).reduce (x, y) -> x + y
                 maxPossibleRatingPerGame = (game.maxPossibleRating for game in evening).reduce (x, y) -> x + y
                 efficiency = eveningTotalRating * 100 / maxPossibleRatingPerGame
-                if (temp[dateTimestamp])
-                    temp[dateTimestamp][user] = efficiency.toFixed(1)
+                if (efficiencies[dateTimestamp])
+                    efficiencies[dateTimestamp][user] = efficiency.toFixed(1)
                 else
                     record = {}
                     record[user] = efficiency.toFixed(1)
-                    temp[dateTimestamp] = record
+                    efficiencies[dateTimestamp] = record
 
         yLabels = [];
         for user in usersOnPage
             yLabels.push("efficiency-#{user}")
 
         plotData = []
-        for dateTimestamp, efficiencyRecords of temp
+        for dateTimestamp, efficiencyRecords of efficiencies
             points = {'date': parseInt(dateTimestamp, 10)}
             for user in usersOnPage
                 points["efficiency-#{user}"] = if efficiencyRecords[user]? then efficiencyRecords[user] else null
             plotData.push(points)
-
-        $('#efficiency').remove()
-        $('<div id = "efficiency"><div/>').appendTo('.efficiency-chart')
 
         new Morris.Line({
             element: 'efficiency',
@@ -143,19 +146,26 @@ $(->
                 moment(new Date(milliseconds)).format('D MMMM, YYYY')
             hoverCallback: (index, options, content) ->
                 atDate = options.data[index].date
-                for user in getUserOnPage()
+                resultsForPlot = ""
+                detailedInfo = moment(atDate).format("D MMMM, YYYY") + "<br>"
+                for user in getUsersOnPage()
+                    $("#evenings-#{user}").html("")
                     eveningOfUser = evenings[user]
                     evening = eveningOfUser[atDate]
-                    results = ""
                     if evening?
                         efficiency = options.data[index]["efficiency-#{user}"]
-                        results += "#{user}: #{efficiency}%<br>"
+                        efficiencyStr = "<b>#{user}</b>: #{efficiency}%<br>"
+                        resultsForPlot += efficiencyStr
+                        detailedInfo += efficiencyStr
                         translatedRole = {'citizen': 'мирный', 'sheriff': 'шериф', 'mafia': 'мафия', 'don': 'дон'}
                         for game in evening
-                            results += "<b>#{translatedRole[game.role]}:</b>#{game.rating}/#{game.maxPossibleRating}<br>"
-                    results
+                            winrateStr = "#{translatedRole[game.role]}:#{game.rating}/#{game.maxPossibleRating}<br>"
+                            resultsForPlot += winrateStr
+                            detailedInfo += winrateStr
+                        $("#evenings-#{user}").html(detailedInfo)
+                resultsForPlot
         })
-
+        $(".statistics").css('visibility', 'visible')
     )
 )
 
