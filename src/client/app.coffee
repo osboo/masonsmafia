@@ -69,7 +69,6 @@ loadGames = (start, end, playerName) ->
             'isKilledDay': 0
         }
     ]
-
     playerGamesAtEvenings = {}
     games.sort (a, b) ->
         return if a.date >= b.date then 1 else -1
@@ -100,13 +99,10 @@ $(->
     (start, end) ->
         $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
         $('#efficiency').remove()
+        $(".loader").show()
 
         usersOnPage = getUsersOnPage()
-        for user in usersOnPage
-            $("<div id = 'evenings-#{user}'></div>").remove()
         $('<div id = "efficiency"><div/>').appendTo('.efficiency-chart')
-        for user in usersOnPage
-            $("<div id = 'evenings-#{user}'> </div>").appendTo('.efficiency-chart')
 
         efficiencies = {}
         for user in usersOnPage
@@ -156,15 +152,13 @@ $(->
                         efficiency = options.data[index]["efficiency-#{user}"]
                         efficiencyStr = "<b>#{user}</b>: #{efficiency}%<br>"
                         resultsForPlot += efficiencyStr
-                        detailedInfo += efficiencyStr
                         translatedRole = {'citizen': 'мирный', 'sheriff': 'шериф', 'mafia': 'мафия', 'don': 'дон'}
                         for game in evening
                             winrateStr = "#{translatedRole[game.role]}:#{game.rating}/#{game.maxPossibleRating}<br>"
                             resultsForPlot += winrateStr
-                            detailedInfo += winrateStr
-                        $("#evenings-#{user}").html(detailedInfo)
                 resultsForPlot
         })
+        $(".loader").hide()
         $(".statistics").css('visibility', 'visible')
     )
 )
