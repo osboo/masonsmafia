@@ -14,13 +14,7 @@ $(->
         even: '',
         odd: ''
     });
-    $('.common-rating').tablesorter({
-        sortList : [[1, 1]],
-        theme: "bootstrap",
-        widgets: ['uitheme'],
-        headerTemplate : '{content} {icon}'
-    })
-    $('.wins-table').tablesorter({
+    $('.stat-tables table').tablesorter({
         sortList : [[1, 1]],
         theme: "bootstrap",
         widgets: ['uitheme'],

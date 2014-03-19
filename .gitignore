@@ -1,5 +1,6 @@
 .idea
 src/client/app.js
+src/client/common_stat.js
 src/server/app.js
 src/server/conf.js
 src/server/controllers/auth.js
