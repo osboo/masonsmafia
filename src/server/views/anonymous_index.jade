@@ -16,7 +16,10 @@ html(lang="ru")
     body
         include navigation
         div.stat-tables.container
-            legend Общий рейтинг
+            h2 Рейтинг
+                small.pull-right
+                    span &nbsp
+                    a.top-10(href='#') топ-10
             table.common-rating
                 thead
                     tr
@@ -62,7 +65,7 @@ html(lang="ru")
                         td 13
                         td 5
                         td 45
-            legend Победы
+            h2 Победы
             table.wins-table
                 thead
                     tr
@@ -115,7 +118,7 @@ html(lang="ru")
                         td 2
                         td 8
                         td 2
-            legend Роли
+            h2 Роли
             table.roles-in-table
                 thead
                     tr
@@ -168,7 +171,7 @@ html(lang="ru")
                         td 0
                         td 1
                         td 4
-            legend Влияние за столом
+            h2 Влияние за столом
             table.impact
                 thead
                     tr

@@ -20,4 +20,8 @@ $(->
         widgets: ['uitheme'],
         headerTemplate : '{content} {icon}'
     })
+    $('.top-10').click(->
+        if $('.top-10').html() == "топ-10" then $('.top-10').html("все")
+        else if $('.top-10').html() == "все" then $('.top-10').html("топ-10")
+    )
 )
