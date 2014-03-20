@@ -1,3 +1,6 @@
+window.getCachedUserNames = () ->
+    return ['foo', 'bar']
+
 #evenings = {}
 #loadGames = (start, end, playerName) ->
 #    if playerName is 'foo' then games = [

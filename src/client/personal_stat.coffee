@@ -157,7 +157,11 @@ $(->
                             resultsForPlot += winrateStr
                 resultsForPlot
         })
-        $(".statistics").css('visibility', 'visible')
+        $('.statistics').css('visibility', 'visible')
+    )
+
+    $("input[name='player-name']").autocomplete(
+        lookup: window.getCachedUserNames()
     )
 )
 
