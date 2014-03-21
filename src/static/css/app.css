@@ -1,9 +1,14 @@
 #efficiency{height: 400px; max-width: 600px}
 
-.statistics{visibility:hidden;}
+.statistics{display:none;}
 .loader{display:none;}
 
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+    background-color: #C7C5DB;
+    color:#000000;
+}
+
+.tablesorter>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
     background-color: #C7C5DB;
     color:#000000;
 }

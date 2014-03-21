@@ -1,5 +1,6 @@
 window.getCachedUserNames = () ->
-    return ['foo', 'bar']
+    result = ['foo', 'озбоссум', 'Озб', 'kazzantip', 'Наталья Сергеевна']
+    return result
 
 #evenings = {}
 #loadGames = (start, end, playerName) ->
