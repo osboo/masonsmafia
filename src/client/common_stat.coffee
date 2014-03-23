@@ -14,14 +14,24 @@ $(->
         even: '',
         odd: ''
     });
+
+    $.tablesorter.addWidget({
+            id: 'indexFirstColumn'
+            format: (table) ->
+                for i in [0...table.tBodies[0].rows.length]
+                    $("tbody tr:eq(\"#{i}\") td:first", table).html(i + 1);
+        }
+    )
+
     $('.stat-tables table').tablesorter({
-        sortList : [[1, 1]],
+        headers: { 0: { sorter: false} }
+        sortList : [[2, 1]],
         theme: "bootstrap",
-        widgets: ['uitheme'],
+        widgets: ['uitheme', 'indexFirstColumn'],
         headerTemplate : '{content} {icon}'
     })
+
     $('.top-10').click(->
-        if $('.top-10').html() == "топ-10" then $('.top-10').html("все")
-        else if $('.top-10').html() == "все" then $('.top-10').html("топ-10")
+
     )
 )
