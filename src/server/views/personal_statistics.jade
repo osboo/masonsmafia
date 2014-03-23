@@ -26,6 +26,8 @@ html(lang="ru")
             form.form-inline(role='form')
                 div.form-group
                     input.form-control(type='text', placeholder='Имя игрока...', tabindex='1', name='player-name')
+                div.form-group
+                    input.form-control(type='submit', value='Найти', tabindex='3', name='find-button')
             div.statistics
                 legend Персональная статистика
                 form.form-inline(role='form')
@@ -115,3 +117,4 @@ html(lang="ru")
                         span &nbsp
                             small в % от максимального
                     div.efficiency-chart
+        include navigation
