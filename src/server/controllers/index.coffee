@@ -1,7 +1,7 @@
 module.exports = (app) ->
     app.get('/', (req, res) ->
         user = req.user
-        viewName = 'anonymous_index'
+        viewName = 'common_statistics'
         context = {}
         if user
             viewName = if user.isAdmin() then 'admin_index'
@@ -26,7 +26,7 @@ module.exports = (app) ->
             ()->
                 cached = require('./../common_stat_responce.json')
                 res.json(cached)
-            , 5000
+            , 500
         )
 
     )
