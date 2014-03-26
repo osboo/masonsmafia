@@ -54,6 +54,10 @@ $(->
     $.ajax({
             url:'/common-statistics'
             dataType:'json'
+            beforeSend: ()->
+                $('.loader').show()
+            complete: ()->
+                $('.loader').hide()
             success: (data, textStatus)->
                 renderTables(data)
                 $('.stat-tables table').tablesorter({
@@ -65,8 +69,6 @@ $(->
                 })
         }
     )
-
-
 
     $('.top-10').click(->
 

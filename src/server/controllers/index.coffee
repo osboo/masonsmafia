@@ -26,7 +26,7 @@ module.exports = (app) ->
             ()->
                 cached = require('./../common_stat_responce.json')
                 res.json(cached)
-            , 500
+            , 2000
         )
 
     )

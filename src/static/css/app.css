@@ -2,7 +2,13 @@
 #efficiency{height: 400px; max-width: 600px}
 
 .statistics{visibility:hidden;}
-.loader{display:none;}
+
+.loader{
+    display:none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
 
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
     background-color: #C7C5DB;

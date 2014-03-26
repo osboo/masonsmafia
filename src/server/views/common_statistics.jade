@@ -6,6 +6,7 @@ html(lang="ru")
         link(rel='stylesheet', href='/css/bootstrap.css')
         link(rel='stylesheet', href='/css/app.css')
         link(rel='stylesheet', href='/css/theme.bootstrap.css')
+        link(rel='stylesheet', href='/css/font-awesome.min.css')
         script(src='/js/jquery.js', type='text/javascript')
         script(src='/js/bootstrap.js', type='text/javascript')
         script(src='/js/jquery.tablesorter.js', type='text/javascript')
@@ -15,6 +16,8 @@ html(lang="ru")
         script(src='/js/common_stat.js', type='text/javascript')
     body
         include navigation
+        div.loader
+            i.fa.fa-spinner.fa-spin.fa-3x
         div.stat-tables.container
             h2 Рейтинг
                 small.pull-right
