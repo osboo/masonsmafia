@@ -20,3 +20,13 @@ module.exports = (app) ->
         context = {}
         res.render(viewName, context)
     )
+
+    app.get('/common-statistics', (req, res)->
+        setTimeout(
+            ()->
+                cached = require('./../common_stat_responce.json')
+                res.json(cached)
+            , 5000
+        )
+
+    )
