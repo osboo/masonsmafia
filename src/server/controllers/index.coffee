@@ -21,12 +21,20 @@ module.exports = (app) ->
         res.render(viewName, context)
     )
 
-    app.get('/common-statistics', (req, res)->
+    app.get('/all', (req, res)->
         setTimeout(
             ()->
                 cached = require('./../common_stat_responce.json')
                 res.json(cached)
-            , 2000
+        , 2000
         )
+    )
 
+    app.get('/top-10', (req, res)->
+        setTimeout(
+            ()->
+                cached = require('./../top10.json')
+                res.json(cached)
+        , 2000
+        )
     )

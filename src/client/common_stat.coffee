@@ -16,12 +16,11 @@ $(->
     });
 
     $.tablesorter.addWidget({
-            id: 'indexFirstColumn'
-            format: (table) ->
-                for i in [0...table.tBodies[0].rows.length]
-                    $("tbody tr:eq(\"#{i}\") td:first", table).html(i + 1);
-        }
-    )
+        id: 'indexFirstColumn'
+        format: (table) ->
+            for i in [0...table.tBodies[0].rows.length]
+                $("tbody tr:eq(\"#{i}\") td:first", table).html(i + 1);
+    })
 
     extended = (players)->
         result = []
@@ -51,9 +50,10 @@ $(->
             $("<tr><td></td><td>#{player.name}</td><td>#{player.gamesTotal}</td><td>#{player.gamesCitizen}</td><td>#{player.gamesSheriff}</td><td>#{player.gamesMafia}</td><td>#{player.gamesDon}</td></tr>").appendTo('.roles tbody')
             $("<tr><td></td><td>#{player.name}</td><td>#{player.likes}</td><td>#{player.bestPlayer}</td><td>#{player.bestMoveAccuracy}</td><td>#{player.firstKilledNight}</td><td>#{player.firstKilledDay}</td><td>#{player.fouls}</td></tr>").appendTo('.impact tbody')
 
-    $.ajax({
-            url:'/common-statistics'
-            dataType:'json'
+    updateTables = (urlString)->
+        request = {
+            url: urlString
+            dataType: 'json'
             beforeSend: ()->
                 $('.loader').show()
             complete: ()->
@@ -65,12 +65,20 @@ $(->
                     sortList : [[2, 1]],
                     theme: "bootstrap",
                     widgets: ['uitheme', 'indexFirstColumn'],
-                    headerTemplate : '{content} {icon}'
+                    headerTemplate: '{content} {icon}'
                 })
+                $('.stat-tables table').trigger("update")
+                $('.stat-tables table').trigger("sorton")
         }
-    )
+        $.ajax(request)
+
 
     $('.top-10').click(->
-
+        values = {'все игроки':'топ-10', 'топ-10':'все игроки'}
+        links = {'все игроки':'/all', 'топ-10':'/top-10'}
+        updateTables(links[$(@).html()])
+        $(@).html(values[$(@).html()])
     )
+
+    updateTables('/top-10')
 )
