@@ -55,9 +55,11 @@ $(->
             url: urlString
             dataType: 'json'
             beforeSend: ()->
+                $('.stat-tables').hide()
                 $('.loader').show()
             complete: ()->
                 $('.loader').hide()
+                $('.stat-tables').show()
             success: (data, textStatus)->
                 renderTables(data)
                 $('.stat-tables table').tablesorter({
