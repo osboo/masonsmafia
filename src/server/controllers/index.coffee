@@ -38,3 +38,12 @@ module.exports = (app) ->
         , 2000
         )
     )
+
+    app.get('/players', (req, res)->
+        setTimeout(
+            ()->
+                cached = require('./../players.json')
+                res.json(cached)
+        , 2000
+        )
+    )
