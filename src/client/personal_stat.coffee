@@ -29,30 +29,29 @@ $(->
                 event.preventDefault()
                 return false
     )
-    $("input[name='find-button']").bind('click', (event, ui)->
+
+    $("input[name='find-button']").bind('click', (event, ui) ->
         event.preventDefault()
         $('#efficiency').remove()
         $(".loader").show()
 
-        usersOnPage = window.getCachedUserNames()
         $('<div id = "efficiency"><div/>').appendTo('.efficiency-chart')
-        $('<div id = "users-on-page"><div/>').appendTo('.efficiency-chart')
 
         efficiencies = {}
-        for user in usersOnPage
-            window.loadGames(null, null, user)
-            playerEvenings = window.evenings[user]
+        user = $("input[name='player-name']").val()
+        window.loadGames(null, null, user)
+        playerEvenings = window.evenings[user]
 
-            for dateTimestamp, evening of playerEvenings
-                eveningTotalRating = (game.rating for game in evening).reduce (x, y) -> x + y
-                maxPossibleRatingPerGame = (game.maxPossibleRating for game in evening).reduce (x, y) -> x + y
-                efficiency = eveningTotalRating * 100 / maxPossibleRatingPerGame
-                if (efficiencies[dateTimestamp])
-                    efficiencies[dateTimestamp][user] = efficiency.toFixed(1)
-                else
-                    record = {}
-                    record[user] = efficiency.toFixed(1)
-                    efficiencies[dateTimestamp] = record
+        for dateTimestamp, evening of playerEvenings
+            eveningTotalRating = (game.rating for game in evening).reduce (x, y) -> x + y
+            maxPossibleRatingPerGame = (game.maxPossibleRating for game in evening).reduce (x, y) -> x + y
+            efficiency = eveningTotalRating * 100 / maxPossibleRatingPerGame
+            if (efficiencies[dateTimestamp])
+                efficiencies[dateTimestamp][user] = efficiency.toFixed(1)
+            else
+                record = {}
+                record[user] = efficiency.toFixed(1)
+                efficiencies[dateTimestamp] = record
 
         yLabels = [];
         for user in usersOnPage
@@ -61,8 +60,7 @@ $(->
         plotData = []
         for dateTimestamp, efficiencyRecords of efficiencies
             points = {'date': parseInt(dateTimestamp, 10)}
-            for user in usersOnPage
-                points["efficiency-#{user}"] = if efficiencyRecords[user]? then efficiencyRecords[user] else null
+            points["efficiency-#{user}"] = if efficiencyRecords[user]? then efficiencyRecords[user] else null
             plotData.push(points)
 
         new Morris.Line({
@@ -99,19 +97,6 @@ $(->
         $('#users-on-page').tokenInput(users, {theme:'facebook'})
     )
 
-    $('.js-daterange').daterangepicker({
-            ranges: {
-                'За 7 дней': [moment().subtract('days', 6), moment()],
-                'За 30 дней': [moment().subtract('days', 29), moment()],
-                'С начала месяца': [moment().startOf('month'), moment()],
-            },
-            startDate: moment().subtract('days', 1),
-            endDate: moment()
-        },
-
-    (start, end) ->
-        $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
-    )
 )
 
 
