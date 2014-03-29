@@ -1,9 +1,11 @@
 .idea
 src/client/app.js
+src/client/common_stat.js
 src/server/app.js
 src/server/conf.js
 src/server/controllers/auth.js
 src/server/controllers/index.js
+src/server/controllers/game.js
 src/server/models/best_player_marker.js
 src/server/models/constants.js
 src/server/models/game.js
@@ -11,4 +13,7 @@ src/server/models/player.js
 src/server/models/player_game.js
 src/server/sync.js
 src/static/js/app.js
+src/static/js/common_stat.js
+src/static/js/personal_stat.js
+src/static/js/app_admin.js
 src/server/views/*.html

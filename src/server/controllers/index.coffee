@@ -1,7 +1,7 @@
 module.exports = (app) ->
     app.get('/', (req, res) ->
         user = req.user
-        viewName = 'anonymous_index'
+        viewName = 'common_statistics'
         context = {}
         if user
             viewName = if user.isAdmin() then 'admin_index'
@@ -19,4 +19,31 @@ module.exports = (app) ->
         viewName = 'dream_team'
         context = {}
         res.render(viewName, context)
+    )
+
+    app.get('/all', (req, res)->
+        setTimeout(
+            ()->
+                cached = require('./../common_stat_responce.json')
+                res.json(cached)
+        , 2000
+        )
+    )
+
+    app.get('/top-10', (req, res)->
+        setTimeout(
+            ()->
+                cached = require('./../top10.json')
+                res.json(cached)
+        , 2000
+        )
+    )
+
+    app.get('/players', (req, res)->
+        setTimeout(
+            ()->
+                cached = require('./../players.json')
+                res.json(cached)
+        , 2000
+        )
     )

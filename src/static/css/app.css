@@ -1,1 +1,26 @@
+.stat-tables{display:none;}
 #efficiency{height: 400px; max-width: 600px}
+
+.statistics{visibility:hidden;}
+
+.loader{
+    display:none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+    background-color: #C7C5DB;
+    color:#000000;
+}
+
+.tablesorter>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+    background-color: #C7C5DB;
+    color:#000000;
+}
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }

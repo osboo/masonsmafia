@@ -1,0 +1,101 @@
+$(->
+    getUsersOnPage = ()->
+        return ['foo', 'bar']
+
+    $('.js-daterange').daterangepicker({
+            ranges: {
+                'За 7 дней': [moment().subtract('days', 6), moment()],
+                'За 30 дней': [moment().subtract('days', 29), moment()],
+                'С начала месяца': [moment().startOf('month'), moment()],
+            },
+            startDate: moment().subtract('days', 1),
+            endDate: moment()
+        },
+
+    (start, end) ->
+        $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
+    )
+
+    $("input[name='player-name']").autocomplete(
+        lookup: window.getCachedUserNames()
+        minChars: 2
+    )
+
+    $("input[name='player-name']").keydown(
+        (event) ->
+            if event.keyCode is 13
+                event.preventDefault()
+                return false
+    )
+    $("input[name='find-button']").bind('click', (event, ui)->
+        event.preventDefault()
+        $('#efficiency').remove()
+        $(".loader").show()
+
+        usersOnPage = window.getCachedUserNames()
+        $('<div id = "efficiency"><div/>').appendTo('.efficiency-chart')
+        $('<div id = "users-on-page"><div/>').appendTo('.efficiency-chart')
+
+        efficiencies = {}
+        for user in usersOnPage
+            window.loadGames(null, null, user)
+            playerEvenings = window.evenings[user]
+
+            for dateTimestamp, evening of playerEvenings
+                eveningTotalRating = (game.rating for game in evening).reduce (x, y) -> x + y
+                maxPossibleRatingPerGame = (game.maxPossibleRating for game in evening).reduce (x, y) -> x + y
+                efficiency = eveningTotalRating * 100 / maxPossibleRatingPerGame
+                if (efficiencies[dateTimestamp])
+                    efficiencies[dateTimestamp][user] = efficiency.toFixed(1)
+                else
+                    record = {}
+                    record[user] = efficiency.toFixed(1)
+                    efficiencies[dateTimestamp] = record
+
+        yLabels = [];
+        for user in usersOnPage
+            yLabels.push("efficiency-#{user}")
+
+        plotData = []
+        for dateTimestamp, efficiencyRecords of efficiencies
+            points = {'date': parseInt(dateTimestamp, 10)}
+            for user in usersOnPage
+                points["efficiency-#{user}"] = if efficiencyRecords[user]? then efficiencyRecords[user] else null
+            plotData.push(points)
+
+        new Morris.Line({
+            element: 'efficiency',
+            data: plotData,
+            xkey: 'date',
+            ykeys: yLabels,
+            labels: usersOnPage,
+            postUnits: '%',
+            dateFormat: (milliseconds) ->
+                moment(new Date(milliseconds)).format('D MMMM, YYYY')
+            hoverCallback: (index, options, content) ->
+                atDate = options.data[index].date
+                resultsForPlot = ""
+                detailedInfo = moment(atDate).format("D MMMM, YYYY") + "<br>"
+                for user in getUsersOnPage()
+                    $("#evenings-#{user}").html("")
+                    eveningOfUser = window.evenings[user]
+                    evening = eveningOfUser[atDate]
+                    if evening?
+                        efficiency = options.data[index]["efficiency-#{user}"]
+                        efficiencyStr = "<b>#{user}</b>: #{efficiency}%<br>"
+                        resultsForPlot += efficiencyStr
+                        translatedRole = {'citizen': 'мирный', 'sheriff': 'шериф', 'mafia': 'мафия', 'don': 'дон'}
+                        for game in evening
+                            winrateStr = "#{translatedRole[game.role]}:#{game.rating}/#{game.maxPossibleRating}<br>"
+                            resultsForPlot += winrateStr
+                resultsForPlot
+        })
+        $(".loader").hide()
+        $(".statistics").css('visibility', 'visible')
+        users = ({id:0, name:user} for user in window.getCachedUserNames())
+        console.log(users)
+        $('#users-on-page').tokenInput(users, {theme:'facebook'})
+    )
+)
+
+
