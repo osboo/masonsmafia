@@ -5,7 +5,6 @@ html(lang="ru")
         meta(charset='utf-8', name='viewport', content='width=device-width, initial-scale=1.0')
         link(rel='stylesheet', href='/css/bootstrap.css')
         link(rel='stylesheet', href='/css/font-awesome.min.css')
-        link(rel='stylesheet', href='/css/daterangepicker-bs3.css')
         link(rel="stylesheet", href='/css/morris.css')
         link(rel='stylesheet', href='/css/app.css')
         script(src='/js/jquery.js', type='text/javascript')
@@ -13,7 +12,6 @@ html(lang="ru")
         script(src='/js/typeahead.bundle.js', type='text/javascript')
         script(src='/js/moment.js', type='text/javascript')
         script(src='/js/ru.js', type='text/javascript')
-        script(src='/js/daterangepicker.js', type='text/javascript')
         script(src="/js/raphael.js", type='text/javascript')
         script(src="/js/morris.js", type='text/javascript')
         script(src='/js/app.js', type='text/javascript')
@@ -30,12 +28,6 @@ html(lang="ru")
                     input.form-control(type='submit', value='Найти', tabindex='3', name='find-button')
             div.statistics
                 legend Персональная статистика
-                form.form-inline(role='form')
-                    div.form-group.pull-right
-                        div.form-control
-                            i.fa.fa-calendar.fa-lg.pull-right
-                            span.js-daterange(tabindex='3') За всё время
-                            b.caret
                 div.result-block
                     h2 Рейтинг:
                         span &nbsp
