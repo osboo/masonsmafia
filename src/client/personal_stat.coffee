@@ -21,6 +21,8 @@ $(->
         }
     )
 
+    $(".twitter-typeahead").css('display', 'block')
+
     $("input[name='player-name']").keydown(
         (event) ->
             if event.keyCode is 13
