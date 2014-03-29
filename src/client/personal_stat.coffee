@@ -2,23 +2,23 @@ $(->
     getUsersOnPage = ()->
         return ['foo', 'bar']
 
-    $('.js-daterange').daterangepicker({
-            ranges: {
-                'За 7 дней': [moment().subtract('days', 6), moment()],
-                'За 30 дней': [moment().subtract('days', 29), moment()],
-                'С начала месяца': [moment().startOf('month'), moment()],
-            },
-            startDate: moment().subtract('days', 1),
-            endDate: moment()
-        },
+    fetchedNames = new Bloodhound({
+        datumTokenizer: (item) -> Bloodhound.tokenizers.whitespace(item.name)
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 10,
+        prefetch: {
+            url: '/players',
+            filter: (list) ->
+                $.map(list, (record) -> {name: record})
+        }
+    })
 
-    (start, end) ->
-        $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
-    )
+    fetchedNames.initialize()
 
-    $("input[name='player-name']").autocomplete(
-        lookup: window.getCachedUserNames()
-        minChars: 2
+    $("input[name='player-name']").typeahead(null, {
+            displayKey: 'name',
+            source: fetchedNames.ttAdapter()
+        }
     )
 
     $("input[name='player-name']").keydown(
@@ -95,6 +95,20 @@ $(->
         users = ({id:0, name:user} for user in window.getCachedUserNames())
         console.log(users)
         $('#users-on-page').tokenInput(users, {theme:'facebook'})
+    )
+
+    $('.js-daterange').daterangepicker({
+            ranges: {
+                'За 7 дней': [moment().subtract('days', 6), moment()],
+                'За 30 дней': [moment().subtract('days', 29), moment()],
+                'С начала месяца': [moment().startOf('month'), moment()],
+            },
+            startDate: moment().subtract('days', 1),
+            endDate: moment()
+        },
+
+    (start, end) ->
+        $('.js-daterange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'))
     )
 )
 

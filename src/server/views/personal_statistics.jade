@@ -10,12 +10,12 @@ html(lang="ru")
         link(rel='stylesheet', href='/css/app.css')
         script(src='/js/jquery.js', type='text/javascript')
         script(src='/js/bootstrap.js', type='text/javascript')
+        script(src='/js/typeahead.bundle.js', type='text/javascript')
         script(src='/js/moment.js', type='text/javascript')
         script(src='/js/ru.js', type='text/javascript')
         script(src='/js/daterangepicker.js', type='text/javascript')
         script(src="/js/raphael.js", type='text/javascript')
         script(src="/js/morris.js", type='text/javascript')
-        script(src='/js/jquery.autocomplete.js', type='text/javascript')
         script(src='/js/app.js', type='text/javascript')
         script(src='/js/personal_stat.js', type='text/javascript')
     body
@@ -25,7 +25,7 @@ html(lang="ru")
         div.container.container-fluid
             form.form-inline(role='form')
                 div.form-group
-                    input.form-control(type='text', placeholder='Имя игрока...', tabindex='1', name='player-name')
+                    input.form-control(type='text', placeholder='Игрок...', tabindex='1', name='player-name')
                 div.form-group
                     input.form-control(type='submit', value='Найти', tabindex='3', name='find-button')
             div.statistics
