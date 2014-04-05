@@ -47,3 +47,12 @@ module.exports = (app) ->
         , 2000
         )
     )
+
+    app.get('/personal/maran', (req, res)->
+        setTimeout(
+            ()->
+                cached = require('./../maran.json')
+                res.json(cached)
+        , 2000
+        )
+    )
