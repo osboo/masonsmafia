@@ -1,4 +1,6 @@
-.stat-tables{display:none;}
+.stat-tables{
+    display:none;
+}
 
 .loader{
     display:none;
@@ -17,15 +19,11 @@
     color:#000000;
 }
 
-#efficiency{height: 400px; max-width: 600px}
-
-.statistics{visibility:hidden;}
-
 .form-control {
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
-    height: 40px;
+    height: 48px;
 }
 
 .typeahead,
@@ -77,4 +75,24 @@
 
 .tt-suggestion p {
     margin: 0;
+}
+
+#efficiency {
+    height: 400px;
+    max-width: 600px
+}
+
+.statistics {
+    display:none;
+}
+
+.footer {
+    border: 1px;
+    border-style: solid none none;
+}
+
+.footer li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
 }
