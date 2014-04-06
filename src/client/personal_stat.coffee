@@ -30,6 +30,8 @@ $(->
                 return false
     )
 
+    $("input[name='player-name']").tooltip()
+
     $("input[name='find-button']").bind('click', (event, ui) ->
         event.preventDefault()
         $('#efficiency').remove()
