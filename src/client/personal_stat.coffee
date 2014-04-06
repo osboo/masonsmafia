@@ -31,6 +31,8 @@ $(->
                 $('.loader').show()
 
             success: (data) ->
+                $(".player-name").removeClass("has-error")
+                $("input[name='player-name']").tooltip('destroy')
                 renderFeatures(data)
                 renderTable(data)
                 renderWinsPlot(data)
@@ -38,8 +40,15 @@ $(->
 
             error: (jqXHR, textStatus) ->
                 if textStatus == "error"
-                    something()
-
+                    $(".player-name").addClass("has-error")
+                    $("input[name='player-name']")
+                    .tooltip({
+                            placement: "auto",
+                            title: "Игрок не найден",
+                            trigger: "focus"
+                        }
+                    )
+                    .tooltip('show')
             complete: ()->
                 $('.loader').hide()
 
