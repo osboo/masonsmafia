@@ -33,8 +33,8 @@ $(->
             success: (data) ->
                 $(".player-name").removeClass("has-error")
                 $("input[name='player-name']").tooltip('destroy')
-                renderFeatures(data)
-#                renderTable(data)
+                window.renderFeatures(data)
+                window.renderTable(data)
 #                renderWinsPlot(data)
                 $('.statistics').show()
 

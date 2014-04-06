@@ -15,5 +15,6 @@ src/server/sync.js
 src/static/js/app.js
 src/static/js/common_stat.js
 src/static/js/personal_stat.js
+src/static/js/personal_stat_render.js
 src/static/js/app_admin.js
 src/server/views/*.html
