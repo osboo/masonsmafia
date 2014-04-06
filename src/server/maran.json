@@ -14,311 +14,387 @@
     "bestMoveAccuracy": 0.1,
     "firstKilledNight": 3,
     "firstKilledDay": 3,
-    "fouls": 219
+    "fouls": 219,
     "efficiency": [
         {
             "gameID":1,
-            "winsMinusLosses":-1
+            "winsMinusLosses":-1,
+            "date":3605904000000
         },
         {
             "gameID":2,
-            "winsMinusLosses":-2
+            "winsMinusLosses":-2,
+            "date":3605904000000
         },
         {
             "gameID":3,
-            "winsMinusLosses":-1
+            "winsMinusLosses":-1,
+            "date":3605904000000
         },
         {
             "gameID":4,
-            "winsMinusLosses":0
+            "winsMinusLosses":0,
+            "date":3605904000000
         },
         {
             "gameID":5,
-            "winsMinusLosses":1
+            "winsMinusLosses":1,
+            "date":3606336000000
         },
         {
             "gameID":6,
-            "winsMinusLosses":2
+            "winsMinusLosses":2,
+            "date":3606336000000
         },
         {
             "gameID":7,
-            "winsMinusLosses":3
+            "winsMinusLosses":3,
+            "date":3606336000000
         },
         {
             "gameID":8,
-            "winsMinusLosses":4
+            "winsMinusLosses":4,
+            "date":3606336000000
         },
         {
             "gameID":9,
-            "winsMinusLosses":5
+            "winsMinusLosses":5,
+            "date":3606336000000
         },
         {
             "gameID":10,
-            "winsMinusLosses":6
+            "winsMinusLosses":6,
+            "date":3606768000000
         },
         {
             "gameID":11,
-            "winsMinusLosses":5
+            "winsMinusLosses":5,
+            "date":3606768000000
         },
         {
             "gameID":12,
-            "winsMinusLosses":4
+            "winsMinusLosses":4,
+            "date":3606768000000
         },
         {
             "gameID":13,
-            "winsMinusLosses":5
+            "winsMinusLosses":5,
+            "date":3606768000000
         },
         {
             "gameID":14,
-            "winsMinusLosses":4
+            "winsMinusLosses":4,
+            "date":3606768000000
         },
         {
             "gameID":15,
-            "winsMinusLosses":3
+            "winsMinusLosses":3,
+            "date":3607200000000
         },
         {
             "gameID":16,
-            "winsMinusLosses":4
+            "winsMinusLosses":4,
+            "date":3607200000000
         },
         {
             "gameID":17,
-            "winsMinusLosses":5
+            "winsMinusLosses":5,
+            "date":3607200000000
         },
         {
             "gameID":18,
-            "winsMinusLosses":6
+            "winsMinusLosses":6,
+            "date":3607200000000
         },
         {
             "gameID":19,
-            "winsMinusLosses":7
+            "winsMinusLosses":7,
+            "date":3607200000000
         },
         {
             "gameID":20,
-            "winsMinusLosses":8
+            "winsMinusLosses":8,
+            "date":3607632000000
         },
         {
             "gameID":21,
-            "winsMinusLosses":9
+            "winsMinusLosses":9,
+            "date":3607632000000
         },
         {
             "gameID":22,
-            "winsMinusLosses":10
+            "winsMinusLosses":10,
+            "date":3607632000000
         },
         {
             "gameID":23,
-            "winsMinusLosses":11
+            "winsMinusLosses":11,
+            "date":3607632000000
         },
         {
             "gameID":24,
-            "winsMinusLosses":12
+            "winsMinusLosses":12,
+            "date":3607632000000
         },
         {
             "gameID":25,
-            "winsMinusLosses":13
+            "winsMinusLosses":13,
+            "date":3608064000000
         },
         {
             "gameID":26,
-            "winsMinusLosses":14
+            "winsMinusLosses":14,
+            "date":3608064000000
         },
         {
             "gameID":27,
-            "winsMinusLosses":15
+            "winsMinusLosses":15,
+            "date":3608064000000
         },
         {
             "gameID":28,
-            "winsMinusLosses":16
+            "winsMinusLosses":16,
+            "date":3608064000000
         },
         {
             "gameID":29,
-            "winsMinusLosses":17
+            "winsMinusLosses":17,
+            "date":3608064000000
         },
         {
             "gameID":30,
-            "winsMinusLosses":18
+            "winsMinusLosses":18,
+            "date":3608496000000
         },
         {
             "gameID":31,
-            "winsMinusLosses":19
+            "winsMinusLosses":19,
+            "date":3608496000000
         },
         {
             "gameID":32,
-            "winsMinusLosses":18
+            "winsMinusLosses":18,
+            "date":3608496000000
         },
         {
             "gameID":33,
-            "winsMinusLosses":19
+            "winsMinusLosses":19,
+            "date":3608496000000
         },
         {
             "gameID":34,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3608496000000
         },
         {
             "gameID":35,
-            "winsMinusLosses":21
+            "winsMinusLosses":21,
+            "date":3608928000000
         },
         {
             "gameID":36,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3608928000000
         },
         {
             "gameID":37,
-            "winsMinusLosses":21
+            "winsMinusLosses":21,
+            "date":3608928000000
         },
         {
             "gameID":38,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3608928000000
         },
         {
             "gameID":39,
-            "winsMinusLosses":21
+            "winsMinusLosses":21,
+            "date":3608928000000
         },
         {
             "gameID":40,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3609360000000
         },
         {
             "gameID":41,
-            "winsMinusLosses":19
+            "winsMinusLosses":19,
+            "date":3609360000000
         },
         {
             "gameID":42,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3609360000000
         },
         {
             "gameID":43,
-            "winsMinusLosses":19
+            "winsMinusLosses":19,
+            "date":3609360000000
         },
         {
             "gameID":44,
-            "winsMinusLosses":18
+            "winsMinusLosses":18,
+            "date":3609360000000
         },
         {
             "gameID":45,
-            "winsMinusLosses":17
+            "winsMinusLosses":17,
+            "date":3609792000000
         },
         {
             "gameID":46,
-            "winsMinusLosses":18
+            "winsMinusLosses":18,
+            "date":3609792000000
         },
         {
             "gameID":47,
-            "winsMinusLosses":19
+            "winsMinusLosses":19,
+            "date":3609792000000
         },
         {
             "gameID":48,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3609792000000
         },
         {
             "gameID":49,
-            "winsMinusLosses":21
+            "winsMinusLosses":21,
+            "date":3609792000000
         },
         {
             "gameID":50,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3610224000000
         },
         {
             "gameID":51,
-            "winsMinusLosses":21
+            "winsMinusLosses":21,
+            "date":3610224000000
         },
         {
             "gameID":52,
-            "winsMinusLosses":20
+            "winsMinusLosses":20,
+            "date":3610224000000
         },
         {
             "gameID":53,
-            "winsMinusLosses":21
+            "winsMinusLosses":21,
+            "date":3610224000000
         },
         {
             "gameID":54,
-            "winsMinusLosses":22
+            "winsMinusLosses":22,
+            "date":3610224000000
         },
         {
             "gameID":55,
-            "winsMinusLosses":23
+            "winsMinusLosses":23,
+            "date":3610656000000
         },
         {
             "gameID":56,
-            "winsMinusLosses":24
+            "winsMinusLosses":24,
+            "date":3610656000000
         },
         {
             "gameID":57,
-            "winsMinusLosses":23
+            "winsMinusLosses":23,
+            "date":3610656000000
         },
         {
             "gameID":58,
-            "winsMinusLosses":22
+            "winsMinusLosses":22,
+            "date":3610656000000
         },
         {
             "gameID":59,
-            "winsMinusLosses":21
+            "winsMinusLosses":21,
+            "date":3610656000000
         },
         {
             "gameID":60,
-            "winsMinusLosses":22
+            "winsMinusLosses":22,
+            "date":3611088000000
         },
         {
             "gameID":61,
-            "winsMinusLosses":23
+            "winsMinusLosses":23,
+            "date":3611088000000
         },
         {
             "gameID":62,
-            "winsMinusLosses":24
+            "winsMinusLosses":24,
+            "date":3611088000000
         },
         {
             "gameID":63,
-            "winsMinusLosses":25
+            "winsMinusLosses":25,
+            "date":3611088000000
         },
         {
             "gameID":64,
-            "winsMinusLosses":26
+            "winsMinusLosses":26,
+            "date":3611088000000
         },
         {
             "gameID":65,
-            "winsMinusLosses":27
+            "winsMinusLosses":27,
+            "date":3611520000000
         },
         {
             "gameID":66,
-            "winsMinusLosses":28
+            "winsMinusLosses":28,
+            "date":3611520000000
         },
         {
             "gameID":67,
-            "winsMinusLosses":27
+            "winsMinusLosses":27,
+            "date":3611520000000
         },
         {
             "gameID":68,
-            "winsMinusLosses":28
+            "winsMinusLosses":28,
+            "date":3611520000000
         },
         {
             "gameID":69,
-            "winsMinusLosses":29
+            "winsMinusLosses":29,
+            "date":3611520000000
         },
         {
             "gameID":70,
-            "winsMinusLosses":30
+            "winsMinusLosses":30,
+            "date":3611952000000
         },
         {
             "gameID":71,
-            "winsMinusLosses":31
+            "winsMinusLosses":31,
+            "date":3611952000000
         },
         {
             "gameID":72,
-            "winsMinusLosses":30
+            "winsMinusLosses":30,
+            "date":3611952000000
         },
         {
             "gameID":73,
-            "winsMinusLosses":29
+            "winsMinusLosses":29,
+            "date":3611952000000
         },
         {
             "gameID":74,
-            "winsMinusLosses":30
+            "winsMinusLosses":30,
+            "date":3611952000000
         },
         {
             "gameID":75,
-            "winsMinusLosses":31
+            "winsMinusLosses":31,
+            "date":3612384000000
         },
         {
             "gameID":76,
-            "winsMinusLosses":32
+            "winsMinusLosses":32,
+            "date":3612384000000
         }
     ]
 }

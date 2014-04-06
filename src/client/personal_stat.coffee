@@ -34,8 +34,8 @@ $(->
                 $(".player-name").removeClass("has-error")
                 $("input[name='player-name']").tooltip('destroy')
                 renderFeatures(data)
-                renderTable(data)
-                renderWinsPlot(data)
+#                renderTable(data)
+#                renderWinsPlot(data)
                 $('.statistics').show()
 
             error: (jqXHR, textStatus) ->
