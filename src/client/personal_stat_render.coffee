@@ -6,15 +6,15 @@ computeTotalValues = (data)->
     data["best-total"] = 0
     data["likes-total"] = 0
     data["penalties-total"] = 0
-    data["first-Killed-at-night-total"] = 0
-    data["first-Killed-at-day-total"] = 0
+    data["first-killed-at-night-total"] = 0
+    data["first-killed-at-day-total"] = 0
     for suffix in suffixes
         data["wins-total"] += data["wins#{suffix}"]
         data["best-total"] += data["bestPlayer#{suffix}"]
         data["likes-total"] += data["likes#{suffix}"]
         data["penalties-total"] += data["fouls#{suffix}"]
-        data["first-Killed-at-night-total"] += data["firstKilledNight#{suffix}"]
-        data["first-Killed-at-day-total"] += data["firstKilledDay#{suffix}"]
+        data["first-killed-at-night-total"] += data["firstKilledNight#{suffix}"]
+        data["first-killed-at-day-total"] += data["firstKilledDay#{suffix}"]
 
 window.recommendCard = (data) ->
     computeTotalValues(data)
@@ -42,44 +42,26 @@ window.renderFeatures = (data) ->
     $(".best-move-accuracy").html(data["bestMoveAccuracy"])
 
 window.renderTable = (data) ->
-    $(".wins-citizen").html(data.winsCitizen)
-    $(".wins-sheriff").html(data.winsSheriff)
-    $(".wins-mafia").html(data.winsMafia)
-    $(".wins-don").html(data.winsDon)
+    suffixes = [
+        {classSuffix: "citizen", dataSuffix: "Citizen"},
+        {classSuffix: "sheriff", dataSuffix: "Sheriff"},
+        {classSuffix: "mafia", dataSuffix: "Mafia"},
+        {classSuffix: "don", dataSuffix: "Don"}
+    ]
+
+    for s in suffixes
+        $(".wins-#{s.classSuffix}").html(data["wins#{s.dataSuffix}"])
+        $(".games-#{s.classSuffix}").html(data["games#{s.dataSuffix}"])
+        $(".best-#{s.classSuffix}").html(data["bestPlayer#{s.dataSuffix}"])
+        $(".likes-#{s.classSuffix}").html(data["likes#{s.dataSuffix}"])
+        $(".penalties-#{s.classSuffix}").html(data["fouls#{s.dataSuffix}"])
+        $(".first-killed-at-night-#{s.classSuffix}").html(data["firstKilledNight#{s.dataSuffix}"])
+        $(".first-killed-at-day-#{s.classSuffix}").html(data["firstKilledDay#{s.dataSuffix}"])
+
     $(".wins-total").html(data["wins-total"])
-
-    $(".games-citizen").html(data.gamesCitizen)
-    $(".games-sheriff").html(data.gamesSheriff)
-    $(".games-mafia").html(data.gamesMafia)
-    $(".games-don").html(data.gamesDon)
     $(".games-total").html(data["games-total"])
-
-    $(".best-citizen").html(data.bestPlayerCitizen)
-    $(".best-sheriff").html(data.bestPlayerSheriff)
-    $(".best-mafia").html(data.bestPlayerMafia)
-    $(".best-don").html(data.bestPlayerDon)
     $(".best-total").html(data["best-total"])
-
-    $(".likes-citizen").html(data.likesCitizen)
-    $(".likes-sheriff").html(data.likesSheriff)
-    $(".likes-mafia").html(data.likesMafia)
-    $(".likes-don").html(data.likesDon)
     $(".likes-total").html(data["likes-total"])
-
-    $(".penalties-citizen").html(data.foulsCitizen)
-    $(".penalties-sheriff").html(data.foulsSheriff)
-    $(".penalties-mafia").html(data.foulsMafia)
-    $(".penalties-don").html(data.foulsDon)
     $(".penalties-total").html(data["penalties-total"])
-
-    $(".first-killed-at-night-cititzen").html(data.firstKilledNightCitizen)
-    $(".first-Killed-at-night-sheriff").html(data.firstKilledNightSheriff)
-    $(".first-killed-at-night-mafia").html(data.firstKilledNightMafia)
-    $(".first-Killed-at-night-don").html(data.firstKilledNightDon)
-    $(".first-Killed-at-night-total").html(data["first-Killed-at-night-total"])
-
-    $(".first-killed-at-day-cititzen").html(data.firstKilledDayCitizen)
-    $(".first-Killed-at-day-sheriff").html(data.firstKilledDaySheriff)
-    $(".first-killed-at-day-mafia").html(data.firstKilledDayMafia)
-    $(".first-Killed-at-day-don").html(data.firstKilledDayDon)
-    $(".first-Killed-at-day-total").html(data["first-Killed-at-day-total"])
+    $(".first-killed-at-night-total").html(data["first-killed-at-night-total"])
+    $(".first-killed-at-day-total").html(data["first-killed-at-day-total"])
