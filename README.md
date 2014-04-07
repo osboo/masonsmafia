@@ -7,4 +7,4 @@
 
 Для трансляции клиентских скриптов в js:
 
-`coffee -c -o scr/static/js src/client && coffee src/server/app.coffee`
+`coffee -c -o src/static/js src/client && coffee src/server/app.coffee`
