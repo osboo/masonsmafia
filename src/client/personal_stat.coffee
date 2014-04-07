@@ -35,8 +35,8 @@ $(->
                 $("input[name='player-name']").tooltip('destroy')
                 window.renderFeatures(data)
                 window.renderTable(data)
-#                renderWinsPlot(data)
                 $('.statistics').show()
+                window.renderWinsPlot(data)
 
             error: (jqXHR, textStatus) ->
                 if textStatus == "error"

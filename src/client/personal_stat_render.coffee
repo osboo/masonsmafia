@@ -65,3 +65,29 @@ window.renderTable = (data) ->
     $(".penalties-total").html(data["penalties-total"])
     $(".first-killed-at-night-total").html(data["first-killed-at-night-total"])
     $(".first-killed-at-day-total").html(data["first-killed-at-day-total"])
+    
+window.renderWinsPlot = (data) ->
+    zipped = []
+    prev = {gameID: "0", winsMinusLosses: "0", date: "0"}
+    for game in data.efficiency
+        if game.date != prev.date
+            zipped.push(prev)
+        prev = game
+    zipped.push(prev)
+    zipped.shift()
+    for game in zipped
+        game.date = parseInt(game.date, 10)
+        game.winsMinusLosses = parseInt(game.winsMinusLosses, 10)
+        
+    $('#efficiency').remove()
+    $('.efficiency-chart').append("<div id='efficiency'></div>")
+    
+    new Morris.Line({
+        element: 'efficiency',
+        data: zipped,
+        xkey: 'date',
+        ykeys: ['winsMinusLosses'],
+        labels: ['win-loss'],
+        dateFormat: (milliseconds) ->
+            moment(new Date(milliseconds)).format('D MMMM, YYYY')
+    })
