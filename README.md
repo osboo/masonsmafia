@@ -1,5 +1,7 @@
 #Развёртывание сервера
-1. `apt-get install mysql redis-server nodejs npm phpmyadmin`
+1. Установить LAMP, например [XAMMP](http://help.ubuntu.ru/wiki/xampp)
+1. `apt-get install redis-server`
+1. `apt-get install nodejs npm`
 2. `npm install -g coffee-script`
 3. Посмотреть src/server/conf.coffee
 Создать базу данных и юзера в соответствие с настройками (проще через phpmyadmin)
