@@ -5,20 +5,20 @@ PlayerGame = db.define('PlayerGame', {
     role:
         type: Sequelize.INTEGER
         allowNull: false
-    fall_count:
+    fouls:
         type: Sequelize.INTEGER
         allowNull: false
         defaultValue: 0
-    like_count:
+    likes:
         type: Sequelize.INTEGER
         allowNull: false
         defaultValue: 0
-    isFirstKilledNight:
+    is_best:
         type: Sequelize.BOOLEAN
         defaultValue: false
-    isFirstKilledDay:
-        type: Sequelize.BOOLEAN
-        defaultValue: false
+    extra_scores:
+        type: Sequelize.FLOAT
+        defaultValue: 0.0
 }, {
 })
 

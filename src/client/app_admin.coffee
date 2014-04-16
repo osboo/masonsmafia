@@ -46,7 +46,7 @@ class AdminController extends BaseController
                 id: player.id
                 role: player.role.id
                 fallCount: player.fallCount
-                likeCount: player.likeCount
+                likes: player.likes
                 firstKilled: player.firstKilled.id
                 bestPlayerScores: player.bestPlayerScores
             })

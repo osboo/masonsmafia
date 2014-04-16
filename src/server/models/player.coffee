@@ -1,13 +1,11 @@
 Sequelize = require('sequelize')
 db = require('./db')
 PlayerGame = require('./player_game')
-BestPlayerMarker = require('./best_player_marker')
 SERVICE_ROLES = require('./constants').SERVICE_ROLES
 
 Player = db.define('Player', {
     vk_id:
         type: Sequelize.STRING
-        allowNull: false
     name:
         type: Sequelize.STRING
         allowNull: false
@@ -39,6 +37,5 @@ Player = db.define('Player', {
 })
 
 Player.hasMany(PlayerGame, {foreignKey: 'player_id',  foreignKeyConstraint: true})
-Player.hasMany(BestPlayerMarker, {foreignKey: 'player_id',  foreignKeyConstraint: true})
 
 module.exports = Player
