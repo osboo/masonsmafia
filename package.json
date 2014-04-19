@@ -1,14 +1,38 @@
 {
   "name": "massons_mafia",
   "version": "0.0.0",
-  "description": "",
+  "description": "1. cd `Checkout directory` 1. Установить LAMP, например [XAMMP](http://help.ubuntu.ru/wiki/xampp) 1. `apt-get install redis-server` 1. `apt-get install nodejs npm` 2. `npm install -g coffee-script` 3. Посмотреть src/server/conf.coffee Создать базу данных и юзера в соответствие с настройками (проще через phpmyadmin) 4. `coffee src/server/sync.coffee`",
   "main": "index.coffee",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "BSD-2-Clause",
+  "directories": {
+    "test": "tests"
+  },
   "dependencies": {
-    "mysql": "~2.0.1"
+    "bower": "~1.2.8",
+    "connect-redis": "~1.4.7",
+    "express": "~3.4.8",
+    "font-awesome": "~4.0.3",
+    "jade": "~1.1.5",
+    "mysql": "~2.0.1",
+    "passport": "~0.1.18",
+    "passport-vkontakte": "~0.2.1",
+    "sequelize": "~2.0.0-dev1",
+    "should": "~3.3.0",
+    "supertest": "~0.11.0",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.18.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/osboo/masonsmafia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/osboo/masonsmafia/issues"
   }
 }
