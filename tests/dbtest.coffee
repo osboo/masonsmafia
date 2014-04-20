@@ -31,9 +31,30 @@ if process.env.MASONS_ENV == 'TEST'
       )
     )
 
-    describe('Input game', ()->
-      it('should save input data in database with no errors', (done)->
-        done()
+    describe('Input player', ()->
+      it('should throw an error if name is empty', (done)->
+        db.Player.create({})
+        .success((player)->
+          throw player
+        )
+        .error((err)->
+          should(err).be.eql({ name: [ 'String is empty' ] })
+          done()
+        )
+      )
+
+      it('should save user if only name is provided', (done)->
+        db.Player.create({name: 'Borland'}).success(
+          (savedPlayer)->
+            should(savedPlayer.name).be.eql('Borland')
+            db.Player.find({where: {name: 'Borland'}}).success(
+              (foundPlayer)->
+                should(foundPlayer.name).be.eql(savedPlayer.name)
+                should(foundPlayer.vk_id).be.eql(savedPlayer.vk_id)
+                should(foundPlayer.service_role).be.eql(savedPlayer.service_role)
+                done()
+            )
+        )
       )
     )
   )

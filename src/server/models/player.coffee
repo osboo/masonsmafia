@@ -5,9 +5,11 @@ module.exports = (db, Sequelize)->
     vk_id:
         type: Sequelize.STRING
 
-    name:
+      name:
         type: Sequelize.STRING
         allowNull: false
+        validate:
+          notNull: true
 
     service_role:
         type: Sequelize.ENUM(SERVICE_ROLES.USER, SERVICE_ROLES.ADMIN)
