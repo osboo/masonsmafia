@@ -18,6 +18,8 @@ app.configure(() ->
 app.set('views', "#{__dirname}/views")
 app.set('view engine', 'jade')
 
+app.set('models', require('./models/db'))
+
 require('./controllers/index')(app)
 require('./controllers/auth')(app)
 require('./controllers/game')(app)
