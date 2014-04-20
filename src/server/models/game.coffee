@@ -6,12 +6,15 @@ module.exports = (db, DataTypes)->
       type: DataTypes.ENUM,
       values: [GAME_RESULT.MAFIA_WIN, GAME_RESULT.CITIZENS_WIN]
       allowNull: false
+      validate:
+        notEmpty: true
     }
 
     date: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      validate:
+        notNull: true
     }}, {
       associate: (models)->
         Game.hasMany(models.PlayerGame)

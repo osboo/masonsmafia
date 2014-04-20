@@ -25,6 +25,7 @@ if process.env.MASONS_ENV == 'TEST'
       it('should connect and purge test base', (done)->
         db.sequelize.sync({force: true}).complete((err)->
           if err
+            console.log(err)
             throw err
           done()
         )
@@ -32,7 +33,7 @@ if process.env.MASONS_ENV == 'TEST'
     )
 
     describe('Input player', ()->
-      it('should throw an error if name is empty', (done)->
+      it('should not save player if name is empty', (done)->
         db.Player.create({})
         .success((player)->
           throw player
@@ -54,6 +55,36 @@ if process.env.MASONS_ENV == 'TEST'
                 should(foundPlayer.service_role).be.eql(savedPlayer.service_role)
                 done()
             )
+        )
+      )
+    )
+
+    describe('Input game', ()->
+      it('should not save game without date', (done)->
+        db.Game.create({})
+        .success(
+          (game)->
+            throw game
+        )
+        .error(
+          (err)->
+            should(err).be.eql({"date": ["String is empty"],"result": ["String is empty"]
+            })
+            done()
+        )
+      )
+
+      it('should not save game with missing result', (done)->
+        moment = require('moment')
+        db.Game.create({date: moment().format('YYYY-MM-DD')})
+        .success(
+          (game)->
+            throw game
+        )
+        .error(
+          (err)->
+            should(err).be.eql({ result: [ 'String is empty' ] })
+            done()
         )
       )
     )
