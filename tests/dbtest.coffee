@@ -32,7 +32,7 @@ if process.env.MASONS_ENV == 'TEST'
       )
     )
 
-    describe('Input player', ()->
+    describe('Validate player input', ()->
       it('should not save player if name is empty', (done)->
         db.Player.create({})
         .success((player)->
@@ -59,7 +59,7 @@ if process.env.MASONS_ENV == 'TEST'
       )
     )
 
-    describe('Input game', ()->
+    describe('Validate game input', ()->
       it('should not save game without date', (done)->
         db.Game.create({})
         .success(
@@ -68,8 +68,7 @@ if process.env.MASONS_ENV == 'TEST'
         )
         .error(
           (err)->
-            should(err).be.eql({"date": ["String is empty"],"result": ["String is empty"]
-            })
+            should(err).be.eql({"date": ["String is empty"],"result": ["String is empty"], "referee": ["String is empty"],})
             done()
         )
       )
@@ -83,7 +82,7 @@ if process.env.MASONS_ENV == 'TEST'
         )
         .error(
           (err)->
-            should(err).be.eql({ result: [ 'String is empty' ] })
+            should(err).be.eql({result:['String is empty'], "referee": ["String is empty"]})
             done()
         )
       )
