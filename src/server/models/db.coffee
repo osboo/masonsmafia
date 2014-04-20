@@ -11,9 +11,11 @@ connection = new Sequelize(config.dbName, config.login, config.password, {
 
 models = {}
 
+notModels = ['BuildModels.js', 'constants.js']
+
 fs.readdirSync(__dirname).filter(
   (file)->
-    ((file.indexOf('.') != 0) && (file != 'db.js') && (file.slice(-3) == '.js'))
+    ((file.indexOf('.') != 0) && (file not in notModels) && (file.slice(-3) == '.js'))
 ).forEach(
   (file)->
     try

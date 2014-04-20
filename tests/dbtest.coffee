@@ -1,21 +1,18 @@
 should = require('should')
 describe('models/db object', ()->
-  describe('Models loading', ()->
-    db = require('./../src/server/models/db')
-    it('should contain sequelize object', ()->
-      should(db).have.property('sequelize')
-    )
-    it('should contain Player model', ()->
-      should(db).have.property('Player')
-    )
-    it('should contain Game model', ()->
-      should(db).have.property('Game')
-    )
-    it('should contain PlayerGame model', ()->
-      should(db).have.property('PlayerGame')
-    )
+  db = require('./../src/server/models/db')
+  it('should contain sequelize object', ()->
+    should(db).have.property('sequelize')
   )
-
+  it('should contain Player model', ()->
+    should(db).have.property('Player')
+  )
+  it('should contain Game model', ()->
+    should(db).have.property('Game')
+  )
+  it('should contain PlayerGame model', ()->
+    should(db).have.property('PlayerGame')
+  )
 )
 
 if process.env.MASONS_ENV == 'TEST'
@@ -32,7 +29,7 @@ if process.env.MASONS_ENV == 'TEST'
       )
     )
 
-    describe('Validate player input', ()->
+    describe('Player model', ()->
       it('should not save player if name is empty', (done)->
         db.Player.create({})
         .success((player)->
@@ -59,7 +56,7 @@ if process.env.MASONS_ENV == 'TEST'
       )
     )
 
-    describe('Validate game input', ()->
+    describe('Game model', ()->
       it('should not save game without date', (done)->
         db.Game.create({})
         .success(
@@ -84,6 +81,20 @@ if process.env.MASONS_ENV == 'TEST'
           (err)->
             should(err).be.eql({result:['String is empty'], "referee": ["String is empty"]})
             done()
+        )
+      )
+    )
+    describe('/models/BuildModels', ()->
+      constants = require('./../src/server/models/constants')
+      describe('game3-2014-04-10', ()->
+        paper = require('./TestGame')[0]
+        models = require('./../src/server/models/BuildModels')(paper)
+        it('should contain 10 players', ()->
+          should(models.PlayerGames).have.length(10)
+        )
+        it('should have sheriff as Катафалк', ()->
+          should(models.PlayerGames[2].role).be.eql(constants.PLAYER_ROLES.SHERIFF)
+          # get Player object associated with PlayerGame and check it's name
         )
       )
     )

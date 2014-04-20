@@ -23,5 +23,9 @@ module.exports = (db, DataTypes)->
     }, {
       associate: (models)->
         Game.hasMany(models.PlayerGame)
+      classMethods: {
+        loadFromPaper: (data)->
+
+      }
     }
   )
