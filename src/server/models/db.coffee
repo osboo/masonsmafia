@@ -1,7 +1,33 @@
+fs = require('fs')
+path = require('path')
 Sequelize = require('sequelize')
-conf = require('../conf')('db')
+config = require('../conf')('db')
+lodash = require('lodash')
 
-module.exports = new Sequelize(conf.dbName, conf.login, conf.password, {
-    host: conf.host
+connection = new Sequelize(config.dbName, config.login, config.password, {
+    host: config.host
     dialect: 'mysql'
 })
+
+models = {}
+
+fs.readdirSync(__dirname).filter(
+  (file)->
+    ((file.indexOf('.') != 0) && (file != 'db.js') && (file.slice(-3) == '.js'))
+).forEach(
+  (file)->
+    try
+      model = connection.import(path.join(__dirname, file))
+      models[model.name] = model
+    catch err
+
+)
+
+Object.keys(models).forEach((modelName)->
+  if models[modelName].options.hasOwnProperty('associate')
+    models[modelName].options.associate(models)
+)
+
+module.exports = lodash.extend({
+  sequelize: connection,
+}, models)

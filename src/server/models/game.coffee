@@ -1,42 +1,19 @@
-Sequelize = require('sequelize')
-db = require('./db')
-PlayerGame = require('./player_game')
+GAME_RESULT = require('./constants').GAME_RESULT
 
-Game = db.define('Game', {
-    date: {
-      type: Sequelize.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.NOW
-    }
-
+module.exports = (db, DataTypes)->
+  Game = db.define('Game', {
     result: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.ENUM,
+      values: [GAME_RESULT.MAFIA_WIN, GAME_RESULT.CITIZENS_WIN]
       allowNull: false
     }
 
-    first_killed_night: {
-      type: Sequelize.INTEGER,
-      references: "Player",
-      referencesKey: "id"
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    }}, {
+      associate: (models)->
+        Game.hasMany(models.PlayerGame)
     }
-
-    first_killed_day: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-      references: "Player",
-      referencesKey: "id"
-    }
-
-    best_move_author: {
-      type: Sequelize.INTEGER,
-      references: "Player",
-      referencesKey: "id"
-    }
-
-    best_move_success: Sequelize.INTEGER
-}, {
-})
-
-Game.hasMany(PlayerGame, {foreignKey: 'game_id', foreignKeyConstraint: true})
-
-module.exports = Game
+  )
