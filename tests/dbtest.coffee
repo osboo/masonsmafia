@@ -1,4 +1,10 @@
 should = require('should')
+moment = require('moment')
+constants = require('./../src/server/models/constants')
+db = require('./../src/server/models/db')
+lodash = require('lodash')
+buildModels = require('./../src/server/models/BuildModels')
+
 describe('models/db object', ()->
   db = require('./../src/server/models/db')
   it('should contain sequelize object', ()->
@@ -16,16 +22,14 @@ describe('models/db object', ()->
 )
 
 if process.env.MASONS_ENV == 'TEST'
-  describe('Load testing games', ()->
-    db = require('./../src/server/models/db')
-    describe('Purge testing database', ()->
-      it('should connect and purge test base', (done)->
-        db.sequelize.sync({force: true}).complete((err)->
-          if err
-            console.log(err)
-            throw err
-          done()
-        )
+  describe('Test games', ()->
+
+    beforeEach((done)->
+      db.sequelize.sync({force: true}).complete((err)->
+        if err
+          console.log(err)
+          done(err)
+        done()
       )
     )
 
@@ -71,7 +75,6 @@ if process.env.MASONS_ENV == 'TEST'
       )
 
       it('should not save game with missing result', (done)->
-        moment = require('moment')
         db.Game.create({date: moment().format('YYYY-MM-DD')})
         .success(
           (game)->
@@ -85,17 +88,33 @@ if process.env.MASONS_ENV == 'TEST'
       )
     )
     describe('/models/BuildModels', ()->
-      constants = require('./../src/server/models/constants')
       describe('game3-2014-04-10', ()->
         paper = require('./TestGame')[0]
-        models = require('./../src/server/models/BuildModels')(paper)
-        it('should contain 10 players', ()->
-          should(models.PlayerGames).have.length(10)
+        models = {}
+        gameObj = {}
+        it('should build all db models with no problems', (done)->
+          buildModels(paper, (dbmodels)->
+            models = dbmodels
+            gameObj = models.Game
+            done()
+          )
         )
-        it('should have sheriff as Катафалк', ()->
-          should(models.PlayerGames[2].role).be.eql(constants.PLAYER_ROLES.SHERIFF)
-          # get Player object associated with PlayerGame and check it's name
+
+        it('should take a place at 2014-04-10', ()->
+          should(moment(gameObj.getDataValue('date')).format('YYYY-MM-DD')).be.eql('2014-04-10')
         )
+
+        it('should have kazzantip as a referee', ()->
+          should(gameObj.getDataValue('referee')).be.eql('kazzantip')
+        )
+
+        it('should have a mafia winner', ()->
+          should(gameObj.getDataValue('result')).be.eql(constants.GAME_RESULT.MAFIA_WIN)
+        )
+#        it('should contain 10 players', ()->
+#        )
+#        it('should have sheriff as Катафалк', ()->
+#        )
       )
     )
   )
