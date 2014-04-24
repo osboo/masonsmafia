@@ -95,7 +95,6 @@ if process.env.MASONS_ENV == 'TEST'
         it('should build all db models with no problems', (done)->
           buildModels(paper, (dbmodels)->
             models = dbmodels
-            console.log(models)
             done()
           )
         )
