@@ -95,20 +95,23 @@ if process.env.MASONS_ENV == 'TEST'
         it('should build all db models with no problems', (done)->
           buildModels(paper, (dbmodels)->
             models = dbmodels
-            gameObj = models.Game
+            console.log(models)
             done()
           )
         )
 
         it('should take a place at 2014-04-10', ()->
+          gameObj = models.Game
           should(moment(gameObj.getDataValue('date')).format('YYYY-MM-DD')).be.eql('2014-04-10')
         )
 
         it('should have kazzantip as a referee', ()->
+          gameObj = models.Game
           should(gameObj.getDataValue('referee')).be.eql('kazzantip')
         )
 
         it('should have a mafia winner', ()->
+          gameObj = models.Game
           should(gameObj.getDataValue('result')).be.eql(constants.GAME_RESULT.MAFIA_WIN)
         )
 #        it('should contain 10 players', ()->
