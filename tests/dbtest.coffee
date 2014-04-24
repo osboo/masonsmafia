@@ -8,16 +8,16 @@ buildModels = require('./../src/server/models/BuildModels')
 describe('models/db object', ()->
   db = require('./../src/server/models/db')
   it('should contain sequelize object', ()->
-    should(db).have.property('sequelize')
+    db.should.have.property('sequelize')
   )
   it('should contain Player model', ()->
-    should(db).have.property('Player')
+    db.should.have.property('Player')
   )
   it('should contain Game model', ()->
-    should(db).have.property('Game')
+    db.should.have.property('Game')
   )
   it('should contain PlayerGame model', ()->
-    should(db).have.property('PlayerGame')
+    db.should.have.property('PlayerGame')
   )
 )
 
@@ -40,7 +40,7 @@ if process.env.MASONS_ENV == 'TEST'
           throw player
         )
         .error((err)->
-          should(err).be.eql({ name: [ 'String is empty' ] })
+          err.should.be.eql({ name: [ 'String is empty' ] })
           done()
         )
       )
@@ -48,12 +48,12 @@ if process.env.MASONS_ENV == 'TEST'
       it('should save user if only name is provided', (done)->
         db.Player.create({name: 'Borland'}).success(
           (savedPlayer)->
-            should(savedPlayer.name).be.eql('Borland')
+            savedPlayer.name.should.be.eql('Borland')
             db.Player.find({where: {name: 'Borland'}}).success(
               (foundPlayer)->
-                should(foundPlayer.name).be.eql(savedPlayer.name)
+                foundPlayer.name.should.be.eql(savedPlayer.name)
                 should(foundPlayer.vk_id).be.eql(savedPlayer.vk_id)
-                should(foundPlayer.service_role).be.eql(savedPlayer.service_role)
+                foundPlayer.service_role.should.be.eql(savedPlayer.service_role)
                 done()
             )
         )
@@ -69,7 +69,7 @@ if process.env.MASONS_ENV == 'TEST'
         )
         .error(
           (err)->
-            should(err).be.eql({"date": ["String is empty"],"result": ["String is empty"], "referee": ["String is empty"],})
+            err.should.be.eql({"date": ["String is empty"],"result": ["String is empty"], "referee": ["String is empty"],})
             done()
         )
       )
@@ -82,7 +82,7 @@ if process.env.MASONS_ENV == 'TEST'
         )
         .error(
           (err)->
-            should(err).be.eql({result:['String is empty'], "referee": ["String is empty"]})
+            err.should.be.eql({result:['String is empty'], "referee": ["String is empty"]})
             done()
         )
       )
@@ -113,8 +113,11 @@ if process.env.MASONS_ENV == 'TEST'
           gameObj = models.Game
           should(gameObj.getDataValue('result')).be.eql(constants.GAME_RESULT.MAFIA_WIN)
         )
-#        it('should contain 10 players', ()->
-#        )
+
+        it('should contain 10 players', ()->
+          playerGames = models.PlayerGames
+          playerGames.should.have.property('length', 10)
+        )
 #        it('should have sheriff as Катафалк', ()->
 #        )
       )
