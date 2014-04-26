@@ -129,13 +129,14 @@ if process.env.MASONS_ENV == 'TEST'
             if err
               done(err)
             models = dbmodels
-            playerGames = models.PlayerGames
-            for playerGame in playerGames
-              if playerGame.role == constants.PLAYER_ROLES.SHERIFF
-                playerGame.getPlayer().success((player)->
-                  player.getDataValue('name').should.be.eql('Катафалк')
-                  done()
-                ).error((err)->done(err))
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Катафалк'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.role.should.be.eql(constants.PLAYER_ROLES.SHERIFF)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
           )
         )
 
@@ -144,19 +145,14 @@ if process.env.MASONS_ENV == 'TEST'
             if err
               done(err)
             models = dbmodels
-            playerGames = models.PlayerGames
-            chainer = new Sequelize.Utils.QueryChainer
-            for playerGame in playerGames
-              chainer.add(playerGame.getPlayer())
-            chainer.run().success((players)->
-              for player in players
-                if player.getDataValue('name') == 'Рон'
-                  playerGames[players.indexOf(player)].getDataValue('took_best_move').should.be.equal(true)
-                  playerGames[players.indexOf(player)].getDataValue('best_move_accuracy').should.be.equal(2)
-                else
-                  playerGames[players.indexOf(player)].getDataValue('took_best_move').should.be.equal(false)
-                  playerGames[players.indexOf(player)].getDataValue('best_move_accuracy').should.be.equal(0)
-              done()
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Рон'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.took_best_move.should.be.eql(true)
+                playerGame.best_move_accuracy.should.be.eql(2)
+                done()
+              ).error((err)->done(err))
             ).error((err)->done(err))
           )
         )
@@ -166,17 +162,13 @@ if process.env.MASONS_ENV == 'TEST'
             if err
               done(err)
             models = dbmodels
-            playerGames = models.PlayerGames
-            chainer = new Sequelize.Utils.QueryChainer
-            for playerGame in playerGames
-              chainer.add(playerGame.getPlayer())
-            chainer.run().success((players)->
-              for player in players
-                if player.getDataValue('name') == 'Рон'
-                  playerGames[players.indexOf(player)].getDataValue('is_killed_first_at_night').should.be.equal(true)
-                else
-                  playerGames[players.indexOf(player)].getDataValue('is_killed_first_at_night').should.be.equal(false)
-              done()
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Рон'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.is_killed_first_at_night.should.be.eql(true)
+                done()
+              ).error((err)->done(err))
             ).error((err)->done(err))
           )
         )
