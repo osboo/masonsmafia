@@ -1,31 +1,7 @@
 models = {Game: null, Players: [], PlayerGames: []}
 
 db = require('./db')
-events = require('events')
-
-tryToComplete = (modelPart, done)->
-  if modelPart.Game && modelPart.Players.length == 10 && modelPart.PlayerGames.length == 10
-    done(modelPart)
-
-createPlayerGame = (record, game, done)->
-  p = record
-  playerModel = db.Player
-  playerGameModel = db.PlayerGame
-  playerGameModel.create({
-    role: p.role
-    fouls: p.fouls
-    likes: p.likes
-    is_best: p.isBest
-    extra_scores: p.extraScores
-  }).success((newPlayerGame)->
-    playerModel.findOrCreate({name: p.name}).success((newPlayer)->
-      models.Players.push(newPlayer)
-      newPlayerGame.setPlayer(newPlayer)
-      newPlayerGame.setGame(game)
-      models.PlayerGames.push(newPlayerGame)
-      tryToComplete(models, done)
-    ).error((err)->done(err))
-  ).error((err)->done(err))
+Sequelize = require('sequelize')
 
 module.exports = (paper, done)->
   db.Game.create({
@@ -33,11 +9,36 @@ module.exports = (paper, done)->
     date: paper.date
     referee: paper.referee
   }).success((game)->
-    models.Game = game
-    tryToComplete(models, done)
+    chainer = new Sequelize.Utils.QueryChainer
     for p in paper.players
-      createPlayerGame(p, game, done)
-  ).error((err)->
-    done(err)
-  )
+      chainer.add(db.Player, 'findOrCreate', [{name: p.name}])
 
+    chainer.runSerially().success((players)->
+      chainer2 = new Sequelize.Utils.QueryChainer
+      for p in paper.players
+        chainer2.add(db.PlayerGame, 'create', [{
+          role: p.role
+          likes: p.likes
+          fouls: p.fouls
+          is_best: p.isBest
+          extra_scores: p.extraScores
+          took_best_move: if paper['bestMoveAuthor'] == p.name then true else false
+          best_move_accuracy: if paper.bestMoveAuthor? && paper.bestMoveAuthor == p.name then paper.bestMoveAccuracy else 0
+        }])
+
+      chainer2.runSerially().success((playerGames)->
+        chainer3 = new Sequelize.Utils.QueryChainer
+        for i in [0...playerGames.length]
+          chainer3.add(playerGames[i].setPlayer(players[i]))
+          chainer3.add(playerGames[i].setGame(game))
+
+        chainer3.run().success(()->
+          models.Game = game
+          models.Players = players
+          models.PlayerGames = playerGames
+          done(null, models))
+        .error((err)->done(err, null))
+
+      ).error((err)->done(err, null))
+    ).error((err)->done(err, null))
+  ).error((err)->done(err, null))
