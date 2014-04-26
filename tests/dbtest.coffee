@@ -160,6 +160,26 @@ if process.env.MASONS_ENV == 'TEST'
             ).error((err)->done(err))
           )
         )
+
+        it('should have Рон killed at first night', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            playerGames = models.PlayerGames
+            chainer = new Sequelize.Utils.QueryChainer
+            for playerGame in playerGames
+              chainer.add(playerGame.getPlayer())
+            chainer.run().success((players)->
+              for player in players
+                if player.getDataValue('name') == 'Рон'
+                  playerGames[players.indexOf(player)].getDataValue('is_killed_first_at_night').should.be.equal(true)
+                else
+                  playerGames[players.indexOf(player)].getDataValue('is_killed_first_at_night').should.be.equal(false)
+              done()
+            ).error((err)->done(err))
+          )
+        )
       )
     )
   )

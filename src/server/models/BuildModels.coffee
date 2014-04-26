@@ -24,6 +24,7 @@ module.exports = (paper, done)->
           extra_scores: p.extraScores
           took_best_move: if paper['bestMoveAuthor'] == p.name then true else false
           best_move_accuracy: if paper.bestMoveAuthor? && paper.bestMoveAuthor == p.name then paper.bestMoveAccuracy else 0
+          is_killed_first_at_night: if paper['firstKilledAtNight'] == p.name then true else false
         }])
 
       chainer2.runSerially().success((playerGames)->
