@@ -3,7 +3,6 @@ moment = require('moment')
 Sequelize = require('sequelize')
 constants = require('./../src/server/models/constants')
 db = require('./../src/server/models/db')
-lodash = require('lodash')
 buildModels = require('./../src/server/models/BuildModels')
 
 describe('models/db object', ()->
