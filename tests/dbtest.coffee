@@ -172,6 +172,29 @@ if process.env.MASONS_ENV == 'TEST'
             ).error((err)->done(err))
           )
         )
+
+        it('should have FrankLin, Хедин and Кошка the best players', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            chainer = new Sequelize.Utils.QueryChainer
+            ['FrankLin', 'Хедин', 'Кошка'].forEach((playerName)->
+              chainer.add(db.Player.find({where: {name: playerName}}))
+            )
+            chainer.run().success((players)->
+              chainer2 = new Sequelize.Utils.QueryChainer
+              for player in players
+                chainer2.add(db.PlayerGame.find({where: ["PlayerId=#{player.id} and GameId=#{gameID}"]}))
+              chainer2.run().success((playerGames)->
+                for playerGame in playerGames
+                  playerGame.is_best.should.be.eql(true)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
       )
     )
   )

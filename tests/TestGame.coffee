@@ -55,7 +55,7 @@ game3 = {
     role: constants.PLAYER_ROLES.DON
     fouls: 1
     likes: 3
-    isBest: true
+    isBest: false
     extraScores: 0.0
   },{
     name: "Хедин"
