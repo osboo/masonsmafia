@@ -195,6 +195,21 @@ if process.env.MASONS_ENV == 'TEST'
             ).error((err)->done(err))
           )
         )
+        it('should have Марвел as a first killed by day player', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Марвел'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.is_killed_first_by_day.should.be.eql(true)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
       )
     )
   )
