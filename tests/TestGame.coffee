@@ -19,7 +19,7 @@ game3 = {
     name: "Малика"
     role: constants.PLAYER_ROLES.CITIZEN
     fouls: 1
-    likes: 1
+    likes: 0
     isBest: false
     extraScores: 0.0
    },{

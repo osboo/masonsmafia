@@ -140,6 +140,88 @@ if process.env.MASONS_ENV == 'TEST'
           )
         )
 
+        it('should have Агрессор as a don', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Агрессор'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.role.should.be.eql(constants.PLAYER_ROLES.DON)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
+
+        it('should have FrankLin as a mafia', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'FrankLin'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.role.should.be.eql(constants.PLAYER_ROLES.MAFIA)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
+
+        it('should have Кошка as a mafia', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Кошка'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.role.should.be.eql(constants.PLAYER_ROLES.MAFIA)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
+
+        it('should have Малика without likes', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Малика'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.likes.should.be.eql(0)
+                playerGame.fouls.should.be.eql(1)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
+
+        it('should have Дядя Том with 1 like 0 fouls', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            db.Player.find({where: {name: 'Дядя Том'}}).success((player)->
+              playerId = player.id
+              db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]}).success((playerGame)->
+                playerGame.likes.should.be.eql(1)
+                playerGame.fouls.should.be.eql(0)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
+
         it('should have Рон`s best move with accuracy 2', (done)->
           buildModels(paper, (err, dbmodels)->
             if err
