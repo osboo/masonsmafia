@@ -103,17 +103,17 @@ if process.env.MASONS_ENV == 'TEST'
 
         it('should take a place at 2014-04-10', ()->
           gameObj = models.Game
-          should(moment(gameObj.getDataValue('date')).format('YYYY-MM-DD')).be.eql('2014-04-10')
+          moment(gameObj.date).format('YYYY-MM-DD').should.be.eql('2014-04-10')
         )
 
         it('should have kazzantip be a referee', ()->
           gameObj = models.Game
-          should(gameObj.getDataValue('referee')).be.eql('kazzantip')
+          gameObj.referee.should.be.eql('kazzantip')
         )
 
         it('should have mafia as a winner', ()->
           gameObj = models.Game
-          should(gameObj.getDataValue('result')).be.eql(constants.GAME_RESULT.MAFIA_WIN)
+          gameObj.result.should.be.eql(constants.GAME_RESULT.MAFIA_WIN)
         )
 
         it('should contain 10 players', ()->
@@ -173,7 +173,7 @@ if process.env.MASONS_ENV == 'TEST'
           )
         )
 
-        it('should have FrankLin, Хедин and Кошка the best players', (done)->
+        it('should have FrankLin, Хедин and Кошка as the best players', (done)->
           buildModels(paper, (err, dbmodels)->
             if err
               done(err)
@@ -195,6 +195,30 @@ if process.env.MASONS_ENV == 'TEST'
             ).error((err)->done(err))
           )
         )
+
+        it('should have FrankLin, Хедин and Кошка as players with 0.5 extra scores', (done)->
+          buildModels(paper, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            gameID = models.Game.id
+            chainer = new Sequelize.Utils.QueryChainer
+            ['FrankLin', 'Хедин', 'Кошка'].forEach((playerName)->
+              chainer.add(db.Player.find({where: {name: playerName}}))
+            )
+            chainer.run().success((players)->
+              chainer2 = new Sequelize.Utils.QueryChainer
+              for player in players
+                chainer2.add(db.PlayerGame.find({where: ["PlayerId=#{player.id} and GameId=#{gameID}"]}))
+              chainer2.run().success((playerGames)->
+                for playerGame in playerGames
+                  playerGame.extra_scores.should.be.eql(0.5)
+                done()
+              ).error((err)->done(err))
+            ).error((err)->done(err))
+          )
+        )
+
         it('should have Марвел as a first killed by day player', (done)->
           buildModels(paper, (err, dbmodels)->
             if err
