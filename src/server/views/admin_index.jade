@@ -45,12 +45,20 @@ html(lang="ru", ng-app)
                                     th Доп. Очки
                             tbody
                                 tr(ng-repeat='player in players')
-                                    td {{player.idx}}
+                                    td {{$index+1}}
                                     td
-                                        input.form-control(type='text', placeholder='Введите имя..', tabindex='{{player.idx}}')
+                                        input.form-control(ng-model='player.name', type='text', placeholder='Введите имя..')
                                     td
-                                        select.form-control.selectpicker(name='roles')
-                                            option(ng-repeat='role in roles') {{role.name}}
+                                        select.form-control(ng-model='player.role', ng-options='role.name for role in roles')
+                                    td
+                                        select.form-control(ng-init='possibleFouls=[0, 1, 2, 3, 4]', ng-model='player.fouls', ng-options='possibleFoul for possibleFoul in possibleFouls')
+                                    td
+                                        input.form-control(ng-model='player.likes', type='text', placeholder='Введите количество..')
+                                    td
+                                        input(ng-model='player.isBest', type='checkbox')
+                                    td
+                                        input.form-control(ng-model='player.extraScores', type='text', placeholder='Дополнительные очки..')
 
-
+                div(ng-controller='LogCtrl')
+                    button(ng-click='$log.log(players)') log
         include footer
