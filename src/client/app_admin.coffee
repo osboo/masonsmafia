@@ -22,7 +22,8 @@
 $(->
   $('#datepicker').datepicker({
     format: "dd MM yyyy"
-    language: 'ru'
+    language: "ru-RU"
   })
   $('#datepicker').datepicker('setDate', new Date())
+  $('.selectpicker').selectpicker()
 )
