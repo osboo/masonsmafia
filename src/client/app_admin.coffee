@@ -1,6 +1,6 @@
 angular.module('adminModule', ['ui.bootstrap'])
 
-@datepickerCtrl = ($scope)->
+@adminController = ($scope)->
   $scope.today = ()->
     $scope.dt = new Date();
 
@@ -10,8 +10,6 @@ angular.module('adminModule', ['ui.bootstrap'])
     $event.preventDefault();
     $event.stopPropagation();
     $scope.opened = true;
-
-@adminController = ($scope)->
 
   $scope.roles = [
     {name: 'Мирный'}

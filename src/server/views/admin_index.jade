@@ -20,7 +20,7 @@ html(lang="ru", ng-app='adminModule')
         div.container
             form
                 div.row
-                    div.col-sm-3(ng-controller="datepickerCtrl")
+                    div.col-sm-3
                         label(for='date') Дата:
                         div#datepicker.input-group.date
                             input#date.form-control(type='text', ng-click="open($event)", ng-model='dt', datepicker-popup='dd-MMMM-yyyy', is-open="opened", ng-required="true", close-on-date-selection='false', current-text='Сегодня', clear-text='Очистить', close-text='Закрыть', placeholder='Введите дату..', tabindex='1')
