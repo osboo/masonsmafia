@@ -1,3 +1,16 @@
+angular.module('adminModule', ['ui.bootstrap'])
+
+@datepickerCtrl = ($scope)->
+  $scope.today = ()->
+    $scope.dt = new Date();
+
+  $scope.today();
+
+  $scope.open = ($event)->
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened = true;
+
 @adminController = ($scope)->
 
   $scope.roles = [
@@ -26,10 +39,5 @@
   $scope.$log = $log
 
 $(->
-  $('#datepicker').datepicker({
-    format: "dd MM yyyy"
-    language: "ru-RU"
-  })
-  $('#datepicker').datepicker('setDate', new Date())
   $('.selectpicker').selectpicker()
 )
