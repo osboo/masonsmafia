@@ -1,6 +1,6 @@
 angular.module('adminModule', ['ui.bootstrap'])
 
-@adminController = ($scope)->
+@datePickerCtrl = ($scope)->
   $scope.today = ()->
     $scope.dt = new Date();
 
@@ -11,6 +11,13 @@ angular.module('adminModule', ['ui.bootstrap'])
     $event.stopPropagation();
     $scope.opened = true;
 
+@refereeSelectCtrl = ($scope)->
+  $scope.referee = null
+
+@winPartyCtrl = ($scope)->
+  $scope.winningParty = "Мирные"
+
+@playersTableCtrl = ($scope)->
   $scope.roles = [
     {name: 'Мирный'}
     {name: 'Шериф'}
@@ -38,4 +45,5 @@ angular.module('adminModule', ['ui.bootstrap'])
 
 $(->
   $('.selectpicker').selectpicker()
+
 )
