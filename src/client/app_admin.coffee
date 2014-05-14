@@ -45,5 +45,25 @@ angular.module('adminModule', ['ui.bootstrap'])
 
 $(->
   $('.selectpicker').selectpicker()
+  
+  fetchedNames = new Bloodhound({
+        datumTokenizer: (item) -> Bloodhound.tokenizers.whitespace(item.name)
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 10,
+        prefetch: {
+            url: '/players',
+            filter: (list) ->
+                $.map(list, (record) -> {name: record})
+        }
+  })
 
+  fetchedNames.initialize()
+    
+  $(".player-name").typeahead(null, {
+            displayKey: 'name',
+            source: fetchedNames.ttAdapter()
+        }
+  )
+  
+  $(".twitter-typeahead").css("display", "block")
 )
