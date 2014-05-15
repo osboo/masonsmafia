@@ -82,6 +82,11 @@
     display:none;
 }
 
+#players-table td.idx,
+#players-table td.is-best {
+    vertical-align: middle;
+}
+
 .footer {
     border: 1px;
     border-style: solid none none;
