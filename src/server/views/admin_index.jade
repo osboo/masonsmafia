@@ -22,19 +22,19 @@ html(lang="ru", ng-app='adminModule')
         div.container
             div.col-sm-1
             div.col-sm-9
-                form
+                form(name='gameResultForm', novalidate)
                     div.row
                         div.col-sm-4(ng-controller='datePickerCtrl')
                             label(for='date') Дата:
-                            div#datepicker.input-group.date
-                                input#date.form-control(type='text', ng-click="open($event)", ng-model='dt', datepicker-popup='dd-MMMM-yyyy', is-open="opened", ng-required="true", close-on-date-selection='false', current-text='Сегодня', clear-text='Очистить', close-text='Закрыть', placeholder='Введите дату..', tabindex='1')
+                            div#datepicker.input-group.date(ng-class="{'has-error': gameResultForm.datePicker.$invalid}")
+                                input#date.form-control(type='text', name='datePicker', ng-click="open($event)", ng-model='dt', required datepicker-popup='dd-MMMM-yyyy', is-open="opened", ng-required="true", close-on-date-selection='false', current-text='Сегодня', clear-text='Очистить', close-text='Закрыть', placeholder='Введите дату..', tabindex='1')
                                 span.input-group-btn
                                     button.btn.btn-default.form-control(type='button', ng-click="open($event)")
                                         i.fa.fa-th
 
-                        div.col-sm-4(ng-controller='refereeSelectCtrl')
+                        div.col-sm-4(ng-controller='refereeSelectCtrl', ng-class="{'has-error': gameResultForm.refereeName.$dirty && gameResultForm.refereeName.$invalid}")
                             label(for='date') Ведущий:
-                            input.form-control.player-name(type='text', ng-model='referee', placeholder='Введите имя..', tabindex='2')
+                            input.form-control.player-name(type='text', name="refereeName", ng-model='referee', smart-float, required, placeholder='Введите имя..', tabindex='2')
 
                         div.col-sm-4(ng-controller='winPartyCtrl')
                             label(for='winParty') Победа:
@@ -61,23 +61,29 @@ html(lang="ru", ng-app='adminModule')
                                     tr(ng-repeat='player in players')
                                         td.idx {{$index+1}}
                                         td.col-xs-4
-                                            input.form-control.player-name(ng-model='player.name', type='text', placeholder='Введите имя..')
+                                            ng-form(name='playerNameForm', novalidate)
+                                                div(ng-class="{'has-error': playerNameForm.playerName.$dirty && playerNameForm.playerName.$invalid}")
+                                                    input.form-control.player-name(name='playerName', ng-model='player.name', type='text', required, placeholder='Введите имя..')
                                         td.col-xs-2
                                             select.form-control(ng-model='player.role', ng-options='role.name for role in roles')
                                         td.col-xs-2
                                             select.form-control(ng-init='possibleFouls=[0, 1, 2, 3, 4]', ng-model='player.fouls', ng-options='possibleFoul for possibleFoul in possibleFouls')
-                                        td.col-xs-1
-                                            input.form-control(ng-model='player.likes', type='text', placeholder='Введите количество..')
+                                        td.col-xs-2
+                                            ng-form(name='likesNumberForm', novalidate)
+                                                div(ng-class="{'has-error': likesNumberForm.likesNumber.$invalid}")
+                                                    input.form-control(ng-model='player.likes', name='likesNumber', type='number', required, min='0', placeholder='Введите количество..')
                                         td.col-xs-1.is-best.text-center
                                             input(ng-model='player.isBest', type='checkbox')
                                         td.col-xs-1
-                                            input.form-control(ng-model='player.extraScores', type='text', placeholder='Дополнительные очки..')
+                                            ng-form(name='extraScoresForm', novalidate)
+                                                div(ng-class="{'has-error': extraScoresForm.extraScoresField.$invalid}")
+                                                    input.form-control(ng-model='player.extraScores', name='extraScoresField', type='text', smart-float, required, placeholder='Дополнительные очки..')
                     div.row
                         div.col-sm-4
                         div.col-sm-4
                         div.col-sm-4
                             button.btn.btn-success.pull-right(type='button') Сохранить
-                    //div(ng-controller='LogCtrl')
-                    //    button(ng-click='$log.log(players)') log
+                    div(ng-controller='LogCtrl')
+                        button(ng-click='$log.log(extraScoresForm.extraScoresField)') log
             div.col-sm-2
         include footer

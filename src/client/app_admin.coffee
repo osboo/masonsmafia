@@ -1,4 +1,4 @@
-angular.module('adminModule', ['ui.bootstrap'])
+app = angular.module('adminModule', ['ui.bootstrap'])
 
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
@@ -39,6 +39,22 @@ angular.module('adminModule', ['ui.bootstrap'])
   ]
 
   $scope.result = "Мирные"
+
+FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/
+app.directive('smartFloat', ()->
+    return {
+        require: 'ngModel'
+        link: (scope, elm, attrs, ctrl)->
+            ctrl.$parsers.unshift((viewValue)->
+                if FLOAT_REGEXP.test(viewValue)
+                    ctrl.$setValidity('float', true)
+                    parseFloat(viewValue.replace(',', '.'))
+                else
+                    ctrl.$setValidity('float', false)
+                    undefined
+            )
+    }
+)
 
 @LogCtrl = ($scope, $log)->
   $scope.$log = $log
