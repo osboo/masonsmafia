@@ -6,7 +6,16 @@ app = angular.module('adminModule', ['ui.bootstrap'])
   $scope.winningParty = "Мирные"
   $scope.players = []
 
+  $scope.validate = (players)->
+    dict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
+    benchmark = {'Мирный': 6, 'Шериф': 1, 'Мафия': 2, 'Дон': 1}
+    for player in players
+      console.log(player.role)
+      ++dict[player.role]
+    $scope.gameResultForm.$invalid = (dict != benchmark)
+
   $scope.submit = ()->
+    $scope.validate($scope.players)
 
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
@@ -26,12 +35,7 @@ app = angular.module('adminModule', ['ui.bootstrap'])
   $scope.$parent.winningParty = "Мирные"
 
 @playersTableCtrl = ($scope)->
-  $scope.roles = [
-    {name: 'Мирный'}
-    {name: 'Шериф'}
-    {name: 'Мафия'}
-    {name: 'Дон'}
-  ]
+  $scope.roles = ['Мирный', 'Шериф', 'Мафия', 'Дон']
 
   $scope.$parent.players = [
     {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
