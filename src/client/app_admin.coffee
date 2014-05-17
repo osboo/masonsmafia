@@ -1,8 +1,16 @@
 app = angular.module('adminModule', ['ui.bootstrap'])
 
+@formCtrl = ($scope)->
+  $scope.dt = null
+  $scope.referee = null
+  $scope.winningParty = "Мирные"
+  $scope.players = []
+
+  $scope.submit = ()->
+
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
-    $scope.dt = new Date();
+    $scope.$parent.dt = new Date();
 
   $scope.today();
 
@@ -12,10 +20,10 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     $scope.opened = true;
 
 @refereeSelectCtrl = ($scope)->
-  $scope.referee = null
+  $scope.$parent.referee = null
 
 @winPartyCtrl = ($scope)->
-  $scope.winningParty = "Мирные"
+  $scope.$parent.winningParty = "Мирные"
 
 @playersTableCtrl = ($scope)->
   $scope.roles = [
@@ -25,7 +33,7 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     {name: 'Дон'}
   ]
 
-  $scope.players = [
+  $scope.$parent.players = [
     {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
     {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
     {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
@@ -37,8 +45,6 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
     {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
   ]
-
-  $scope.result = "Мирные"
 
 FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/
 app.directive('smartFloat', ()->

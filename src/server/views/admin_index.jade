@@ -22,7 +22,7 @@ html(lang="ru", ng-app='adminModule')
         div.container
             div.col-sm-1
             div.col-sm-9
-                form(name='gameResultForm', novalidate)
+                form(name='gameResultForm', ng-controller="formCtrl", novalidate, ng-submit="submit()")
                     div.row
                         div.col-sm-4(ng-controller='datePickerCtrl')
                             label(for='date') Дата:
@@ -82,7 +82,7 @@ html(lang="ru", ng-app='adminModule')
                         div.col-sm-4
                         div.col-sm-4
                         div.col-sm-4
-                            button.btn.btn-success.pull-right(type='button', ng-disabled="gameResultForm.$invalid") Сохранить
+                            button.btn.btn-success.pull-right(type='submit', ng-disabled="gameResultForm.$invalid") Сохранить
                     //div(ng-controller='LogCtrl')
                     //    button(ng-click='$log.log(extraScoresForm.extraScoresField)') log
             div.col-sm-2
