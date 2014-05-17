@@ -60,8 +60,6 @@ app.directive('smartFloat', ()->
   $scope.$log = $log
 
 $(->
-  $('.selectpicker').selectpicker()
-  
   fetchedNames = new Bloodhound({
         datumTokenizer: (item) -> Bloodhound.tokenizers.whitespace(item.name)
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -80,6 +78,7 @@ $(->
             source: fetchedNames.ttAdapter()
         }
   )
-  
+
+#  fix for css issue with typeahead in bootstrap 3
   $(".twitter-typeahead").css("display", "block")
 )

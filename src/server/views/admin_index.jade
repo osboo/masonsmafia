@@ -34,7 +34,7 @@ html(lang="ru", ng-app='adminModule')
 
                         div.col-sm-4(ng-controller='refereeSelectCtrl', ng-class="{'has-error': gameResultForm.refereeName.$dirty && gameResultForm.refereeName.$invalid}")
                             label(for='date') Ведущий:
-                            input.form-control.player-name(type='text', name="refereeName", ng-model='referee', smart-float, required, placeholder='Введите имя..', tabindex='2')
+                            input.form-control.player-name(type='text', name="refereeName", ng-model='referee', required, placeholder='Введите имя..', tabindex='2')
 
                         div.col-sm-4(ng-controller='winPartyCtrl')
                             label(for='winParty') Победа:
@@ -82,8 +82,8 @@ html(lang="ru", ng-app='adminModule')
                         div.col-sm-4
                         div.col-sm-4
                         div.col-sm-4
-                            button.btn.btn-success.pull-right(type='button') Сохранить
-                    div(ng-controller='LogCtrl')
-                        button(ng-click='$log.log(extraScoresForm.extraScoresField)') log
+                            button.btn.btn-success.pull-right(type='button', ng-disabled="gameResultForm.$invalid") Сохранить
+                    //div(ng-controller='LogCtrl')
+                    //    button(ng-click='$log.log(extraScoresForm.extraScoresField)') log
             div.col-sm-2
         include footer
