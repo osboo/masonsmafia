@@ -83,7 +83,18 @@ html(lang="ru", ng-app='adminModule')
                         div.col-sm-4
                         div.col-sm-4
                             button.btn.btn-success.pull-right(type='submit', ng-disabled="gameResultForm.$invalid") Сохранить
-                    //div(ng-controller='LogCtrl')
+                    div.row
+                        script(type='text/ng-template', id='error_box.html')
+                            div.modal-header
+                                h3.modal-title Ошибка
+                            div.modal-body
+                                ul
+                                   li(ng-repeat="error in errors")
+                                    p {{error}}
+                            div.modal-footer
+                                button.btn.btn-primary(ng-click='ok()') Исправить
+
+        //div(ng-controller='LogCtrl')
                     //    button(ng-click='$log.log(extraScoresForm.extraScoresField)') log
             div.col-sm-2
         include footer

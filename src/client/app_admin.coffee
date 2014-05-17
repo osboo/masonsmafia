@@ -1,21 +1,51 @@
 app = angular.module('adminModule', ['ui.bootstrap'])
 
-@formCtrl = ($scope)->
+@formCtrl = ($scope, $modal)->
   $scope.dt = null
   $scope.referee = null
   $scope.winningParty = "Мирные"
   $scope.players = []
+  $scope.errors = []
 
-  $scope.validate = (players)->
-    dict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
-    benchmark = {'Мирный': 6, 'Шериф': 1, 'Мафия': 2, 'Дон': 1}
-    for player in players
-      console.log(player.role)
-      ++dict[player.role]
-    $scope.gameResultForm.$invalid = (dict != benchmark)
+  $scope.openErrorPopup = ()->
+    modalInstance = null
+    modalInstance = $modal.open({
+      templateUrl: 'error_box.html',
+      controller: popupInstanceCtrl,
+      size: 'sm'
+      resolve: {
+        errors: ()-> $scope.errors
+      }
+    })
 
   $scope.submit = ()->
-    $scope.validate($scope.players)
+    dict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
+    noBestPlayers = true
+    $scope.errors = []
+    for player in $scope.players
+      ++dict[player.role]
+      if player.isBest
+        noBestPlayers = false
+    if dict['Мирный'] != 6
+      $scope.errors.push("мирных должно быть 6")
+    if dict['Шериф'] != 1
+      $scope.errors.push('должен быть 1 шериф')
+    if dict['Мафия'] != 2
+      $scope.errors.push('должно быть 2 мафии')
+    if dict['Дон'] != 1
+      $scope.errors.push('должен быть 1 дон')
+    if noBestPlayers
+      $scope.errors.push('в игре отсутствуют лучшие игроки')
+
+    if $scope.errors.length != 0
+      $scope.openErrorPopup()
+    else
+      console.log('save to DB')
+
+popupInstanceCtrl = ($scope, $modalInstance, errors)->
+  $scope.errors = errors
+  $scope.ok = ()->
+    $modalInstance.close()
 
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
