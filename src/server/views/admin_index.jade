@@ -120,7 +120,7 @@ html(lang="ru", ng-app='adminModule')
                                    li(ng-repeat="msg in msgs")
                                     p {{msg}}
                             div.modal-footer
-                                button.btn.btn-primary(ng-click='ok()') Ок
+                                button.btn.btn-primary(ng-click='refresh()') Ок
 
                     div(ng-controller='LogCtrl')
                         button(ng-click='$log.log(referee)') log

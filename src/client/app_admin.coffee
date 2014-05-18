@@ -17,7 +17,7 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     modalInstance = $modal.open({
       templateUrl: 'error_box.html',
       controller: popupInstanceCtrl,
-#      size: 'sm'
+      size: 'sm'
       resolve: {
         msgs: ()-> $scope.errors
       }
@@ -87,10 +87,14 @@ app = angular.module('adminModule', ['ui.bootstrap'])
       )
 
 
-popupInstanceCtrl = ($scope, $modalInstance, msgs)->
+popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
   $scope.msgs = msgs
   $scope.ok = ()->
     $modalInstance.close()
+  $scope.refresh = ()->
+    $modalInstance.close()
+    $window.location.reload()
+
 
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
