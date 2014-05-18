@@ -2,8 +2,8 @@ app = angular.module('adminModule', ['ui.bootstrap'])
 
 @formCtrl = ($scope, $modal)->
   $scope.dt = null
-  $scope.referee = null
-  $scope.winningParty = "Мирные"
+  $scope.referee = {value: ""}
+  $scope.winningParty = {value: "Мирные"}
   $scope.players = []
   $scope.firstKilledAtNight = ""
   $scope.firstKilledByDay = ""
@@ -44,7 +44,26 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     if $scope.errors.length != 0
       $scope.openErrorPopup()
     else
-      console.log('save to DB')
+      paper = {
+        referee: $scope.referee.value
+        date: moment($scope.dt).format("YYYY-MM-DD")
+        result: {"Мирные": "citizens_win", "Мафия": "mafia_win"}[$scope.winningParty.value]
+        firstKilledAtNight: $scope.firstKilledAtNight
+        firstKilledByDay: $scope.firstKilledByDay
+        bestMoveAuthor: $scope.bestMoveAuthor
+        bestMoveAccuracy: $scope.bestMoveAccuracy
+        players: []
+      }
+      for player in $scope.players
+        paper.players.push({
+          name: player.name
+          role: {"Мирный": "citizen", "Шериф": "sheriff", "Мафия":"mafia", "Дон":"don"}[player.role]
+          fouls: player.fouls
+          likes: player.likes
+          isBest: player.isBest
+          extraScores: player.extraScores
+        })
+      console.log(paper)
 
 popupInstanceCtrl = ($scope, $modalInstance, errors)->
   $scope.errors = errors
@@ -63,10 +82,10 @@ popupInstanceCtrl = ($scope, $modalInstance, errors)->
     $scope.opened = true;
 
 @refereeSelectCtrl = ($scope)->
-  $scope.$parent.referee = null
+  $scope.$parent.referee = {value: ""}
 
 @winPartyCtrl = ($scope)->
-  $scope.$parent.winningParty = "Мирные"
+  $scope.$parent.winningParty = {value: "Мирные"}
 
 @playersTableCtrl = ($scope)->
   $scope.roles = ['Мирный', 'Шериф', 'Мафия', 'Дон']

@@ -34,11 +34,11 @@ html(lang="ru", ng-app='adminModule')
 
                         div.col-sm-4(ng-controller='refereeSelectCtrl', ng-class="{'has-error': gameResultForm.refereeName.$dirty && gameResultForm.refereeName.$invalid}")
                             label(for='date') Ведущий:
-                            input.form-control.player-name(type='text', name="refereeName", ng-model='referee', required, placeholder='Введите имя..', tabindex='2')
+                            input.form-control.player-name(type='text', name="refereeName", ng-model='referee.value', required, placeholder='Введите имя..', tabindex='2')
 
                         div.col-sm-4(ng-controller='winPartyCtrl')
                             label(for='winParty') Победа:
-                            select#winParty.form-control(ng-init='winningParties=["Мирные", "Мафия"]', ng-model="winningParty", ng-options='party for party in winningParties', tabindex='3')
+                            select#winParty.form-control(ng-init='winningParties=["Мирные", "Мафия"]', ng-model="winningParty.value", ng-options='party for party in winningParties', tabindex='3')
 
                     div.row
                         div.col-sm-3
@@ -113,7 +113,7 @@ html(lang="ru", ng-app='adminModule')
                             div.modal-footer
                                 button.btn.btn-primary(ng-click='ok()') Исправить
 
-        //div(ng-controller='LogCtrl')
-                    //    button(ng-click='$log.log(extraScoresForm.extraScoresField)') log
+                    div(ng-controller='LogCtrl')
+                        button(ng-click='$log.log(referee)') log
             div.col-sm-2
         include footer
