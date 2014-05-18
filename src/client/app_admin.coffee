@@ -34,23 +34,34 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     })
 
   $scope.submit = ()->
-    dict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
+    roleDict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
     noBestPlayers = true
     $scope.errors = []
+    namesDict = []
     for player in $scope.players
-      ++dict[player.role]
+      namesDict[player.name] = 0
+    for player in $scope.players
+      ++roleDict[player.role]
+      ++namesDict[player.name]
       if player.isBest
         noBestPlayers = false
-    if dict['Мирный'] != 6
-      $scope.errors.push("мирных должно быть 6")
-    if dict['Шериф'] != 1
-      $scope.errors.push('должен быть 1 шериф')
-    if dict['Мафия'] != 2
-      $scope.errors.push('должно быть 2 мафии')
-    if dict['Дон'] != 1
-      $scope.errors.push('должен быть 1 дон')
+      if player.name == $scope.referee.value
+        $scope.errors.push("Имя игрока #{player.name} совпадает с именем ведущего")
+
+    for name, count of namesDict
+      if count > 1
+        $scope.errors.push("Игрок #{name} встречается больше 1 раза")
+
+    if roleDict['Мирный'] != 6
+      $scope.errors.push("Мирных должно быть 6")
+    if roleDict['Шериф'] != 1
+      $scope.errors.push('Должен быть 1 шериф')
+    if roleDict['Мафия'] != 2
+      $scope.errors.push('Должно быть 2 мафии')
+    if roleDict['Дон'] != 1
+      $scope.errors.push('Должен быть 1 дон')
     if noBestPlayers
-      $scope.errors.push('в игре отсутствуют лучшие игроки')
+      $scope.errors.push('В игре отсутствуют лучшие игроки')
 
     if $scope.errors.length != 0
       $scope.openErrorPopup()
@@ -94,7 +105,6 @@ popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
   $scope.refresh = ()->
     $modalInstance.close()
     $window.location.reload()
-
 
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
