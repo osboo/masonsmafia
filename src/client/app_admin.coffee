@@ -5,6 +5,10 @@ app = angular.module('adminModule', ['ui.bootstrap'])
   $scope.referee = null
   $scope.winningParty = "Мирные"
   $scope.players = []
+  $scope.firstKilledAtNight = ""
+  $scope.firstKilledByDay = ""
+  $scope.bestMoveAuthor = ""
+  $scope.bestMoveAccuracy = 0
   $scope.errors = []
 
   $scope.openErrorPopup = ()->

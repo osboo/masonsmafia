@@ -22,12 +22,12 @@ html(lang="ru", ng-app='adminModule')
         div.container
             div.col-sm-1
             div.col-sm-9
-                form(name='gameResultForm', ng-controller="formCtrl", novalidate, ng-submit="submit()")
+                form.form-horizontal(name='gameResultForm', ng-controller="formCtrl", novalidate, ng-submit="submit()")
                     div.row
                         div.col-sm-4(ng-controller='datePickerCtrl')
                             label(for='date') Дата:
                             div#datepicker.input-group.date(ng-class="{'has-error': gameResultForm.datePicker.$invalid}")
-                                input#date.form-control(type='text', name='datePicker', ng-click="open($event)", ng-model='dt', required datepicker-popup='dd-MMMM-yyyy', is-open="opened", ng-required="true", close-on-date-selection='false', current-text='Сегодня', clear-text='Очистить', close-text='Закрыть', placeholder='Введите дату..', tabindex='1')
+                                input#date.form-control(type='text', name='datePicker', ng-click="open($event)", ng-model='dt', required, datepicker-popup='dd-MMMM-yyyy', is-open="opened", ng-required="true", close-on-date-selection='false', current-text='Сегодня', clear-text='Очистить', close-text='Закрыть', placeholder='Введите дату..', tabindex='1')
                                 span.input-group-btn
                                     button.btn.btn-default.form-control(type='button', ng-click="open($event)")
                                         i.fa.fa-th
@@ -79,9 +79,28 @@ html(lang="ru", ng-app='adminModule')
                                                 div(ng-class="{'has-error': extraScoresForm.extraScoresField.$invalid}")
                                                     input.form-control(ng-model='player.extraScores', name='extraScoresField', type='text', smart-float, required, placeholder='Дополнительные очки..')
                     div.row
-                        div.col-sm-4
-                        div.col-sm-4
-                        div.col-sm-4
+                        label.col-sm-3 Первый отстреленный игрок:
+                        div.col-sm-3
+                            input.form-control.player-name(type='text', ng-model='firstKilledAtNight', placeholder='Введите имя..')
+                    div.row
+                        div.col-sm-3
+                            span
+                                br
+                    div.row
+                        label.col-sm-3 Первый выведенный игрок:
+                        div.col-sm-3
+                            input.form-control.player-name(type='text', ng-model='firstKilledByDay', placeholder='Введите имя..')
+                    div.row
+                        div.col-sm-3
+                            span
+                                br
+                    div.row
+                        label.col-sm-3 Лучший ход:
+                        div.col-sm-3
+                            input.form-control.player-name(type='text', ng-model='bestMoveAuthor', name='bestMoveAuthor', placeholder='Введите имя..')
+                        div.col-sm-2
+                            select.form-control(ng-init='possibleValues=[0, 1, 2, 3]', ng-options='possibleValue for possibleValue in possibleValues', ng-model='bestMoveAccuracy')
+                    div.row
                             button.btn.btn-success.pull-right(type='submit', ng-disabled="gameResultForm.$invalid") Сохранить
                     div.row
                         script(type='text/ng-template', id='error_box.html')
