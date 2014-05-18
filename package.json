@@ -15,7 +15,6 @@
     "bower": "~1.2.8",
     "connect-redis": "~1.4.7",
     "express": "~3.4.8",
-    "font-awesome": "~4.0.3",
     "jade": "~1.1.5",
     "mysql": "~2.0.1",
     "passport": "~0.1.18",
