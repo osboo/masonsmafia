@@ -1,6 +1,6 @@
 app = angular.module('adminModule', ['ui.bootstrap'])
 
-@formCtrl = ($scope, $modal)->
+@formCtrl = ($scope, $modal, $http)->
   $scope.dt = null
   $scope.referee = {value: ""}
   $scope.winningParty = {value: "Мирные"}
@@ -10,15 +10,26 @@ app = angular.module('adminModule', ['ui.bootstrap'])
   $scope.bestMoveAuthor = ""
   $scope.bestMoveAccuracy = 0
   $scope.errors = []
+  $scope.successMsg = []
 
   $scope.openErrorPopup = ()->
     modalInstance = null
     modalInstance = $modal.open({
       templateUrl: 'error_box.html',
       controller: popupInstanceCtrl,
+#      size: 'sm'
+      resolve: {
+        msgs: ()-> $scope.errors
+      }
+    })
+
+  $scope.openSuccessPopup = ()->
+    modalInstance = $modal.open({
+      templateUrl: 'success_box.html',
+      controller: popupInstanceCtrl,
       size: 'sm'
       resolve: {
-        errors: ()-> $scope.errors
+        msgs: ()-> $scope.successMsg
       }
     })
 
@@ -63,10 +74,21 @@ app = angular.module('adminModule', ['ui.bootstrap'])
           isBest: player.isBest
           extraScores: player.extraScores
         })
-      console.log(paper)
+      $http({
+        method: "POST"
+        url: "/game"
+        data: paper
+      }).success((data, status, headers, config)->
+        $scope.successMsg = data
+        $scope.openSuccessPopup()
+      ).error((data, status, headers, config)->
+        $scope.errors = data
+        $scope.openErrorPopup()
+      )
 
-popupInstanceCtrl = ($scope, $modalInstance, errors)->
-  $scope.errors = errors
+
+popupInstanceCtrl = ($scope, $modalInstance, msgs)->
+  $scope.msgs = msgs
   $scope.ok = ()->
     $modalInstance.close()
 
