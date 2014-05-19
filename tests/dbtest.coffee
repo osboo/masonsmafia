@@ -4,6 +4,7 @@ Sequelize = require('sequelize')
 constants = require('./../src/server/models/constants')
 db = require('./../src/server/models/db')
 buildModels = require('./../src/server/models/BuildModels')
+rebuildCache = require('./../src/server/models/RebuildCache')
 
 describe('models/db object', ()->
   it('should contain sequelize object', ()->
@@ -28,6 +29,7 @@ if process.env.MASONS_ENV == 'TEST'
         if err
           console.log(err)
           done(err)
+        console.log('sync')
         done()
       )
     )
@@ -313,6 +315,26 @@ if process.env.MASONS_ENV == 'TEST'
                 done()
               ).error((err)->done(err))
             ).error((err)->done(err))
+          )
+        )
+      )
+    )
+
+    describe('/models/RebuildCache', ()->
+      describe('game3-2014-04-10', ()->
+        paper1 = require('./TestGame')[0]
+        models = {}
+        it('should retrieve array with 10 players', (done)->
+          buildModels(paper1, (err, dbmodels)->
+            if err
+              done(err)
+            models = dbmodels
+            rebuildCache((err, result)->
+              if err
+                done(err)
+              result.should.have.length(10)
+              done()
+            )
           )
         )
       )
