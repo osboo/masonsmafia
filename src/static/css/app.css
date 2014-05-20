@@ -87,7 +87,7 @@
     vertical-align: middle;
 }
 
-.graph-container {
+.graph-container, .statistics table{
     padding: 30px;
     border: 1px solid #ccc;
     box-shadow: 1px 1px 2px #eee;
