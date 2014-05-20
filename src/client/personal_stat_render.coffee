@@ -15,6 +15,7 @@ computeTotalValues = (data)->
         data["penalties-total"] += data["fouls#{suffix}"]
         data["first-killed-at-night-total"] += data["firstKilledNight#{suffix}"]
         data["first-killed-at-day-total"] += data["firstKilledDay#{suffix}"]
+    data["survival-rate"] = ((1.0 - data["first-killed-at-day-total"] / data["games-total"]) * 100.0).toFixed(2)
 
 window.recommendCard = (data) ->
     computeTotalValues(data)
@@ -40,6 +41,7 @@ window.renderFeatures = (data) ->
     $(".average-rating").html(data["average-rating"])
     $(".recommended-card").html(data["recommended-card"])
     $(".best-move-accuracy").html(data["bestMoveAccuracy"])
+    $(".survival").html("#{data["survival-rate"]}%")
 
 window.renderTable = (data) ->
     suffixes = [
@@ -79,15 +81,51 @@ window.renderWinsPlot = (data) ->
         game.date = parseInt(game.date, 10)
         game.winsMinusLosses = parseInt(game.winsMinusLosses, 10)
         
-    $('#efficiency').remove()
-    $('.efficiency-chart').append("<div id='efficiency'></div>")
+    $('#winloss').remove()
+    $('#rolesWinrate').remove()
+    $('#commandWinrate').remove()
+    $('#winrate').remove()
+    $('.efficiency-chart .graph-container').append("<div id='winloss'></div>")
+    $('.roles-wins-distribution-chart .graph-container').append("<div id='rolesWinrate'></div>")
+    $('.commands-wins-distribution-chart .graph-container').append("<div id='commandWinrate'></div>")
+    $('.winrate-chart .graph-container').append("<div id='winrate'></div>")
     
     new Morris.Line({
-        element: 'efficiency',
+        element: 'winloss',
         data: zipped,
         xkey: 'date',
         ykeys: ['winsMinusLosses'],
         labels: ['win-loss'],
         dateFormat: (milliseconds) ->
             moment(new Date(milliseconds)).format('D MMMM, YYYY')
+    })
+
+    new Morris.Line({
+      element: 'rolesWinrate',
+      data: zipped,
+      xkey: 'date',
+      ykeys: ['winsMinusLosses'],
+      labels: ['win-loss'],
+      dateFormat: (milliseconds) ->
+        moment(new Date(milliseconds)).format('D MMMM, YYYY')
+    })
+
+    new Morris.Line({
+      element: 'commandWinrate',
+      data: zipped,
+      xkey: 'date',
+      ykeys: ['winsMinusLosses'],
+      labels: ['win-loss'],
+      dateFormat: (milliseconds) ->
+        moment(new Date(milliseconds)).format('D MMMM, YYYY')
+    })
+
+    new Morris.Line({
+      element: 'winrate',
+      data: zipped,
+      xkey: 'date',
+      ykeys: ['winsMinusLosses'],
+      labels: ['win-loss'],
+      dateFormat: (milliseconds) ->
+        moment(new Date(milliseconds)).format('D MMMM, YYYY')
     })
