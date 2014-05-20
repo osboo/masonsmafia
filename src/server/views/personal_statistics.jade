@@ -22,91 +22,118 @@ html(lang="ru")
             i.fa.fa-spinner.fa-spin.fa-3x
         div.container.container-fluid
             form.form-inline(role='form')
-                div.form-group.player-name
-                    input.form-control(type='text', placeholder='Игрок...', tabindex='1', name='player-name')
-                div.form-group
-                    input.form-control(type='submit', value='Найти', tabindex='2', name='find-button')
+                div.row.col-sm-12
+                    div.form-group.player-name
+                        input.form-control(type='text', placeholder='Игрок...', tabindex='1', name='player-name')
+                    div.form-group
+                        input.form-control(type='submit', value='Найти', tabindex='2', name='find-button')
+                div.row
+                    div.col-sm-3
+                        span
+                            br
             div.statistics
-                legend Персональная статистика
-                div.result-block
-                    h2 Рейтинг:
-                        span &nbsp
-                        strong.rating
-                        small
+                form.form-inline.col-sm-12
+                    div.row
+                        legend Персональная статистика
+                    div.result-block.row
+                        h2 Рейтинг:
                             span &nbsp
-                            span в
+                            strong.rating
+                            small
+                                span &nbsp
+                                span в
+                                span &nbsp
+                                span.games-total
+                                span &nbsp
+                                span играх
+                        div.col-sm-12
+                            div Среднее:
+                                span &nbsp
+                                strong.average-rating
+                            div Лучшая карта:
+                                span &nbsp
+                                strong.recommended-card
+                            div Точность лучшего хода:
+                                span &nbsp
+                                strong(data-toggle="tooltip", data-placement="top", title="Среднее количество угадываемых мафов").best-move-accuracy
+                            div Выживаемость
+                                span &nbsp
+                                strong(data-toggle="tooltip", data-placement="top", title="Вероятность пережить первый круг").survival
+                    div.row
+                        h2 Win–Loss
                             span &nbsp
-                            span.games-total
+                                small по игровым вечерам
+                        div.efficiency-chart.col-sm-12
+                            div.graph-container
+                                div.caption Разница числа побед и поражений
+                        h2 Win Rate
                             span &nbsp
-                            span играх
-                    div Среднее:
-                        span &nbsp
-                        strong.average-rating
-                    div Лучшая карта:
-                        span &nbsp
-                        strong.recommended-card
-                    div Точность лучшего хода:
-                        span &nbsp
-                        strong.best-move-accuracy
-                    table.table.table-striped.table-hover.table-bordered.table-responsive
-                        tr.headers
-                            th #
-                            th.citizen Мирным
-                            th.sherif Шерифом
-                            th.mafia Мафией
-                            th.don Доном
-                            th.total Всего
-                        tr
-                            td Побед
-                            td.wins-citizen
-                            td.wins-sheriff
-                            td.wins-mafia
-                            td.wins-don
-                            td.wins-total
-                        tr
-                            td Игр
-                            td.games-citizen
-                            td.games-sheriff
-                            td.games-mafia
-                            td.games-don
-                            td.games-total
-                        tr
-                            td Лучший игрок
-                            td.best-citizen
-                            td.best-sheriff
-                            td.best-mafia
-                            td.best-don
-                            td.best-total
-                        tr
-                            td Лайков
-                            td.likes-citizen
-                            td.likes-sheriff
-                            td.likes-mafia
-                            td.likes-don
-                            td.likes-total
-                        tr
-                            td Фолов
-                            td.penalties-citizen
-                            td.penalties-sheriff
-                            td.penalties-mafia
-                            td.penalties-don
-                            td.penalties-total
-                        tr
-                            td Застрелен первым
-                            td.first-killed-at-night-citizen
-                            td.first-killed-at-night-sheriff
-                            td.first-killed-at-night-mafia
-                            td.first-killed-at-night-don
-                            td.first-killed-at-night-total
-                        tr
-                            td Выведен первым
-                            td.first-killed-at-day-citizen
-                            td.first-killed-at-day-sheriff
-                            td.first-killed-at-day-mafia
-                            td.first-killed-at-day-don
-                            td.first-killed-at-day-total
-                    h2 Win–Loss
-                        span &nbsp
-                            small по игровым вечерам
-                    div.efficiency-chart
-                include footer
+                                small по ролям
+                        div.roles-wins-distribution-chart.col-sm-4
+                            div.graph-container
+                                div.caption win rate за каждую роль %
+                        div.commands-wins-distribution-chart.col-sm-4
+                            div.graph-container
+                                div.caption win rate за команду %
+                        div.winrate-chart.col-sm-4
+                            div.graph-container
+                                div.caption общий win rate %
+                    div.row
+                        table.table.table-striped.table-hover.table-bordered.table-responsive
+                            tr.headers
+                                th #
+                                th.citizen Мирным
+                                th.sherif Шерифом
+                                th.mafia Мафией
+                                th.don Доном
+                                th.total Всего
+                            tr
+                                td Побед
+                                td.wins-citizen
+                                td.wins-sheriff
+                                td.wins-mafia
+                                td.wins-don
+                                td.wins-total
+                            tr
+                                td Игр
+                                td.games-citizen
+                                td.games-sheriff
+                                td.games-mafia
+                                td.games-don
+                                td.games-total
+                            tr
+                                td Лучший игрок
+                                td.best-citizen
+                                td.best-sheriff
+                                td.best-mafia
+                                td.best-don
+                                td.best-total
+                            tr
+                                td Лайков
+                                td.likes-citizen
+                                td.likes-sheriff
+                                td.likes-mafia
+                                td.likes-don
+                                td.likes-total
+                            tr
+                                td Фолов
+                                td.penalties-citizen
+                                td.penalties-sheriff
+                                td.penalties-mafia
+                                td.penalties-don
+                                td.penalties-total
+                            tr
+                                td Застрелен первым
+                                td.first-killed-at-night-citizen
+                                td.first-killed-at-night-sheriff
+                                td.first-killed-at-night-mafia
+                                td.first-killed-at-night-don
+                                td.first-killed-at-night-total
+                            tr
+                                td Выведен первым
+                                td.first-killed-at-day-citizen
+                                td.first-killed-at-day-sheriff
+                                td.first-killed-at-day-mafia
+                                td.first-killed-at-day-don
+                                td.first-killed-at-day-total
+        include footer

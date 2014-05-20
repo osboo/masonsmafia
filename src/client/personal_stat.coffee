@@ -56,6 +56,8 @@ $(->
         $.ajax(request)
     )
 
+    $("strong[data-toggle='tooltip']").tooltip()
+
 )
 
 
