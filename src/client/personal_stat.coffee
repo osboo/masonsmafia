@@ -22,7 +22,7 @@ $(->
     
     loadData = (playerName)->
         request = {
-            url: "/personal_stat/?name=#{playerName}"
+            url: "/personal_stat/?name=#{encodeURIComponent(playerName)}"
             dataType: 'json'
             beforeSend: ()->
                 $('.statistics').hide()
