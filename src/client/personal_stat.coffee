@@ -19,12 +19,10 @@ $(->
     )
 
     $(".twitter-typeahead").css('display', 'block')
-
-    $("input[name='find-button']").bind('click', (event, ui) ->
-        event.preventDefault()
-        playerName = $("input[name='player-name']").val()
+    
+    loadData = (playerName)->
         request = {
-            url: "/personal/#{playerName}"
+            url: "/personal_stat/?name=#{encodeURIComponent(playerName)}"
             dataType: 'json'
             beforeSend: ()->
                 $('.statistics').hide()
@@ -33,6 +31,7 @@ $(->
             success: (data) ->
                 $(".player-name").removeClass("has-error")
                 $("input[name='player-name']").tooltip('destroy')
+                $("span.player-name").html(playerName)
                 window.renderFeatures(data)
                 window.renderTable(data)
                 $('.statistics').show()
@@ -54,9 +53,17 @@ $(->
 
         }
         $.ajax(request)
+
+    $("input[name='find-button']").bind('click', (event, ui) ->
+        event.preventDefault()
+        playerName = $("input[name='player-name']").val()
+        loadData(playerName)
     )
 
     $("strong[data-toggle='tooltip']").tooltip()
+    
+    if $("span.player-name").html()
+        loadData($("span.player-name").html())
 
 )
 
