@@ -6,22 +6,23 @@ db = require('./../src/server/models/db')
 buildModels = require('./../src/server/models/BuildModels')
 rebuildCache = require('./../src/server/models/RebuildCache')
 
-describe('models/db object', ()->
-  it('should contain sequelize object', ()->
-    db.should.have.property('sequelize')
-  )
-  it('should contain Player model', ()->
-    db.should.have.property('Player')
-  )
-  it('should contain Game model', ()->
-    db.should.have.property('Game')
-  )
-  it('should contain PlayerGame model', ()->
-    db.should.have.property('PlayerGame')
-  )
-)
-
 if process.env.MASONS_ENV == 'TEST'
+
+  describe('models/db object', ()->
+    it('should contain sequelize object', ()->
+      db.should.have.property('sequelize')
+    )
+    it('should contain Player model', ()->
+      db.should.have.property('Player')
+    )
+    it('should contain Game model', ()->
+      db.should.have.property('Game')
+    )
+    it('should contain PlayerGame model', ()->
+      db.should.have.property('PlayerGame')
+    )
+  )
+
   describe('Test games', ()->
 
     beforeEach((done)->
