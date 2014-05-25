@@ -87,6 +87,8 @@ module.exports = (done)->
               )
           )
       )
+    ).error((err)->
+      done(err, null)
     )
   ).error((err)->
     done(err, null)
