@@ -323,18 +323,42 @@ if process.env.MASONS_ENV == 'TEST'
     describe('/models/RebuildCache', ()->
       describe('game3-2014-04-10', ()->
         paper1 = require('./TestGame')[0]
-        models = {}
         it('should retrieve array with 10 players', (done)->
           buildModels(paper1, (err, dbmodels)->
             if err
               done(err)
-            models = dbmodels
             rebuildCache((err, commonStats)->
               if err
                 done(err)
               commonStats.should.have.length(10)
               done()
             )
+          )
+        )
+      )
+      describe('game3-2014-04-10 and same synthetic: same players but another winning party', ()->
+        paper1 = require('./TestGame')[0]
+        paper2 = require('./TestGame')[1]
+        it('should show that FrankLin has 2.5 average rating', (done)->
+          buildModels(paper1, (err, dbmodels)->
+            if err
+              done(err)
+            buildModels(paper2, (err, dbmodels)->
+              if err
+                done(err)
+              rebuildCache((err, top10)->
+                if err
+                  done(err)
+                for player in top10
+                  if player.name == "FrankLin"
+                    average = player.rating / (player.gamesCitizen + player.gamesSheriff + player.gamesMafia + player.gamesDon)
+                    average.should.be.eql(5 / 2)
+                    done()
+                    return
+                done("player FrankLin not found")
+              )
+            )
+
           )
         )
       )
