@@ -30,7 +30,6 @@ if process.env.MASONS_ENV == 'TEST'
         if err
           console.log(err)
           done(err)
-        console.log('sync')
         done()
       )
     )
@@ -330,10 +329,10 @@ if process.env.MASONS_ENV == 'TEST'
             if err
               done(err)
             models = dbmodels
-            rebuildCache((err, result)->
+            rebuildCache((err, commonStats)->
               if err
                 done(err)
-              result.should.have.length(10)
+              commonStats.should.have.length(10)
               done()
             )
           )

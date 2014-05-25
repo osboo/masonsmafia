@@ -22,7 +22,7 @@ module.exports = (app) ->
     app.get('/all', (req, res)->
         setTimeout(
             ()->
-                cached = require('./../common_stat_responce.json')
+                cached = require('./../../static/common_stat_responce.json')
                 res.json(cached)
         , 2000
         )
@@ -40,7 +40,7 @@ module.exports = (app) ->
     app.get('/players', (req, res)->
         setTimeout(
             ()->
-                cached = require('./../players.json')
+                cached = require('./../../static/players.json')
                 res.json(cached)
         , 2000
         )
