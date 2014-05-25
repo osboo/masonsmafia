@@ -64,6 +64,13 @@ module.exports = (done)->
         delete cachedPlayer[name]["bestMoveAttempts"]
         cachedPlayer[name]["name"] = name
         commonStats.push(cachedPlayer[name])
+      commonStats.sort((a, b)->
+        averageA = a.rating / (a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon)
+        averageB = b.rating / (b.gamesCitizen + b.gamesSheriff + b.gamesMafia + b.gamesDon)
+        return if averageA > averageB then 1 else -1
+      )
+      top10 = if commonStats.length >= 10 then commonStats[0..10] else commonStats
+
       fs.writeFile("#{__dirname}/../../static/players.json", JSON.stringify(names), (err)->
         if err
           done(err, null)
@@ -72,7 +79,12 @@ module.exports = (done)->
             if err
               done(err, null)
             else
-              done(null, commonStats)
+              fs.writeFile("#{__dirname}/../../static/top10.json", JSON.stringify(top10), (err)->
+                if err
+                  done(err, null)
+                else
+                  done(null, top10)
+              )
           )
       )
     )

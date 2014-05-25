@@ -20,42 +20,26 @@ module.exports = (app) ->
     )
 
     app.get('/all', (req, res)->
-        setTimeout(
-            ()->
-                cached = require('./../../static/common_stat_responce.json')
-                res.json(cached)
-        , 2000
-        )
+      cached = require('./../../static/common_stat_responce.json')
+      res.json(cached)
     )
 
     app.get('/top-10', (req, res)->
-        setTimeout(
-            ()->
-                cached = require('./../top10.json')
-                res.json(cached)
-        , 2000
-        )
+      cached = require('./../../static/top10.json')
+      res.json(cached)
     )
 
     app.get('/players', (req, res)->
-        setTimeout(
-            ()->
-                cached = require('./../../static/players.json')
-                res.json(cached)
-        , 2000
-        )
+      cached = require('./../../static/players.json')
+      res.json(cached)
     )
 
     app.get('/personal_stat', (req, res)->
         if req.query.name == "Maran"
-            setTimeout(
-                ()->
-                    cached = require('./../maran.json')
-                    res.json(cached)
-            , 2000
-            )
+          cached = require('./../maran.json')
+          res.json(cached)
         else
-            res.status(404).send("Not found")
+          res.status(404).send("Not found")
     )
 
     app.get('/admin', (req, res)->
