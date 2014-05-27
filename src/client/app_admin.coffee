@@ -1,7 +1,7 @@
 app = angular.module('adminModule', ['ui.bootstrap'])
 
 @formCtrl = ($scope, $modal, $http)->
-  $scope.dt = null
+  $scope.dt = {value: null}
   $scope.referee = {value: ""}
   $scope.winningParty = {value: "Мирные"}
   $scope.players = []
@@ -68,7 +68,7 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     else
       paper = {
         referee: $scope.referee.value
-        date: moment($scope.dt).format("YYYY-MM-DD")
+        date: moment($scope.dt.value).format("YYYY-MM-DD")
         result: {"Мирные": "citizens_win", "Мафия": "mafia_win"}[$scope.winningParty.value]
         firstKilledAtNight: $scope.firstKilledAtNight
         firstKilledByDay: $scope.firstKilledByDay
@@ -108,7 +108,7 @@ popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
 
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
-    $scope.$parent.dt = new Date();
+    $scope.$parent.dt = {value: new Date()};
 
   $scope.today();
 

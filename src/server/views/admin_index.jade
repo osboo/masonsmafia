@@ -24,7 +24,7 @@ html(lang="ru", ng-app='adminModule')
                         div.col-sm-4(ng-controller='datePickerCtrl')
                             label(for='date') Дата:
                             div#datepicker.input-group.date(ng-class="{'has-error': gameResultForm.datePicker.$invalid}")
-                                input#date.form-control(type='text', name='datePicker', ng-click="open($event)", ng-model='dt', required, datepicker-popup='dd-MMMM-yyyy', is-open="opened", ng-required="true", close-on-date-selection='false', current-text='Сегодня', clear-text='Очистить', close-text='Закрыть', placeholder='Введите дату..', tabindex='1')
+                                input#date.form-control(type='text', name='datePicker', ng-click="open($event)", ng-model='dt.value', required, datepicker-popup='dd-MMMM-yyyy', is-open="opened", ng-required="true", close-on-date-selection='false', current-text='Сегодня', clear-text='Очистить', close-text='Закрыть', placeholder='Введите дату..', tabindex='1')
                                 span.input-group-btn
                                     button.btn.btn-default.form-control(type='button', ng-click="open($event)")
                                         i.fa.fa-th
@@ -120,6 +120,6 @@ html(lang="ru", ng-app='adminModule')
                                 button.btn.btn-primary(ng-click='refresh()') Ок
 
                     div(ng-controller='LogCtrl')
-                        button(ng-click='$log.log(referee)') log
+                        button(ng-click='$log.log(dt)') log
             div.col-sm-2
         include footer
