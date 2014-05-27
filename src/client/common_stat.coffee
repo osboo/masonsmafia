@@ -84,5 +84,5 @@ $(->
         $(@).html(values[$(@).html()])
     )
 
-    updateTables('./top10.json')
+    updateTables('/json/top10.json')
 )
