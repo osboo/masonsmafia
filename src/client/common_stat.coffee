@@ -79,10 +79,10 @@ $(->
 
     $('.top-10').click(->
         values = {'все игроки':'топ-10', 'топ-10':'все игроки'}
-        links = {'все игроки':'/all', 'топ-10':'/top-10'}
+        links = {'все игроки':'/json/common_stat_responce.json', 'топ-10':'/json/top10.json'}
         updateTables(links[$(@).html()])
         $(@).html(values[$(@).html()])
     )
 
-    updateTables('/top-10')
+    updateTables('./top10.json')
 )

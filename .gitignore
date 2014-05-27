@@ -17,6 +17,6 @@ src/static/js/personal_stat.js
 src/static/js/personal_stat_render.js
 src/static/js/app_admin.js
 src/static/js/app.js
-src/static/common_stat_responce.json
-src/static/top10.json
-src/static/players.json
+src/static/json/common_stat_responce.json
+src/static/json/top10.json
+src/static/json/players.json

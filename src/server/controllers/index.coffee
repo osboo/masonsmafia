@@ -19,21 +19,6 @@ module.exports = (app) ->
         res.render(viewName, context)
     )
 
-    app.get('/all', (req, res)->
-      cached = require('./../../static/common_stat_responce.json')
-      res.json(cached)
-    )
-
-    app.get('/top-10', (req, res)->
-      cached = require('./../../static/top10.json')
-      res.json(cached)
-    )
-
-    app.get('/players', (req, res)->
-      cached = require('./../../static/players.json')
-      res.json(cached)
-    )
-
     app.get('/personal_stat', (req, res)->
         if req.query.name == "Maran"
           cached = require('./../maran.json')
