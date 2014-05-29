@@ -12,6 +12,11 @@ app = angular.module('adminModule', ['ui.bootstrap'])
   $scope.errors = []
   $scope.successMsg = []
 
+  $scope.names = []
+  $http.get('/json/players.json').success((data)->
+    $scope.names = data
+  )
+
   $scope.openErrorPopup = ()->
     modalInstance = null
     modalInstance = $modal.open({
@@ -127,16 +132,16 @@ popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
   $scope.roles = ['Мирный', 'Шериф', 'Мафия', 'Дон']
 
   $scope.$parent.players = [
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
   ]
 
 FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/
@@ -157,27 +162,3 @@ app.directive('smartFloat', ()->
 
 @LogCtrl = ($scope, $log)->
   $scope.$log = $log
-
-$(->
-  fetchedNames = new Bloodhound({
-        datumTokenizer: (item) -> Bloodhound.tokenizers.whitespace(item.name)
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        limit: 10,
-        prefetch: {
-            url: '/json/players.json',
-            filter: (list) ->
-                $.map(list, (record) -> {name: record})
-        }
-  })
-
-  fetchedNames.initialize()
-    
-  $(".player-name").typeahead(null, {
-            displayKey: 'name',
-            source: fetchedNames.ttAdapter()
-        }
-  )
-
-#  fix for css issue with typeahead in bootstrap 3
-  $(".twitter-typeahead").css("display", "block")
-)

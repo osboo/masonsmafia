@@ -19,7 +19,7 @@ html(lang="ru", ng-app='adminModule')
         div.container
             div.col-sm-1
             div.col-sm-9
-                form.form-horizontal(name='gameResultForm', ng-controller="formCtrl", novalidate, ng-submit="submit()")
+                form.form-horizontal(name='gameResultForm', ng-controller="formCtrl", novalidate,ng-submit="submit()")
                     div.row
                         div.col-sm-4(ng-controller='datePickerCtrl')
                             label(for='date') Дата:
@@ -31,7 +31,7 @@ html(lang="ru", ng-app='adminModule')
 
                         div.col-sm-4(ng-controller='refereeSelectCtrl', ng-class="{'has-error': gameResultForm.refereeName.$dirty && gameResultForm.refereeName.$invalid}")
                             label(for='date') Ведущий:
-                            input.form-control.player-name(type='text', name="refereeName", ng-model='referee.value', required, placeholder='Введите имя..', tabindex='2')
+                            input.form-control.player-name(type='text', name="refereeName", ng-model='referee.value', typeahead='name for name in names|filter:$viewValue', required, placeholder='Введите имя..', tabindex='2')
 
                         div.col-sm-4(ng-controller='winPartyCtrl')
                             label(for='winParty') Победа:
@@ -60,7 +60,7 @@ html(lang="ru", ng-app='adminModule')
                                         td.col-xs-4
                                             ng-form(name='playerNameForm', novalidate)
                                                 div(ng-class="{'has-error': playerNameForm.playerName.$dirty && playerNameForm.playerName.$invalid}")
-                                                    input.form-control.player-name(name='playerName', ng-model='player.name', type='text', required, placeholder='Введите имя..')
+                                                    input.form-control.player-name(name='playerName', ng-model='player.name', type='text', typeahead='name for name in names | filter:$viewValue', required, placeholder='Введите имя..')
                                         td.col-xs-2
                                             select.form-control(ng-model='player.role', ng-options='role for role in roles')
                                         td.col-xs-2
@@ -120,6 +120,6 @@ html(lang="ru", ng-app='adminModule')
                                 button.btn.btn-primary(ng-click='refresh()') Ок
 
                     div(ng-controller='LogCtrl')
-                        button(ng-click='$log.log(dt)') log
+                        button(ng-click='$log.log(players[0].name.value)') log
             div.col-sm-2
         include footer
