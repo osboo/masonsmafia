@@ -78,7 +78,7 @@ html(lang="ru", ng-app='adminModule')
                     div.row
                         label.col-sm-3 Первый отстреленный игрок:
                         div.col-sm-3
-                            input.form-control.player-name(type='text', ng-model='firstKilledAtNight', placeholder='Введите имя..')
+                            input.form-control.player-name(ng-model='firstKilledAtNight', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..')
                     div.row
                         div.col-sm-3
                             span
@@ -86,7 +86,7 @@ html(lang="ru", ng-app='adminModule')
                     div.row
                         label.col-sm-3 Первый выведенный игрок:
                         div.col-sm-3
-                            input.form-control.player-name(type='text', ng-model='firstKilledByDay', placeholder='Введите имя..')
+                            input.form-control.player-name(ng-model='firstKilledByDay', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..')
                     div.row
                         div.col-sm-3
                             span
@@ -94,7 +94,7 @@ html(lang="ru", ng-app='adminModule')
                     div.row
                         label.col-sm-3 Лучший ход:
                         div.col-sm-3
-                            input.form-control.player-name(type='text', ng-model='bestMoveAuthor', name='bestMoveAuthor', placeholder='Введите имя..')
+                            input.form-control.player-name(ng-model='bestMoveAuthor', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..')
                         div.col-sm-2
                             select.form-control(ng-init='possibleValues=[0, 1, 2, 3]', ng-options='possibleValue for possibleValue in possibleValues', ng-model='bestMoveAccuracy')
                     div.row
@@ -119,7 +119,7 @@ html(lang="ru", ng-app='adminModule')
                             div.modal-footer
                                 button.btn.btn-primary(ng-click='refresh()') Ок
 
-                    div(ng-controller='LogCtrl')
-                        button(ng-click='$log.log(players[0].name.value)') log
+                    //div(ng-controller='LogCtrl')
+                    //    button(ng-click='$log.log(players[0].name.value)') log
             div.col-sm-2
         include footer
