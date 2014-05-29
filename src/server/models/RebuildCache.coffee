@@ -71,22 +71,27 @@ module.exports = (done)->
       )
       top10 = if commonStats.length >= 10 then commonStats[0..10] else commonStats
 
-      fs.writeFile("#{__dirname}/../../static/json/players.json", JSON.stringify(names), (err)->
+      fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats), (err)->
         if err
           done(err, null)
         else
-          fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats), (err)->
+          fs.writeFile("#{__dirname}/../../static/json/top10.json", JSON.stringify(top10), (err)->
             if err
               done(err, null)
             else
-              fs.writeFile("#{__dirname}/../../static/json/top10.json", JSON.stringify(top10), (err)->
-                if err
-                  done(err, null)
-                else
-                  done(null, top10)
+              db.Player.all().success((players)->
+                fs.writeFile("#{__dirname}/../../static/json/players.json",
+                  JSON.stringify((player.name for player in players)), (err)->
+                  if err
+                    done(err, null)
+                  else
+                    done(null, top10)
+                )
+              ).error((err)->
+                done(err, null)
               )
           )
-      )
+        )
     ).error((err)->
       done(err, null)
     )
