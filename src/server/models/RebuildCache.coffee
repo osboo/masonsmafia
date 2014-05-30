@@ -67,21 +67,21 @@ module.exports = (done)->
       commonStats.sort((a, b)->
         averageA = a.rating / (a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon)
         averageB = b.rating / (b.gamesCitizen + b.gamesSheriff + b.gamesMafia + b.gamesDon)
-        return if averageA > averageB then 1 else -1
+        return if averageA > averageB then -1 else 1
       )
-      top10 = if commonStats.length >= 10 then commonStats[0..10] else commonStats
+      top10 = if commonStats.length >= 10 then commonStats[0...10] else commonStats
 
-      fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats), (err)->
+      fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats, null, 2), (err)->
         if err
           done(err, null)
         else
-          fs.writeFile("#{__dirname}/../../static/json/top10.json", JSON.stringify(top10), (err)->
+          fs.writeFile("#{__dirname}/../../static/json/top10.json", JSON.stringify(top10, null, 2), (err)->
             if err
               done(err, null)
             else
               db.Player.all().success((players)->
                 fs.writeFile("#{__dirname}/../../static/json/players.json",
-                  JSON.stringify((player.name for player in players)), (err)->
+                  JSON.stringify((player.name for player in players), null, 2), (err)->
                   if err
                     done(err, null)
                   else
