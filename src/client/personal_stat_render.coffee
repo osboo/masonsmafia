@@ -101,10 +101,10 @@ window.renderWinsPlot = (data) ->
   })
 
   rolesWinrateData = [
-    {role: 'Мирным', winrate: Math.floor(data.winsCitizen / data.gamesCitizen * 100)}
-    {role: 'Шерифом', winrate: Math.floor(data.winsSheriff / data.gamesSheriff * 100)}
-    {role: 'Мафией', winrate: Math.floor(data.winsMafia / data.gamesMafia * 100)}
-    {role: 'Доном', winrate: Math.floor(data.winsDon / data.gamesDon * 100)}
+    {role: 'Мирным', winrate: if data.gamesCitizen then Math.floor(data.winsCitizen / data.gamesCitizen * 100) else 0}
+    {role: 'Шерифом', winrate: if data.gamesSheriff then Math.floor(data.winsSheriff / data.gamesSheriff * 100) else 0}
+    {role: 'Мафией', winrate: if data.gamesMafia then Math.floor(data.winsMafia / data.gamesMafia * 100) else 0}
+    {role: 'Доном', winrate: if data.gamesDon then Math.floor(data.winsDon / data.gamesDon * 100) else 0}
   ]
 
   new Morris.Bar({
@@ -116,7 +116,7 @@ window.renderWinsPlot = (data) ->
     hideHover:'auto'
   })
 
-  redWinrate = Math.floor((data.winsCitizen + data.winsSheriff) * 100 / data["wins-total"])
+  redWinrate = if data["wins-total"] then Math.floor((data.winsCitizen + data.winsSheriff) * 100 / data["wins-total"]) else 0
   blackWinrate = 100 - redWinrate
 
   new Morris.Donut({
@@ -127,7 +127,7 @@ window.renderWinsPlot = (data) ->
     ]
   })
 
-  winrate = Math.floor(data["wins-total"] / data["games-total"] * 100)
+  winrate = if data["games-total"] then Math.floor(data["wins-total"] / data["games-total"] * 100) else 0
   lossrate = 100 - winrate
   new Morris.Donut({
     element: 'winrate',
