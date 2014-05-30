@@ -43,6 +43,8 @@ module.exports = (playerName, done)->
     "efficiency": []
   }
   db.Player.find({where: {name: playerName}}).success((player)->
+    if not player
+      return handleError("Player #{playerName} not found")
     db.PlayerGame.findAll({where: {PlayerId: player.id}}).success((playerGames)->
       chainer = new Sequelize.Utils.QueryChainer
       for playerGame in playerGames

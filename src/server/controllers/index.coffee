@@ -22,7 +22,7 @@ module.exports = (app) ->
     app.get('/personal_stat', (req, res)->
       computerPersonal(req.query.name, (error, profile)->
         if error
-          res.status(500).send(JSON.stringify(error))
+          res.status(404).send(JSON.stringify(error))
         else
           res.json(profile)
       )
