@@ -90,8 +90,8 @@ if process.env.MASONS_ENV == 'TEST'
     )
 
     describe('/models/BuildModels', ()->
-      describe('game3-2014-04-10', ()->
-        paper = require('./TestGame')[0]
+      describe('game3-2014-03-10', ()->
+        paper = require('./TestGame').game_10_03[0]
         models = {}
         it('should build all db models with no problems', (done)->
           buildModels(paper, (err, dbmodels)->
@@ -102,9 +102,9 @@ if process.env.MASONS_ENV == 'TEST'
           )
         )
 
-        it('should take a place at 2014-04-10', ()->
+        it('should take a place at 2014-03-10', ()->
           gameObj = models.Game
-          moment(gameObj.date).format('YYYY-MM-DD').should.be.eql('2014-04-10')
+          moment(gameObj.date).format('YYYY-MM-DD').should.be.eql('2014-03-10')
         )
 
         it('should have kazzantip be a referee', ()->
@@ -321,8 +321,8 @@ if process.env.MASONS_ENV == 'TEST'
     )
 
     describe('/models/RebuildCache', ()->
-      describe('game3-2014-04-10', ()->
-        paper1 = require('./TestGame')[0]
+      describe('game3-2014-03-10', ()->
+        paper1 = require('./TestGame').game_10_03[0]
         it('should retrieve array with 10 players', (done)->
           buildModels(paper1, (err, dbmodels)->
             if err
@@ -337,8 +337,8 @@ if process.env.MASONS_ENV == 'TEST'
         )
       )
       describe('game3-2014-04-10 and same synthetic: same players but another winning party', ()->
-        paper1 = require('./TestGame')[0]
-        paper2 = require('./TestGame')[1]
+        paper1 = require('./TestGame').game_10_03[0]
+        paper2 = require('./TestGame').game_10_03[1]
         it('should show that FrankLin has 2.5 average rating', (done)->
           buildModels(paper1, (err, dbmodels)->
             if err

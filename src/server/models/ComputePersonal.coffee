@@ -8,6 +8,7 @@ module.exports = (playerName, done)->
   handleError = (err)->
     if err
       done(err, null)
+
   profile = {
     "name": "",
     "rating": 0,
@@ -47,14 +48,16 @@ module.exports = (playerName, done)->
       return handleError("Player #{playerName} not found")
     db.PlayerGame.findAll({where: {PlayerId: player.id}}).success((playerGames)->
       chainer = new Sequelize.Utils.QueryChainer
-      for playerGame in playerGames
+      playerGames.forEach((playerGame)->
         chainer.add(playerGame, 'getGame', [])
+      )
       chainer.runSerially().success((games)->
         profile.name = playerName
         bestMoveAttempts = 0
         foundedMafiaOnBestMove = 0
         for i in [0...playerGames.length]
           result = games[i].result
+          playerGame = playerGames[i]
           delta = 0
           if playerGame.role in [PLAYER_ROLES.CITIZEN, PLAYER_ROLES.SHERIFF]
             delta = if result == GAME_RESULT.CITIZENS_WIN then 1 else -1

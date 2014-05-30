@@ -2,7 +2,7 @@ constants = require('./../src/server/models/constants')
 
 game_10_03_3 = {
   referee: "kazzantip"
-  date: "2014-04-10"
+  date: "2014-03-10"
   result: constants.GAME_RESULT.MAFIA_WIN
   firstKilledAtNight: "Рон"
   firstKilledByDay: "Марвел"
@@ -84,7 +84,7 @@ game_10_03_3 = {
 
 game_10_03_3_1 = {
   referee: "kazzantip"
-  date: "2014-04-10"
+  date: "2014-03-10"
   result: constants.GAME_RESULT.CITIZENS_WIN
   firstKilledAtNight: "Хедин"
   firstKilledByDay: "Марвел"
@@ -898,9 +898,11 @@ game_13_03_5 = {
   ]
 }
 
-games = [game_10_03_3, game_10_03_3_1,
-         game_13_03_5,
-         game_16_03_2, game_16_03_3, game_16_03_1,
-         game_20_03_1, game_20_03_2, game_20_03_3, game_20_03_4]
+games = {
+  game_10_03: [game_10_03_3, game_10_03_3_1]
+  masonsMasters: [game_16_03_2, game_16_03_3, game_16_03_1]
+  game_13_03: [game_13_03_5]
+  game_20_03: [game_20_03_1, game_20_03_2, game_20_03_3, game_20_03_4]
+}
 
 module.exports = games
