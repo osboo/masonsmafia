@@ -62,7 +62,7 @@ module.exports = (playerName, done)->
             delta = if result == GAME_RESULT.MAFIA_WIN then 1 else -1
           profile.efficiency.push({
             gameID: games[i].id
-            date: games[i].date
+            date: games[i].date.getTime()
             winsMinusLosses: delta
           })
           profile.rating += rating(playerGame, result)
