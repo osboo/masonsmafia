@@ -1,7 +1,7 @@
 app = angular.module('adminModule', ['ui.bootstrap'])
 
 @formCtrl = ($scope, $modal, $http)->
-  $scope.dt = null
+  $scope.dt = {value: null}
   $scope.referee = {value: ""}
   $scope.winningParty = {value: "Мирные"}
   $scope.players = []
@@ -11,6 +11,11 @@ app = angular.module('adminModule', ['ui.bootstrap'])
   $scope.bestMoveAccuracy = 0
   $scope.errors = []
   $scope.successMsg = []
+
+  $scope.names = []
+  $http.get('/json/players.json').success((data)->
+    $scope.names = data
+  )
 
   $scope.openErrorPopup = ()->
     modalInstance = null
@@ -68,7 +73,7 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     else
       paper = {
         referee: $scope.referee.value
-        date: moment($scope.dt).format("YYYY-MM-DD")
+        date: moment($scope.dt.value).format("YYYY-MM-DD")
         result: {"Мирные": "citizens_win", "Мафия": "mafia_win"}[$scope.winningParty.value]
         firstKilledAtNight: $scope.firstKilledAtNight
         firstKilledByDay: $scope.firstKilledByDay
@@ -108,7 +113,7 @@ popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
 
 @datePickerCtrl = ($scope)->
   $scope.today = ()->
-    $scope.$parent.dt = new Date();
+    $scope.$parent.dt = {value: new Date()};
 
   $scope.today();
 
@@ -127,16 +132,16 @@ popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
   $scope.roles = ['Мирный', 'Шериф', 'Мафия', 'Дон']
 
   $scope.$parent.players = [
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
-    {role:$scope.roles[0], name:'', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
   ]
 
 FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/
@@ -157,27 +162,3 @@ app.directive('smartFloat', ()->
 
 @LogCtrl = ($scope, $log)->
   $scope.$log = $log
-
-$(->
-  fetchedNames = new Bloodhound({
-        datumTokenizer: (item) -> Bloodhound.tokenizers.whitespace(item.name)
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        limit: 10,
-        prefetch: {
-            url: '/players',
-            filter: (list) ->
-                $.map(list, (record) -> {name: record})
-        }
-  })
-
-  fetchedNames.initialize()
-    
-  $(".player-name").typeahead(null, {
-            displayKey: 'name',
-            source: fetchedNames.ttAdapter()
-        }
-  )
-
-#  fix for css issue with typeahead in bootstrap 3
-  $(".twitter-typeahead").css("display", "block")
-)

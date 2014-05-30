@@ -4,7 +4,7 @@ $(->
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 10,
         prefetch: {
-            url: '/players',
+            url: '/json/players.json',
             filter: (list) ->
                 $.map(list, (record) -> {name: record})
         }
