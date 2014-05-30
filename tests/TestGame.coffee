@@ -806,7 +806,100 @@ game_16_03_1 = {
   ]
 }
 
+game_13_03_5 = {
+  "referee": "Озб",
+  "date": "2014-02-13",
+  "result": "mafia_win",
+  "firstKilledAtNight": "Женька-Печенька",
+  "firstKilledByDay": "Капоне",
+  "bestMoveAuthor": "Женька-Печенька",
+  "bestMoveAccuracy": 2,
+  "players": [
+    {
+      "name": "Манчестер",
+      "role": "citizen",
+      "fouls": 2,
+      "likes": 3,
+      "isBest": true,
+      "extraScores": 0.5
+    },
+    {
+      "name": "Sam",
+      "role": "sheriff",
+      "fouls": 1,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "Агата",
+      "role": "citizen",
+      "fouls": 0,
+      "likes": 1,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "kors",
+      "role": "don",
+      "fouls": 2,
+      "likes": 2,
+      "isBest": true,
+      "extraScores": 0.5
+    },
+    {
+      "name": "Женька-Печенька",
+      "role": "citizen",
+      "fouls": 2,
+      "likes": 2,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "Енот",
+      "role": "citizen",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "Марвел",
+      "role": "mafia",
+      "fouls": 3,
+      "likes": 2,
+      "isBest": true,
+      "extraScores": 0.5
+    },
+    {
+      "name": "Капоне",
+      "role": "citizen",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "Фельдшер",
+      "role": "citizen",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "Олифер",
+      "role": "mafia",
+      "fouls": 2,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 0
+    }
+  ]
+}
+
 games = [game_10_03_3, game_10_03_3_1,
+         game_13_03_5,
          game_16_03_2, game_16_03_3, game_16_03_1,
          game_20_03_1, game_20_03_2, game_20_03_3, game_20_03_4]
 
