@@ -1,4 +1,4 @@
-require('string_decoder').StringDecoder
+computerPersonal = require('../models/ComputePersonal')
 
 module.exports = (app) ->
     app.get('/', (req, res) ->
@@ -20,11 +20,12 @@ module.exports = (app) ->
     )
 
     app.get('/personal_stat', (req, res)->
-        if req.query.name == "Maran"
-          cached = require('./../maran.json')
-          res.json(cached)
+      computerPersonal(req.query.name, (error, profile)->
+        if error
+          res.status(500).send(JSON.stringify(error))
         else
-          res.status(404).send("Not found")
+          res.json(profile)
+      )
     )
 
     app.get('/admin', (req, res)->
