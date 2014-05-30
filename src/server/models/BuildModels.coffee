@@ -1,6 +1,7 @@
 models = {Game: null, Players: [], PlayerGames: []}
 
 db = require('./db')
+fs = require('fs')
 Sequelize = require('sequelize')
 
 module.exports = (paper, done)->
@@ -38,6 +39,7 @@ module.exports = (paper, done)->
           models.Game = game
           models.Players = players
           models.PlayerGames = playerGames
+          fs.writeFile('paper.json', JSON.stringify(paper, null, 4), -> )
           done(null, models))
         .error((err)->done(err, null))
 
