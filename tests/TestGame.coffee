@@ -530,6 +530,100 @@ game_20_03_1 = {
   ]
 }
 
-games = [game_10_03_3, game_10_03_3_1, game_20_03_1, game_20_03_2, game_20_03_3, game_20_03_4]
+game_16_03_3 = {
+  "referee": "kazzantip",
+  "date": "2014-03-16",
+  "result": "citizens_win",
+  "firstKilledAtNight": "Кудряш",
+  "firstKilledByDay": "Кошка",
+  "bestMoveAuthor": "Кудряш",
+  "bestMoveAccuracy": 0,
+  "players": [
+    {
+      "name": "Малика",
+      "role": "citizen",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 1.5
+    },
+    {
+      "name": "Женька-Печенька",
+      "role": "citizen",
+      "fouls": 1,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 1.5
+    },
+    {
+      "name": "Олифер",
+      "role": "citizen",
+      "fouls": 1,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 1.5
+    },
+    {
+      "name": "Меля",
+      "role": "don",
+      "fouls": 2,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "Озб",
+      "role": "citizen",
+      "fouls": 1,
+      "likes": 0,
+      "isBest": true,
+      "extraScores": 2.5
+    },
+    {
+      "name": "Кошка",
+      "role": "citizen",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 1.5
+    },
+    {
+      "name": "Мим",
+      "role": "mafia",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 1.5
+    },
+    {
+      "name": "Кудряш",
+      "role": "citizen",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 1.5
+    },
+    {
+      "name": "Sam",
+      "role": "mafia",
+      "fouls": 0,
+      "likes": 0,
+      "isBest": false,
+      "extraScores": 0
+    },
+    {
+      "name": "kors",
+      "role": "sheriff",
+      "fouls": 3,
+      "likes": 0,
+      "isBest": true,
+      "extraScores": 2
+    }
+  ]
+}
+
+games = [game_10_03_3, game_10_03_3_1,
+         game_16_03_3,
+         game_20_03_1, game_20_03_2, game_20_03_3, game_20_03_4]
 
 module.exports = games
