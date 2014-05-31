@@ -4,6 +4,7 @@ GAME_RESULT = require('./constants').GAME_RESULT
 PLAYER_ROLES = require('./constants').PLAYER_ROLES
 rating = require('./rating_formula_342')
 Sequelize = require('sequelize')
+comparator = require('./PlayerComparator')
 
 module.exports = (done)->
   db.PlayerGame.all().success((playerGames)->
@@ -64,11 +65,7 @@ module.exports = (done)->
         delete cachedPlayer[name]["bestMoveAttempts"]
         cachedPlayer[name]["name"] = name
         commonStats.push(cachedPlayer[name])
-      commonStats.sort((a, b)->
-        averageA = a.rating / (a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon)
-        averageB = b.rating / (b.gamesCitizen + b.gamesSheriff + b.gamesMafia + b.gamesDon)
-        return if averageA > averageB then -1 else 1
-      )
+      commonStats.sort(comparator)
       top10 = if commonStats.length >= 10 then commonStats[0...10] else commonStats
 
       fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats, null, 2), (err)->
