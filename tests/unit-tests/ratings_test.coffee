@@ -31,7 +31,7 @@ describe('rating 3-4-2 calculation', ()->
 describe('Player comparator', ->
   describe('Player A: n=3 r=3, Player B: n=1 r=3', ->
     it('should show that A < B', ->
-      compare = require('./../../src/server/models/PlayerComparator')
+      compare = require('./../../src/server/models/PlayerComparatorLoader')
       A = {
         gamesCitizen: 1, gamesSheriff: 0, gamesMafia: 2, gamesDon: 0,
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
@@ -48,7 +48,7 @@ describe('Player comparator', ->
 
   describe('Player A: n=10 r=3, Player B: n=1 r=3', ->
     it('should show that A > B', ->
-      compare = require('./../../src/server/models/PlayerComparator')
+      compare = require('./../../src/server/models/PlayerComparatorLoader')
       A = {
         gamesCitizen: 10, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
@@ -65,7 +65,7 @@ describe('Player comparator', ->
 
   describe('Player A: n=10 r=3, Player B: n=6 r=3', ->
     it('should show that A < B', ->
-      compare = require('./../../src/server/models/PlayerComparator')
+      compare = require('./../../src/server/models/PlayerComparatorLoader')
       A = {
         gamesCitizen: 10, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,

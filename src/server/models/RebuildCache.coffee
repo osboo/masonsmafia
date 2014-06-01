@@ -4,7 +4,7 @@ GAME_RESULT = require('./constants').GAME_RESULT
 PLAYER_ROLES = require('./constants').PLAYER_ROLES
 rating = require('./rating_formula_342')
 Sequelize = require('sequelize')
-comparator = require('./PlayerComparator')
+comparator = require('./PlayerComparatorLoader')
 
 module.exports = (done)->
   db.PlayerGame.all().success((playerGames)->
