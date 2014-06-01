@@ -101,10 +101,10 @@ window.renderWinsPlot = (data) ->
   })
 
   rolesWinrateData = [
-    {role: 'Мирным', winrate: if data.gamesCitizen then Math.floor(data.winsCitizen / data.gamesCitizen * 100) else 0}
-    {role: 'Шерифом', winrate: if data.gamesSheriff then Math.floor(data.winsSheriff / data.gamesSheriff * 100) else 0}
-    {role: 'Мафией', winrate: if data.gamesMafia then Math.floor(data.winsMafia / data.gamesMafia * 100) else 0}
-    {role: 'Доном', winrate: if data.gamesDon then Math.floor(data.winsDon / data.gamesDon * 100) else 0}
+    {role: 'Мирный', winrate: if data.gamesCitizen then Math.floor(data.winsCitizen / data.gamesCitizen * 100) else 0}
+    {role: 'Шериф', winrate: if data.gamesSheriff then Math.floor(data.winsSheriff / data.gamesSheriff * 100) else 0}
+    {role: 'Мафия', winrate: if data.gamesMafia then Math.floor(data.winsMafia / data.gamesMafia * 100) else 0}
+    {role: 'Дон', winrate: if data.gamesDon then Math.floor(data.winsDon / data.gamesDon * 100) else 0}
   ]
 
   new Morris.Bar({
@@ -112,7 +112,7 @@ window.renderWinsPlot = (data) ->
     data: rolesWinrateData,
     xkey: 'role',
     ykeys: ['winrate'],
-    labels: ['% побед'],
+    labels: ['процент побед'],
     hideHover:'auto'
   })
 
