@@ -807,6 +807,9 @@ game_16_03_1 = {
 }
 
 games = {
+  game_01_12: require('./2013-12-01/01_12')
+  game_08_12: require('./2013-12-08/08_12')
+  game_21_12: require('./2013-12-21/21_12')
   game_10_03: [game_10_03_3, game_10_03_3_1]
   masonsMasters: [game_16_03_2, game_16_03_3, game_16_03_1]
   game_13_03: require('./2014-03-13/13_03')

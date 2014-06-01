@@ -40,7 +40,7 @@ window.renderFeatures = (data) ->
   $(".games-total").html(data["games-total"])
   $(".average-rating").html(data["average-rating"])
   $(".recommended-card").html(data["recommended-card"])
-  $(".best-move-accuracy").html(data["bestMoveAccuracy"])
+  $(".best-move-accuracy").html(data["bestMoveAccuracy"].toFixed(2))
   $(".survival").html("#{data["survival-rate"]}%")
 
 window.renderTable = (data) ->
@@ -122,8 +122,8 @@ window.renderWinsPlot = (data) ->
   new Morris.Donut({
     element: 'commandWinrate',
     data: [
-      {label: "Победы за красную команду", value: redWinrate},
-      {label: "Победы за чёрную команду", value: blackWinrate}
+      {label: "Доля красных побед", value: redWinrate},
+      {label: "Доля чёрных побед", value: blackWinrate}
     ]
   })
 
