@@ -22,6 +22,23 @@ $(->
                 $("tbody tr:eq(\"#{i}\") td:first", table).html(i + 1);
     })
 
+    $.tablesorter.addParser({
+      id: 'ratingToString'
+      format: (s, table, cell, cellIndex)->
+        return {
+          gamesCitizen: parseInt $(cell).attr('games-citizen')
+          gamesSheriff: parseInt $(cell).attr('games-sheriff')
+          gamesMafia: parseInt $(cell).attr('games-mafia')
+          gamesDon: parseInt $(cell).attr('games-don')
+          winsCitizen: parseInt $(cell).attr('wins-citizen')
+          winsSheriff: parseInt $(cell).attr('wins-sheriff')
+          winsMafia: parseInt $(cell).attr('wins-mafia')
+          winsDon: parseInt $(cell).attr('wins-don')
+          rating: parseInt $(cell).attr('rating')
+        }
+      type: 'text'
+    })
+
     extended = (players)->
         result = []
         for player in players
@@ -45,10 +62,13 @@ $(->
         $('.stat-tables').show()
         players = extended(players)
         for player in players
-            $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.averageRating}</td><td>#{player.gamesTotal}</td><td>#{player.winsTotal}</td><td>#{player.rating}</td></tr>").appendTo('.common-rating tbody')
-            $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.winsTotal}</td><td>#{player.winsCitizen}</td><td>#{player.winsSheriff}</td><td>#{player.winsMafia}</td><td>#{player.winsDon}</td></tr>").appendTo('.wins tbody')
-            $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.gamesTotal}</td><td>#{player.gamesCitizen}</td><td>#{player.gamesSheriff}</td><td>#{player.gamesMafia}</td><td>#{player.gamesDon}</td></tr>").appendTo('.roles tbody')
-            $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.likes}</td><td>#{player.bestPlayer}</td><td>#{player.bestMoveAccuracy}</td><td>#{player.firstKilledNight}</td><td>#{player.firstKilledDay}</td><td>#{player.fouls}</td></tr>").appendTo('.impact tbody')
+          gamesAttrs = "games-citizen=#{player.gamesCitizen} games-sheriff=#{player.gamesSheriff} games-mafia=#{player.gamesMafia} games-don=#{player.gamesDon}"
+          winsAttrs = "wins-citizen=#{player.winsCitizen} wins-sheriff=#{player.winsSheriff} wins-mafia=#{player.winsMafia} wins-don=#{player.winsDon}"
+          ratingsAttrs = "rating=#{player.rating}"
+          $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td #{gamesAttrs} #{winsAttrs} #{ratingsAttrs}>#{player.averageRating}</td><td>#{player.gamesTotal}</td><td>#{player.winsTotal}</td><td>#{player.rating}</td></tr>").appendTo('.common-rating tbody')
+          $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.winsTotal}</td><td>#{player.winsCitizen}</td><td>#{player.winsSheriff}</td><td>#{player.winsMafia}</td><td>#{player.winsDon}</td></tr>").appendTo('.wins tbody')
+          $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.gamesTotal}</td><td>#{player.gamesCitizen}</td><td>#{player.gamesSheriff}</td><td>#{player.gamesMafia}</td><td>#{player.gamesDon}</td></tr>").appendTo('.roles tbody')
+          $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.likes}</td><td>#{player.bestPlayer}</td><td>#{player.bestMoveAccuracy}</td><td>#{player.firstKilledNight}</td><td>#{player.firstKilledDay}</td><td>#{player.fouls}</td></tr>").appendTo('.impact tbody')
 
     updateTables = (urlString)->
         request = {
@@ -64,13 +84,32 @@ $(->
 
             success: (data, textStatus) ->
                 renderTables(data)
-                $('.stat-tables table').tablesorter({
-                    headers: { 0: { sorter: false} }
-                    sortList : [[2, 1]],
+                $('.common-rating').tablesorter({
+                    headers: {
+                      0: { sorter: false}
+                      2: { sorter: 'ratingToString'}
+                    }
+                    sortList : [[2, 1]]
+                    textSorter: {
+                      2: (a, b, direction, column, table)->
+                        console.log('compare!!')
+                        return playercomparator(a, b)
+                    }
                     theme: "bootstrap",
                     widgets: ['uitheme', 'indexFirstColumn'],
                     headerTemplate: '{content} {icon}'
                 })
+                ['wins', 'roles', 'impact'].forEach((className)->
+                  $(".#{className}").tablesorter({
+                    headers: {
+                      0: { sorter: false}
+                    }
+                    sortList : [[2, 1]]
+                    theme: "bootstrap",
+                    widgets: ['uitheme', 'indexFirstColumn'],
+                    headerTemplate: '{content} {icon}'
+                  })
+                )
                 $('.stat-tables table').trigger("update")
                 $('.stat-tables table').trigger("sorton")
         }

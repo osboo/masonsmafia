@@ -46,7 +46,7 @@ compare = (a, b)->
     if a.firstKilledNight < b.firstKilledNight
       return 1
 
-if typeof(module) != 'undefined' && typeof(module) != 'undefined'
+if typeof(module) != 'undefined' && typeof(module.exports) != 'undefined'
   module.exports = compare
 else
-  this["module"] = {exports: compare}
+  this["playercomparator"] = compare
