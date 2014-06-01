@@ -34,7 +34,9 @@ $(->
           winsSheriff: parseInt $(cell).attr('wins-sheriff')
           winsMafia: parseInt $(cell).attr('wins-mafia')
           winsDon: parseInt $(cell).attr('wins-don')
-          rating: parseInt $(cell).attr('rating')
+          bestPlayer: parseInt $(cell).attr('best-player')
+          firstKilledNight: parseInt $(cell).attr('first-killed-at-night')
+          rating: parseFloat $(cell).attr('rating')
         }
       type: 'text'
     })
@@ -64,8 +66,9 @@ $(->
         for player in players
           gamesAttrs = "games-citizen=#{player.gamesCitizen} games-sheriff=#{player.gamesSheriff} games-mafia=#{player.gamesMafia} games-don=#{player.gamesDon}"
           winsAttrs = "wins-citizen=#{player.winsCitizen} wins-sheriff=#{player.winsSheriff} wins-mafia=#{player.winsMafia} wins-don=#{player.winsDon}"
+          impactAttrs = "best-player=#{player.bestPlayer} first-killed-at-night=#{player.firstKilledNight}"
           ratingsAttrs = "rating=#{player.rating}"
-          $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td #{gamesAttrs} #{winsAttrs} #{ratingsAttrs}>#{player.averageRating}</td><td>#{player.gamesTotal}</td><td>#{player.winsTotal}</td><td>#{player.rating}</td></tr>").appendTo('.common-rating tbody')
+          $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td #{gamesAttrs} #{winsAttrs} #{impactAttrs} #{ratingsAttrs}>#{player.averageRating}</td><td>#{player.gamesTotal}</td><td>#{player.winsTotal}</td><td>#{player.rating}</td></tr>").appendTo('.common-rating tbody')
           $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.winsTotal}</td><td>#{player.winsCitizen}</td><td>#{player.winsSheriff}</td><td>#{player.winsMafia}</td><td>#{player.winsDon}</td></tr>").appendTo('.wins tbody')
           $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.gamesTotal}</td><td>#{player.gamesCitizen}</td><td>#{player.gamesSheriff}</td><td>#{player.gamesMafia}</td><td>#{player.gamesDon}</td></tr>").appendTo('.roles tbody')
           $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.likes}</td><td>#{player.bestPlayer}</td><td>#{player.bestMoveAccuracy}</td><td>#{player.firstKilledNight}</td><td>#{player.firstKilledDay}</td><td>#{player.fouls}</td></tr>").appendTo('.impact tbody')
@@ -92,7 +95,6 @@ $(->
                     sortList : [[2, 1]]
                     textSorter: {
                       2: (a, b, direction, column, table)->
-                        console.log('compare!!')
                         return playercomparator(a, b)
                     }
                     theme: "bootstrap",

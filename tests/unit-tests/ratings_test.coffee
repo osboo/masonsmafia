@@ -42,7 +42,7 @@ describe('Player comparator', ->
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 3
       }
-      should(compare(A, B)).be.eql(1)
+      should(compare(A, B)).be.eql(-1)
     )
   )
 
@@ -59,7 +59,7 @@ describe('Player comparator', ->
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 3
       }
-      should(compare(A, B)).be.eql(-1)
+      should(compare(A, B)).be.eql(1)
     )
   )
 
@@ -76,7 +76,7 @@ describe('Player comparator', ->
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 3
       }
-      should(compare(A, B)).be.eql(1)
+      should(compare(A, B)).be.eql(-1)
     )
   )
 )

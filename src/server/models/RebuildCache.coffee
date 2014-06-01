@@ -66,7 +66,7 @@ module.exports = (done)->
         cachedPlayer[name]["name"] = name
         commonStats.push(cachedPlayer[name])
       commonStats.sort(comparator)
-      top10 = if commonStats.length >= 10 then commonStats[0...10] else commonStats
+      top10 = if commonStats.length >= 10 then commonStats[-10..] else commonStats
 
       fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats, null, 2), (err)->
         if err
