@@ -64,7 +64,7 @@ describe('Player comparator', ->
   )
 
   describe('Player A: n=10 r=3, Player B: n=6 r=3', ->
-    it('should show that A < B', ->
+    it('should show that A > B because he has more games', ->
       compare = require('./../../src/server/models/PlayerComparatorLoader')
       A = {
         gamesCitizen: 10, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
@@ -76,7 +76,42 @@ describe('Player comparator', ->
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 3
       }
+      should(compare(A, B)).be.eql(1)
+    )
+  )
+
+  describe('Player A: n=7 r=26, Player B: n=21 r=63', ->
+    it('should show that A < B because B he has more games', ->
+      compare = require('./../../src/server/models/PlayerComparatorLoader')
+      A = {
+        gamesCitizen: 7, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
+        winsCitizen: 0, winsSheriff: 0, winsMafia: 0, winsDon: 0,
+        rating: 26
+      }
+      B= {
+        gamesCitizen: 21, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
+        winsCitizen: 0, winsSheriff: 0, winsMafia: 0, winsDon: 0,
+        rating: 63
+      }
       should(compare(A, B)).be.eql(-1)
     )
   )
+
+  describe('Player A: n=20 r=60, Player B: n=45 r=50', ->
+    it('should show that A > B because average rating of A is higher', ->
+      compare = require('./../../src/server/models/PlayerComparatorLoader')
+      A = {
+        gamesCitizen: 20, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
+        winsCitizen: 0, winsSheriff: 0, winsMafia: 0, winsDon: 0,
+        rating: 60
+      }
+      B= {
+        gamesCitizen: 60, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
+        winsCitizen: 0, winsSheriff: 0, winsMafia: 0, winsDon: 0,
+        rating: 80
+      }
+      should(compare(A, B)).be.eql(1)
+    )
+  )
+
 )

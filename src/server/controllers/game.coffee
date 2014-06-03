@@ -16,7 +16,6 @@ module.exports = (app) ->
               res.status(500).send(["error occurred: #{err}"])
             else
               response.push("Cache rebuild")
-              console.log(models.Players)
               res.status(200).send(response)
           )
       )
