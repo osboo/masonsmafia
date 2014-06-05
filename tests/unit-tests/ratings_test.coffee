@@ -86,12 +86,12 @@ describe('Player comparator', ->
       compare = require('./../../src/server/models/PlayerComparatorLoader')
       A = {
         gamesCitizen: 7, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
-        winsCitizen: 0, winsSheriff: 0, winsMafia: 0, winsDon: 0,
+        winsCitizen: 7, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 26
       }
       B= {
         gamesCitizen: 21, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
-        winsCitizen: 0, winsSheriff: 0, winsMafia: 0, winsDon: 0,
+        winsCitizen: 21, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 63
       }
       should(compare(A, B)).be.eql(-1)
@@ -153,7 +153,7 @@ describe('Player comparator', ->
         rating: 64.5
         firstKilledNight: 4
       }
-      should(compare(Osb, Olifer)).be.eql(1)
+      should(compare(Osb, Olifer)).be.eql(-1)
     )
   )
 

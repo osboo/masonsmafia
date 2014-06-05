@@ -45,28 +45,25 @@ deepCompare = (a, b)->
   return aIsGreater
 
 compare = (a, b)->
-  minimalDistance = 5
   aIsGreater = 1
   bIsGreater = -1
   gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon
   gamesB = b.gamesCitizen + b.gamesSheriff + b.gamesMafia + b.gamesDon
+  winsA = a.winsCitizen + a.winsSheriff + a.winsMafia + a.winsDon
+  winsB = b.winsCitizen + b.winsSheriff + b.winsMafia + b.winsDon
+  winRateA = if gamesA > 0 then winsA / gamesA else 0.0
+  winRateB = if gamesB > 0 then winsB / gamesB else 0.0
   averageA = if gamesA > 0 then a.rating / gamesA else 0.0
   averageB = if gamesB > 0 then b.rating / gamesB else 0.0
-  distanceSupportA = if averageA > 1.0 then Math.log(gamesA) / Math.log(3) else 0.0
-  distanceSupportB = if averageB > 1.0 then Math.log(gamesB) / Math.log(3) else 0.0
-  forceA = averageA + Math.min(distanceSupportA, 5)
-  forceB = averageB + Math.min(distanceSupportB, 5)
+  distanceSupportA = if winRateA > 0.3 then Math.log(gamesA) / Math.log(2) else 0.0
+  distanceSupportB = if winRateB > 0.3 then Math.log(gamesB) / Math.log(2) else 0.0
+  forceA = averageA + Math.min(distanceSupportA, 8)
+  forceB = averageB + Math.min(distanceSupportB, 8)
 #  console.log("A: #{averageA} + #{distanceSupportA} B: #{averageB} + #{distanceSupportB}")
 #  console.log(forceA, forceB)
   if gamesA != gamesB
-    if gamesA <= minimalDistance && gamesB <= minimalDistance || gamesA > minimalDistance && gamesB > minimalDistance
       if Math.abs(forceA - forceB) / Math.max(forceA, forceB) > 0.01
         return if forceA > forceB then aIsGreater else bIsGreater
-      else
-        return deepCompare(a, b)
-    else
-      if Math.abs(a.rating - b.rating) / Math.max(a.rating, b.rating) > 0.01
-        return if a.rating > b.rating then aIsGreater else bIsGreater
       else
         return deepCompare(a, b)
   else
