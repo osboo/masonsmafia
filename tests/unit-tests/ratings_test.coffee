@@ -114,4 +114,25 @@ describe('Player comparator', ->
     )
   )
 
+  describe('A - B: n:10-10 wins:4-4 best:3-3 winsMafia:3-3 winsDon:0-0 winsSheriff:1-1 killedAtFirstNight:0-1', ->
+    it('should show that B > A because B has more firstKilledAtNight', ->
+      compare = require('./../../src/server/models/PlayerComparatorLoader')
+      A = {
+        gamesCitizen: 6, gamesSheriff: 1, gamesMafia: 3, gamesDon: 0,
+        winsCitizen: 0, winsSheriff: 1, winsMafia: 3, winsDon: 0,
+        bestPlayer: 3
+        rating: 18
+        firstKilledNight: 0
+      }
+      B= {
+        gamesCitizen: 6, gamesSheriff: 1, gamesMafia: 3, gamesDon: 0,
+        winsCitizen: 0, winsSheriff: 1, winsMafia: 3, winsDon: 0,
+        bestPlayer: 3
+        rating: 18
+        firstKilledNight: 1
+      }
+      should(compare(A, B)).be.eql(-1)
+    )
+  )
+
 )
