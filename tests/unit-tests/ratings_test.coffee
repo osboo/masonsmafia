@@ -47,7 +47,7 @@ describe('Player comparator', ->
   )
 
   describe('Player A: n=10 r=3, Player B: n=1 r=3', ->
-    it('should show that A > B', ->
+    it('should show that A < B', ->
       compare = require('./../../src/server/models/PlayerComparatorLoader')
       A = {
         gamesCitizen: 10, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
@@ -59,24 +59,25 @@ describe('Player comparator', ->
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 3
       }
-      should(compare(A, B)).be.eql(1)
+      should(compare(A, B)).be.eql(-1)
     )
   )
 
   describe('Player A: n=10 r=3, Player B: n=6 r=3', ->
-    it('should show that A > B because he has more games', ->
+    it('should show that A < B: both players are uneducable', ->
       compare = require('./../../src/server/models/PlayerComparatorLoader')
       A = {
         gamesCitizen: 10, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 3
       }
+
       B= {
         gamesCitizen: 6, gamesSheriff: 0, gamesMafia: 0, gamesDon: 0,
         winsCitizen: 1, winsSheriff: 0, winsMafia: 0, winsDon: 0,
         rating: 3
       }
-      should(compare(A, B)).be.eql(1)
+      should(compare(A, B)).be.eql(-1)
     )
   )
 
@@ -132,6 +133,27 @@ describe('Player comparator', ->
         firstKilledNight: 1
       }
       should(compare(A, B)).be.eql(-1)
+    )
+  )
+
+  describe('Озб vs Олифер', ->
+    it('should show that Озб can be better', ->
+      compare = require('./../../src/server/models/PlayerComparatorLoader')
+      Osb = {
+        gamesCitizen: 8, gamesSheriff: 0, gamesMafia: 5, gamesDon: 3,
+        winsCitizen: 3, winsSheriff: 0, winsMafia: 5, winsDon: 1,
+        bestPlayer: 7
+        rating: 44.0
+        firstKilledNight: 1
+      }
+      Olifer = {
+        gamesCitizen: 15, gamesSheriff: 4, gamesMafia: 7, gamesDon: 4,
+        winsCitizen: 6, winsSheriff: 1, winsMafia: 6, winsDon: 3,
+        bestPlayer: 7
+        rating: 64.5
+        firstKilledNight: 4
+      }
+      should(compare(Osb, Olifer)).be.eql(1)
     )
   )
 
