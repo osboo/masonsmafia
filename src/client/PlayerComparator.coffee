@@ -47,10 +47,12 @@ compare = (a, b)->
   bIsGreater = -1
   gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon
   gamesB = b.gamesCitizen + b.gamesSheriff + b.gamesMafia + b.gamesDon
-  averageA = if gamesA > 0 then a.rating / gamesA else 0
-  averageB = if gamesB > 0 then b.rating / gamesB else 0
-  forceA = averageA + if gamesA then Math.log(gamesA) / Math.log(3) else 0
-  forceB = averageB + if gamesB then Math.log(gamesB) / Math.log(3) else 0
+  averageA = if gamesA > 0 then a.rating / gamesA else 0.0
+  averageB = if gamesB > 0 then b.rating / gamesB else 0.0
+  distanceSupportA = if gamesA then Math.log(gamesA) / Math.log(3) else 0.0
+  distanceSupportB = if gamesB then Math.log(gamesB) / Math.log(3) else 0.0
+  forceA = averageA + Math.min(distanceSupportA, 5)
+  forceB = averageB + Math.min(distanceSupportB, 5)
   if gamesA != gamesB
     if gamesA <= minimalDistance && gamesB <= minimalDistance || gamesA > minimalDistance && gamesB > minimalDistance
       if Math.abs(forceA - forceB) / Math.max(forceA, forceB) > 0.01
