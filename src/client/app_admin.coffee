@@ -43,6 +43,8 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     noBestPlayers = true
     $scope.errors = []
     namesDict = []
+    if $scope.firstKilledAtNight == $scope.firstKilledByDay && $scope.firstKilledAtNight != ""
+      $scope.errors.push("Игрока #{$scope.firstKilledAtNight} убит и днём и ночью")
     for player in $scope.players
       namesDict[player.name] = 0
     for player in $scope.players
