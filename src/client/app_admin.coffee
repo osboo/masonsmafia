@@ -164,3 +164,11 @@ app.directive('smartFloat', ()->
 
 @LogCtrl = ($scope, $log)->
   $scope.$log = $log
+
+#  document on load:
+$(->
+  $(document).keydown((e)->
+    if e.keyCode == 8 and e.target.tagName.toUpperCase() != 'INPUT'
+      e.preventDefault()
+  )
+)
