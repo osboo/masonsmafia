@@ -41,7 +41,14 @@ if process.env.MASONS_ENV == 'TEST'
           throw player
         )
         .error((err)->
-          err.should.be.eql({ name: [ 'String is empty' ] })
+          err.should.be.eql({
+            "__raw": [
+              null
+            ],
+            "name": [
+              "Validation notNull failed"
+            ]
+          })
           done()
         )
       )
@@ -70,7 +77,22 @@ if process.env.MASONS_ENV == 'TEST'
         )
         .error(
           (err)->
-            err.should.be.eql({"date": ["String is empty"],"result": ["String is empty"], "referee": ["String is empty"],})
+            err.should.be.eql({
+              "__raw": [
+                null,
+                null,
+                null
+              ],
+              "date": [
+                "Validation notNull failed"
+              ],
+              "referee": [
+                "Validation notNull failed"
+              ],
+              "result": [
+                "Validation notEmpty failed"
+              ]
+            })
             done()
         )
       )
@@ -83,7 +105,18 @@ if process.env.MASONS_ENV == 'TEST'
         )
         .error(
           (err)->
-            err.should.be.eql({result:['String is empty'], "referee": ["String is empty"]})
+            err.should.be.eql({
+              "__raw": [
+                null,
+                null
+              ],
+              "referee": [
+                "Validation notNull failed"
+              ],
+              "result": [
+                "Validation notEmpty failed"
+              ]
+            })
             done()
         )
       )
