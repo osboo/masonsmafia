@@ -7,7 +7,7 @@ lodash = require('lodash')
 connection = new Sequelize(config.dbName, config.login, config.password, {
     host: config.host
     dialect: 'mysql'
-#    logging: false
+    logging: false
 })
 
 models = {}
