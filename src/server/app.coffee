@@ -23,9 +23,12 @@ app.set('models', require('./models/db'))
 require('./controllers/index')(app)
 require('./controllers/auth')(app)
 require('./controllers/game')(app)
-require('./models/RebuildCache')(->)
+require('./models/RebuildCache')((err, result)->
+  if err
+    throw err
 
-app.listen(conf.port)
-console.log("Start listening #{conf.port}")
+  app.listen(conf.port)
+  console.log("Start listening #{conf.port}")
+)
 
 module.exports = app
