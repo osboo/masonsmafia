@@ -1,4 +1,5 @@
 #Развёртывание сервера
+1. apt-get install git
 1. cd `Checkout directory`
 1. Установить LAMP, например [XAMMP](http://help.ubuntu.ru/wiki/xampp)
 1. `apt-get install redis-server`
