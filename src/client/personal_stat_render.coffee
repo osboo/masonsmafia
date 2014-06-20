@@ -39,6 +39,7 @@ window.renderFeatures = (data) ->
   data["recommended-card"] = recommendCard(data)
   $(".games-total").html(data["games-total"])
   $(".average-rating").html(data["average-rating"])
+  $(".experience-scores").html(playercomparator.experience(data).toFixed(2))
   $(".recommended-card").html(data["recommended-card"])
   $(".best-move-accuracy").html(data["bestMoveAccuracy"].toFixed(2))
   $(".survival").html("#{data["survival-rate"]}%")
