@@ -44,23 +44,23 @@ deepCompare = (a, b)->
 
   return aIsGreater
 
+experience = (a)->
+  gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon
+  winsA = a.winsCitizen + a.winsSheriff + a.winsMafia + a.winsDon
+  winRateA = if gamesA > 0 then winsA / gamesA else 0.0
+  return if winRateA > 0.3 then Math.min(Math.log(gamesA) / Math.log(2), 8) else 0.0
+
+average = (a)->
+  gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon
+  return if gamesA > 0 then a.rating / gamesA else 0.0
+
 compare = (a, b)->
   aIsGreater = 1
   bIsGreater = -1
   gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon
   gamesB = b.gamesCitizen + b.gamesSheriff + b.gamesMafia + b.gamesDon
-  winsA = a.winsCitizen + a.winsSheriff + a.winsMafia + a.winsDon
-  winsB = b.winsCitizen + b.winsSheriff + b.winsMafia + b.winsDon
-  winRateA = if gamesA > 0 then winsA / gamesA else 0.0
-  winRateB = if gamesB > 0 then winsB / gamesB else 0.0
-  averageA = if gamesA > 0 then a.rating / gamesA else 0.0
-  averageB = if gamesB > 0 then b.rating / gamesB else 0.0
-  distanceSupportA = if winRateA > 0.3 then Math.log(gamesA) / Math.log(2) else 0.0
-  distanceSupportB = if winRateB > 0.3 then Math.log(gamesB) / Math.log(2) else 0.0
-  forceA = averageA + Math.min(distanceSupportA, 8)
-  forceB = averageB + Math.min(distanceSupportB, 8)
-#  console.log("A: #{averageA} + #{distanceSupportA} B: #{averageB} + #{distanceSupportB}")
-#  console.log(forceA, forceB)
+  forceA = average(a) + experience(a)
+  forceB = average(b) + experience(b)
   if gamesA != gamesB
       if Math.abs(forceA - forceB) / Math.max(forceA, forceB) > 0.01
         return if forceA > forceB then aIsGreater else bIsGreater
@@ -69,7 +69,13 @@ compare = (a, b)->
   else
     return deepCompare(a, b)
 
+comparator = {
+  'compare': compare
+  'average': average
+  'experience': experience
+}
+
 if typeof(module) != 'undefined' && typeof(module.exports) != 'undefined'
-  module.exports = compare
+  module.exports = comparator
 else
-  this["playercomparator"] = compare
+  this["playercomparator"] = comparator

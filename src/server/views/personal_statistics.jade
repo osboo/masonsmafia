@@ -14,6 +14,7 @@ html(lang="ru")
         script(src='/js/ru.js', type='text/javascript')
         script(src="/js/raphael-min.js", type='text/javascript')
         script(src="/js/morris.min.js", type='text/javascript')
+        script(src='/js/PlayerComparator.js', type='text/javascript')
         script(src='/js/personal_stat_render.js', type='text/javascript')
         script(src='/js/personal_stat.js', type='text/javascript')
     body
@@ -48,9 +49,12 @@ html(lang="ru")
                                 span &nbsp
                                 span играх
                         div
-                            div Среднее:
+                            div Средний рейтинг:
                                 span &nbsp
                                 strong.average-rating
+                            div Очки опыта:
+                                span &nbsp
+                                strong(data-toggle="tooltip", data-placement="top", title="Логарифм количества игр").experience-scores
                             div Лучшая карта:
                                 span &nbsp
                                 strong.recommended-card

@@ -1,3 +1,3 @@
 comparator = require('./../../client/PlayerComparator')
 
-module.exports = comparator
+module.exports = comparator.compare
