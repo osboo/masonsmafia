@@ -14,7 +14,7 @@ $(->
     filterRow: '',
     even: '',
     odd: ''
-  });
+  })
 
   $.tablesorter.addWidget({
     id: 'indexFirstColumn'
