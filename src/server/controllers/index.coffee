@@ -32,6 +32,6 @@ module.exports = (app) ->
 #      res.render('admin_index', {})
 #    )
 
-  app.get('/help', (req, res)->
-    res.render('help', {})
-  )
+    app.get('/help', (req, res)->
+      res.render('help', {})
+    )
