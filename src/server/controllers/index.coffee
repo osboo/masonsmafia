@@ -31,3 +31,7 @@ module.exports = (app) ->
     app.get('/admin', (req, res)->
       res.render('admin_index', {})
     )
+
+    app.get('/help', (req, res)->
+      res.render('help', {})
+    )
