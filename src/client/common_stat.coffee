@@ -89,16 +89,14 @@ $(->
       success: (data, textStatus) ->
         renderTables(data)
         $('.common-rating').tablesorter({
-          headers:
-          {
+          headers: {
             0: { sorter: false}
             2: { sorter: 'ratingToString'}
           }
           sortList: [
             [2, 1]
           ]
-          textSorter:
-          {
+          textSorter: {
             2: (a, b, direction, column, table)->
               return playercomparator.compare(a, b)
           }
@@ -108,8 +106,7 @@ $(->
         })
         ['wins', 'roles', 'impact'].forEach((className)->
           $(".#{className}").tablesorter({
-            headers:
-            {
+            headers: {
               0: { sorter: false}
             }
             sortList: [
