@@ -62,7 +62,7 @@ compare = (a, b)->
   forceA = average(a) + experience(a)
   forceB = average(b) + experience(b)
   if gamesA != gamesB
-      if Math.abs(forceA - forceB) / Math.max(forceA, forceB) > 0.01
+      if Math.abs(forceA - forceB) / Math.max(forceA, forceB) > 1e-3
         return if forceA > forceB then aIsGreater else bIsGreater
       else
         return deepCompare(a, b)
