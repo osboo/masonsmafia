@@ -1,6 +1,10 @@
 .idea
 .map
 src/client/common_stat.js
+src/client/app_admin.js
+src/client/personal_stat.js
+src/client/personal_stat_render.js
+src/client/PlayerComparator.js
 src/server/app.js
 src/server/conf.js
 src/server/controllers/auth.js
@@ -10,6 +14,12 @@ src/server/models/constants.js
 src/server/models/game.js
 src/server/models/player.js
 src/server/models/player_game.js
+src/server/models/BuildModels.js
+src/server/models/ComputePersonal.js
+src/server/models/db.js
+src/server/models/PlayerComparatorLoader.js
+src/server/models/rating_formula_342.js
+src/server/models/RebuildCache.js
 src/server/sync.js
 src/server/views/*.html
 src/static/js/common_stat.js
