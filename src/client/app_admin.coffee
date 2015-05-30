@@ -1,6 +1,5 @@
 app = angular.module('adminModule', ['ui.bootstrap'])
-
-@formCtrl = ($scope, $modal, $http)->
+app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)->
   $scope.dt = {value: null}
   $scope.referee = {value: ""}
   $scope.winningParty = {value: "Мирные"}
@@ -21,7 +20,7 @@ app = angular.module('adminModule', ['ui.bootstrap'])
     modalInstance = null
     modalInstance = $modal.open({
       templateUrl: 'error_box.html',
-      controller: popupInstanceCtrl,
+      controller: 'popupInstanceCtrl',
       size: 'sm'
       resolve: {
         msgs: ()-> $scope.errors
@@ -31,7 +30,7 @@ app = angular.module('adminModule', ['ui.bootstrap'])
   $scope.openSuccessPopup = ()->
     modalInstance = $modal.open({
       templateUrl: 'success_box.html',
-      controller: popupInstanceCtrl,
+      controller: 'popupInstanceCtrl',
       size: 'sm'
       resolve: {
         msgs: ()-> $scope.successMsg
@@ -103,17 +102,18 @@ app = angular.module('adminModule', ['ui.bootstrap'])
         $scope.errors = data
         $scope.openErrorPopup()
       )
+])
 
-
-popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
+app.controller('popupInstanceCtrl', ['$scope', '$modalInstance', 'msgs', '$window', ($scope, $modalInstance, msgs, $window)->
   $scope.msgs = msgs
   $scope.ok = ()->
     $modalInstance.close()
   $scope.refresh = ()->
     $modalInstance.close()
     $window.location.reload()
+])
 
-@datePickerCtrl = ($scope)->
+app.controller('datePickerCtrl', ['$scope', ($scope)->
   $scope.today = ()->
     $scope.$parent.dt = {value: new Date()};
 
@@ -123,16 +123,18 @@ popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
     $event.preventDefault();
     $event.stopPropagation();
     $scope.opened = true;
+])
 
-@refereeSelectCtrl = ($scope)->
+app.controller('refereeSelectCtrl', ['$scope', ($scope)->
   $scope.$parent.referee = {value: ""}
+])
 
-@winPartyCtrl = ($scope)->
+app.controller('winPartyCtrl', ['$scope', ($scope)->
   $scope.$parent.winningParty = {value: "Мирные"}
+])
 
-@playersTableCtrl = ($scope)->
+app.controller('playersTableCtrl', ['$scope', ($scope)->
   $scope.roles = ['Мирный', 'Шериф', 'Мафия', 'Дон']
-
   $scope.$parent.players = [
     {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
     {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
@@ -145,6 +147,7 @@ popupInstanceCtrl = ($scope, $modalInstance, msgs, $window)->
     {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
     {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
   ]
+])
 
 FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/
 app.directive('smartFloat', ()->
@@ -162,8 +165,9 @@ app.directive('smartFloat', ()->
     }
 )
 
-@LogCtrl = ($scope, $log)->
+app.controller('LogCtrl', ['$scope', '$log', ($scope, $log)->
   $scope.$log = $log
+])
 
 #  document on load:
 $(->
