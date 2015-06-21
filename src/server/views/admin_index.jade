@@ -19,7 +19,7 @@ html(lang="ru", ng-app='adminModule')
         div.container
             div.col-sm-1
             div.col-sm-9
-                form.form-horizontal(name='gameResultForm', ng-controller="formCtrl", novalidate,ng-submit="submit()")
+                form.form-horizontal(name='gameResultForm', ng-controller="formCtrl", novalidate,ng-submit="save()")
                     div.row
                         div.col-sm-4(ng-controller='datePickerCtrl')
                             label(for='date') Дата:
@@ -98,28 +98,38 @@ html(lang="ru", ng-app='adminModule')
                         div.col-sm-2
                             select.form-control(ng-init='possibleValues=[0, 1, 2, 3]', ng-options='possibleValue for possibleValue in possibleValues', ng-model='bestMoveAccuracy')
                     div.row
-                            button.btn.btn-success.pull-right(type='submit', ng-disabled="gameResultForm.$invalid") Сохранить
-                    div.row
-                        script(type='text/ng-template', id='error_box.html')
-                            div.modal-header
-                                h3.modal-title Ошибка :(
-                            div.modal-body
-                                ul
-                                   li(ng-repeat="msg in msgs")
-                                    p {{msg}}
-                            div.modal-footer
-                                button.btn.btn-primary(ng-click='ok()') Ок
-                        script(type='text/ng-template', id='success_box.html')
-                            div.modal-header
-                                h3.modal-title Получилось!
-                            div.modal-body
-                                ul
-                                   li(ng-repeat="msg in msgs")
-                                    p {{msg}}
-                            div.modal-footer
-                                button.btn.btn-primary(ng-click='refresh()') Ок
+                        button.btn.btn-primary.pull-right(type='submit', ng-disabled="gameResultForm.$invalid") Сохранить..
 
-                    //div(ng-controller='LogCtrl')
-                    //    button(ng-click='$log.log(players[0].name.value)') log
             div.col-sm-2
         include footer
+            div.row
+                script(type='text/ng-template', id='preview.html')
+                    div.modal-header
+                        h3.modal-title Проверка!
+                    div.modal-body
+                        ul
+                            li(ng-repeat="msg in msgs")
+                                p {{msg}}
+                    div.modal-footer
+                        button.btn.btn-success(ng-click='submit()') Отправить..
+                        button.btn.btn-warning.active(ng-click='cancel()') Проверить
+
+                script(type='text/ng-template', id='error_box.html')
+                    div.modal-header
+                        h3.modal-title Ошибка :(
+                    div.modal-body
+                        ul
+                            li(ng-repeat="msg in msgs")
+                                p {{msg}}
+                    div.modal-footer
+                        button.btn.btn-warning(ng-click='cancel()') Проверить
+
+                script(type='text/ng-template', id='success_box.html')
+                    div.modal-header
+                        h3.modal-title Получилось!
+                    div.modal-body
+                        ul
+                            li(ng-repeat="msg in msgs")
+                                p {{msg}}
+                    div.modal-footer
+                        button.btn.btn-primary(ng-click='refresh()') Ок

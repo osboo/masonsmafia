@@ -1,4 +1,12 @@
 app = angular.module('adminModule', ['ui.bootstrap'])
+
+app.factory('broadCastService', ($rootScope)->
+  broadcast = {}
+  broadcast.broadCastSubmitEvent = ()->
+    $rootScope.$broadcast('SubmitEvent')
+  return broadcast
+)
+
 app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)->
   $scope.dt = {value: null}
   $scope.referee = {value: ""}
@@ -10,6 +18,7 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
   $scope.bestMoveAccuracy = 0
   $scope.errors = []
   $scope.successMsg = []
+  $scope.previewMsg = []
 
   $scope.names = []
   $http.get('/json/players.json').success((data)->
@@ -27,7 +36,21 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
       }
     })
 
+  $scope.openPreviewPopup = ()->
+    modalInstance = null
+    modalInstance = $modal.open({
+        templateUrl: 'preview.html',
+        controller: 'popupInstanceCtrl',
+        size: 'lg',
+        resolve: {
+          msgs: ()-> $scope.previewMsg
+        }
+      }
+    )
+
+
   $scope.openSuccessPopup = ()->
+    modalInstance = null
     modalInstance = $modal.open({
       templateUrl: 'success_box.html',
       controller: 'popupInstanceCtrl',
@@ -37,7 +60,31 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
       }
     })
 
-  $scope.submit = ()->
+  $scope.getPlayerbyRole = (role)->
+    result = []
+    for player in $scope.players
+      if role == player.role
+        if role == 'Дон' or role == 'Шериф'
+          return {name: player.name}
+        if role == 'Мафия'
+          result.push({name: player.name})
+    return result
+
+  $scope.getBestPlayers = ()->
+    result = []
+    for player in $scope.players
+      if player.isBest
+        result.push({name: player.name, extraScores: player.extraScores})
+    return result
+
+  $scope.getFirstKilledAtNight = ()->
+    foundedAccuracy = ' не брал лучший ход'
+    for player in $scope.players
+      if player.name == $scope.bestMoveAuthor
+        foundedAccuracy = $scope.bestMoveAccuracy
+    return {name: $scope.firstKilledAtNight, accuracy: foundedAccuracy}
+
+  $scope.save = ()->
     roleDict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
     noBestPlayers = true
     $scope.errors = []
@@ -72,7 +119,21 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
     if $scope.errors.length != 0
       $scope.openErrorPopup()
     else
-      paper = {
+      $scope.previewMsg = []
+      $scope.previewMsg.push('Судья: ' + $scope.referee.value)
+      $scope.previewMsg.push('Дата: ' + moment($scope.dt.value).format("DD MMMM YYYY"))
+      $scope.previewMsg.push('Победа: ' + $scope.winningParty.value)
+      $scope.previewMsg.push('Дон: ' + $scope.getPlayerbyRole('Дон').name)
+      $scope.previewMsg.push('Мафия: ' + $scope.getPlayerbyRole('Мафия')[0].name)
+      $scope.previewMsg.push('Мафия: ' + $scope.getPlayerbyRole('Мафия')[1].name)
+      $scope.previewMsg.push('Шериф: ' + $scope.getPlayerbyRole('Шериф').name)
+      $scope.previewMsg.push('Лучшие игроки: ' + (' ' + [player.name, player.extraScores].join(' ') for player in $scope.getBestPlayers()))
+      $scope.previewMsg.push('Убит в первую ночь: ' + $scope.getFirstKilledAtNight().name + ' угадал: ' + $scope.getFirstKilledAtNight().accuracy)
+      $scope.previewMsg.push('Выведен первым: ' + $scope.firstKilledByDay)
+      $scope.openPreviewPopup()
+
+  $scope.submit = ()->
+    paper = {
         referee: $scope.referee.value
         date: moment($scope.dt.value).format("YYYY-MM-DD")
         result: {"Мирные": "citizens_win", "Мафия": "mafia_win"}[$scope.winningParty.value]
@@ -82,32 +143,39 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
         bestMoveAccuracy: $scope.bestMoveAccuracy
         players: []
       }
-      for player in $scope.players
-        paper.players.push({
-          name: player.name
-          role: {"Мирный": "citizen", "Шериф": "sheriff", "Мафия":"mafia", "Дон":"don"}[player.role]
-          fouls: player.fouls
-          likes: player.likes
-          isBest: player.isBest
-          extraScores: player.extraScores
-        })
-      $http({
-        method: "POST"
-        url: "/game"
-        data: paper
-      }).success((data, status, headers, config)->
-        $scope.successMsg = data
-        $scope.openSuccessPopup()
-      ).error((data, status, headers, config)->
-        $scope.errors = data
-        $scope.openErrorPopup()
-      )
+    for player in $scope.players
+      paper.players.push({
+        name: player.name
+        role: {"Мирный": "citizen", "Шериф": "sheriff", "Мафия":"mafia", "Дон":"don"}[player.role]
+        fouls: player.fouls
+        likes: player.likes
+        isBest: player.isBest
+        extraScores: player.extraScores
+      })
+    $http({
+      method: "POST"
+      url: "/game"
+      data: paper
+    }).success((data, status, headers, config)->
+      $scope.successMsg = data
+      $scope.openSuccessPopup()
+    ).error((data, status, headers, config)->
+      $scope.errors = data
+      $scope.openErrorPopup()
+    )
+
+  $scope.$on('SubmitEvent', ()->
+    $scope.submit()
+  )
 ])
 
-app.controller('popupInstanceCtrl', ['$scope', '$modalInstance', 'msgs', '$window', ($scope, $modalInstance, msgs, $window)->
+app.controller('popupInstanceCtrl', ['$scope', '$modalInstance', 'msgs', '$window', 'broadCastService', ($scope, $modalInstance, msgs, $window, broadCastService)->
   $scope.msgs = msgs
-  $scope.ok = ()->
+  $scope.submit = ()->
+    broadCastService.broadCastSubmitEvent()
     $modalInstance.close()
+  $scope.cancel = ()->
+    $modalInstance.dismiss()
   $scope.refresh = ()->
     $modalInstance.close()
     $window.location.reload()
@@ -126,11 +194,11 @@ app.controller('datePickerCtrl', ['$scope', ($scope)->
 ])
 
 app.controller('refereeSelectCtrl', ['$scope', ($scope)->
-  $scope.$parent.referee = {value: ""}
+  $scope.$parent.referee = {value: ''}
 ])
 
 app.controller('winPartyCtrl', ['$scope', ($scope)->
-  $scope.$parent.winningParty = {value: "Мирные"}
+  $scope.$parent.winningParty = {value: 'Мирные'}
 ])
 
 app.controller('playersTableCtrl', ['$scope', ($scope)->
