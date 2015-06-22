@@ -86,7 +86,6 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
 
   $scope.save = ()->
     roleDict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
-    noBestPlayers = true
     $scope.errors = []
     namesDict = []
     if $scope.firstKilledAtNight == $scope.firstKilledByDay && $scope.firstKilledAtNight != ""
@@ -96,8 +95,6 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
     for player in $scope.players
       ++roleDict[player.role]
       ++namesDict[player.name]
-      if player.isBest
-        noBestPlayers = false
       if player.name == $scope.referee.value
         $scope.errors.push("Имя игрока #{player.name} совпадает с именем ведущего")
 
@@ -113,8 +110,6 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
       $scope.errors.push('Должно быть 2 мафии')
     if roleDict['Дон'] != 1
       $scope.errors.push('Должен быть 1 дон')
-    if noBestPlayers
-      $scope.errors.push('В игре отсутствуют лучшие игроки')
 
     if $scope.errors.length != 0
       $scope.openErrorPopup()
