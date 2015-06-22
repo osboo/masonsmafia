@@ -52,8 +52,8 @@ html(lang="ru", ng-app='adminModule')
                                         th Роль
                                         th Фолов
                                         th Лайки
-                                        th Лучший игрок
-                                        th Доп. Очки
+                                        th Доп. Баллы
+                                        th Лучший Игрок
                                 tbody
                                     tr(ng-repeat='player in players')
                                         td.idx {{$index+1}}
@@ -69,12 +69,12 @@ html(lang="ru", ng-app='adminModule')
                                             ng-form(name='likesNumberForm', novalidate)
                                                 div(ng-class="{'has-error': likesNumberForm.likesNumber.$invalid}")
                                                     input.form-control(ng-model='player.likes', name='likesNumber', type='number', required, min='0', placeholder='Введите количество..', tabindex='{{30 + $index + 1 + 3}}')
-                                        td.col-xs-1.is-best.text-center
-                                            input(ng-model='player.isBest', type='checkbox', tabindex='{{40 + $index + 1 + 3}}')
                                         td.col-xs-1
                                             ng-form(name='extraScoresForm', novalidate)
                                                 div(ng-class="{'has-error': extraScoresForm.extraScoresField.$invalid}")
-                                                    input.form-control(ng-model='player.extraScores', name='extraScoresField', type='text', smart-float, required, placeholder='Дополнительные очки..', tabindex='{{50 + $index + 1 + 3}}')
+                                                    input.form-control(ng-model='player.extraScores', ng-change='overrideCheckbox($index)', name='extraScoresField', type='text', smart-float, required, placeholder='Дополнительные очки..', tabindex='{{40 + $index + 1 + 3}}')
+                                        td.col-xs-1.is-best.text-center
+                                            input(ng-model='player.isBest', type='checkbox', tabindex='{{50 + $index + 1 + 3}}')
                     div.row
                         label.col-sm-3 Первый отстреленный игрок:
                         div.col-sm-3

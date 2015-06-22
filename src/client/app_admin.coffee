@@ -210,6 +210,9 @@ app.controller('playersTableCtrl', ['$scope', ($scope)->
     {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
     {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
   ]
+
+  $scope.overrideCheckbox = (current)->
+    $scope.$parent.players[current].isBest = ($scope.$parent.players[current].extraScores > 0.0)
 ])
 
 FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/
