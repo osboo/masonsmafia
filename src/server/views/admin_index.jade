@@ -60,25 +60,25 @@ html(lang="ru", ng-app='adminModule')
                                         td.col-xs-4
                                             ng-form(name='playerNameForm', novalidate)
                                                 div(ng-class="{'has-error': playerNameForm.playerName.$dirty && playerNameForm.playerName.$invalid}")
-                                                    input.form-control.player-name(name='playerName', ng-model='player.name', type='text', typeahead='name for name in names | filter:$viewValue', required, placeholder='Введите имя..')
+                                                    input.form-control.player-name(name='playerName', ng-model='player.name', type='text', typeahead='name for name in names | filter:$viewValue', required, placeholder='Введите имя..', tabindex='{{$index + 1 + 3}}')
                                         td.col-xs-2
-                                            select.form-control(ng-model='player.role', ng-options='role for role in roles')
+                                            select.form-control(ng-model='player.role', ng-options='role for role in roles', tabindex='{{10 + $index + 1 + 3}}')
                                         td.col-xs-2
-                                            select.form-control(ng-init='possibleFouls=[0, 1, 2, 3, 4]', ng-model='player.fouls', ng-options='possibleFoul for possibleFoul in possibleFouls')
+                                            select.form-control(ng-init='possibleFouls=[0, 1, 2, 3, 4]', ng-model='player.fouls', ng-options='possibleFoul for possibleFoul in possibleFouls', tabindex='{{20 + $index + 1 + 3}}')
                                         td.col-xs-2
                                             ng-form(name='likesNumberForm', novalidate)
                                                 div(ng-class="{'has-error': likesNumberForm.likesNumber.$invalid}")
-                                                    input.form-control(ng-model='player.likes', name='likesNumber', type='number', required, min='0', placeholder='Введите количество..')
+                                                    input.form-control(ng-model='player.likes', name='likesNumber', type='number', required, min='0', placeholder='Введите количество..', tabindex='{{30 + $index + 1 + 3}}')
                                         td.col-xs-1.is-best.text-center
-                                            input(ng-model='player.isBest', type='checkbox')
+                                            input(ng-model='player.isBest', type='checkbox', tabindex='{{40 + $index + 1 + 3}}')
                                         td.col-xs-1
                                             ng-form(name='extraScoresForm', novalidate)
                                                 div(ng-class="{'has-error': extraScoresForm.extraScoresField.$invalid}")
-                                                    input.form-control(ng-model='player.extraScores', name='extraScoresField', type='text', smart-float, required, placeholder='Дополнительные очки..')
+                                                    input.form-control(ng-model='player.extraScores', name='extraScoresField', type='text', smart-float, required, placeholder='Дополнительные очки..', tabindex='{{50 + $index + 1 + 3}}')
                     div.row
                         label.col-sm-3 Первый отстреленный игрок:
                         div.col-sm-3
-                            input.form-control.player-name(ng-model='firstKilledAtNight', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..')
+                            input.form-control.player-name(ng-model='firstKilledAtNight', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..', tabindex='64')
                     div.row
                         div.col-sm-3
                             span
@@ -86,7 +86,7 @@ html(lang="ru", ng-app='adminModule')
                     div.row
                         label.col-sm-3 Первый выведенный игрок:
                         div.col-sm-3
-                            input.form-control.player-name(ng-model='firstKilledByDay', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..')
+                            input.form-control.player-name(ng-model='firstKilledByDay', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..', tabindex='65')
                     div.row
                         div.col-sm-3
                             span
@@ -94,11 +94,11 @@ html(lang="ru", ng-app='adminModule')
                     div.row
                         label.col-sm-3 Лучший ход:
                         div.col-sm-3
-                            input.form-control.player-name(ng-model='bestMoveAuthor', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..')
+                            input.form-control.player-name(ng-model='bestMoveAuthor', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..', tabindex='66')
                         div.col-sm-2
-                            select.form-control(ng-init='possibleValues=[0, 1, 2, 3]', ng-options='possibleValue for possibleValue in possibleValues', ng-model='bestMoveAccuracy')
+                            select.form-control(ng-init='possibleValues=[0, 1, 2, 3]', ng-options='possibleValue for possibleValue in possibleValues', ng-model='bestMoveAccuracy', tabindex='67')
                     div.row
-                        button.btn.btn-primary.pull-right(type='submit', ng-disabled="gameResultForm.$invalid") Сохранить..
+                        button.btn.btn-primary.pull-right(type='submit', ng-disabled='gameResultForm.$invalid', tabindex='68') Сохранить..
 
             div.col-sm-2
         include footer
