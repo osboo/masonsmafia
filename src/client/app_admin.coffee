@@ -9,13 +9,12 @@ app.factory('broadCastService', ($rootScope)->
 
 app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)->
   $scope.dt = {value: null}
-  $scope.referee = {value: ""}
-  $scope.winningParty = {value: "Мирные"}
+  $scope.referee = {value: ''}
+  $scope.winningParty = {value: 'Мирные'}
   $scope.players = []
-  $scope.firstKilledAtNight = ""
-  $scope.firstKilledByDay = ""
-  $scope.bestMoveAuthor = ""
-  $scope.bestMoveAccuracy = 0
+  $scope.firstKilledAtNight = ''
+  $scope.firstKilledByDay = ''
+  $scope.bestMoveAccuracy = 'не брал лучший ход'
   $scope.errors = []
   $scope.successMsg = []
   $scope.previewMsg = []
@@ -80,8 +79,8 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
   $scope.getFirstKilledAtNight = ()->
     foundedAccuracy = ' не брал лучший ход'
     for player in $scope.players
-      if player.name == $scope.bestMoveAuthor
-        foundedAccuracy = $scope.bestMoveAccuracy
+      if player.name == $scope.firstKilledAtNight
+        return {name: $scope.firstKilledAtNight, accuracy: $scope.bestMoveAccuracy}
     return {name: $scope.firstKilledAtNight, accuracy: foundedAccuracy}
 
   $scope.save = ()->
@@ -134,7 +133,7 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
         result: {"Мирные": "citizens_win", "Мафия": "mafia_win"}[$scope.winningParty.value]
         firstKilledAtNight: $scope.firstKilledAtNight
         firstKilledByDay: $scope.firstKilledByDay
-        bestMoveAuthor: $scope.bestMoveAuthor
+        bestMoveAuthor: if $scope.bestMoveAccuracy in [0, 1, 2, 3] then $scope.firstKilledAtNight else ''
         bestMoveAccuracy: $scope.bestMoveAccuracy
         players: []
       }
