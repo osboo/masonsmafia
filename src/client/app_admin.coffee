@@ -12,8 +12,8 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
   $scope.referee = {value: ''}
   $scope.winningParty = {value: 'Мирные'}
   $scope.players = []
-  $scope.firstKilledAtNight = ''
-  $scope.firstKilledByDay = ''
+  $scope.firstKilledAtNight = null
+  $scope.firstKilledByDay = null
   $scope.bestMoveAccuracy = 'не брал лучший ход'
   $scope.errors = []
   $scope.successMsg = []
@@ -87,8 +87,10 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', ($scope, $modal, $http)
     roleDict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0}
     $scope.errors = []
     namesDict = []
-    if $scope.firstKilledAtNight == $scope.firstKilledByDay && $scope.firstKilledAtNight != ""
-      $scope.errors.push("Игрока #{$scope.firstKilledAtNight} убит и днём и ночью")
+    if $scope.firstKilledAtNight == null then $scope.firstKilledAtNight = ''
+    if $scope.firstKilledByDay == null then $scope.firstKilledByDay = ''
+    if $scope.firstKilledAtNight == $scope.firstKilledByDay && $scope.firstKilledAtNight
+      $scope.errors.push("Игрок #{$scope.firstKilledAtNight} убит и днём и ночью")
     for player in $scope.players
       namesDict[player.name] = 0
     for player in $scope.players

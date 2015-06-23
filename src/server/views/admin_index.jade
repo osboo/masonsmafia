@@ -78,7 +78,8 @@ html(lang="ru", ng-app='adminModule')
                     div.row
                         label.col-sm-3 Первый отстреленный игрок и лучший ход:
                         div.col-sm-3
-                            input.form-control.player-name(ng-model='firstKilledAtNight', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..', tabindex='64')
+                            select.form-control.player-name(ng-model='firstKilledAtNight', ng-options='player.name as player.name for player in players', tabindex='64')
+                                option(value='') Нет состреленного в первую ночь
                         div.col-sm-3
                             select.form-control(ng-init='possibleValues=["не брал лучший ход", 0, 1, 2, 3]', ng-options='possibleValue for possibleValue in possibleValues', ng-model='bestMoveAccuracy', tabindex='65')
                     div.row
@@ -88,7 +89,8 @@ html(lang="ru", ng-app='adminModule')
                     div.row
                         label.col-sm-3 Первый выведенный игрок:
                         div.col-sm-3
-                            input.form-control.player-name(ng-model='firstKilledByDay', type='text', typeahead='name for name in names | filter:$viewValue', placeholder='Введите имя..', tabindex='66')
+                            select.form-control.player-name(ng-model='firstKilledByDay', ng-options='player.name as player.name for player in players', tabindex='66')
+                                option(value='') Нет выведенного в первый день
 
                     div.row
                         button.btn.btn-primary.pull-right(type='submit', ng-disabled='gameResultForm.$invalid', tabindex='68') Сохранить..
