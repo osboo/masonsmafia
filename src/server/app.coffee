@@ -1,6 +1,5 @@
 express = require('express')
 passport = require('passport')
-RedisStore = require('connect-redis')(express)
 conf = require('./conf')('app')
 
 app = express()
