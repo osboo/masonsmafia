@@ -5,12 +5,12 @@ module.exports = (db, DataTypes)->
     vk_id:
         type: DataTypes.STRING
 
-      name:
-        type: DataTypes.STRING
-        allowNull: false
-        unique: true
-        validate:
-          notNull: true
+    name:
+      type: DataTypes.STRING
+      allowNull: false
+      unique: true
+      validate:
+        notNull: true
 
     service_role:
         type: DataTypes.ENUM(SERVICE_ROLES.USER, SERVICE_ROLES.ADMIN)
