@@ -20,10 +20,10 @@ describe('rating 3-4-2 calculation', ()->
   )
 
   describe('Mafia that wins the game was disqualified by 4 fouls', ()->
-    it('should return 4.0', ()->
-      playerGame = {role: PLAYER_ROLES.MAFIA, extra_scores: 0.0, best_move_accuracy: 0}
+    it('should return 3.0', ()->
+      playerGame = {role: PLAYER_ROLES.MAFIA, extra_scores: -1.0, is_best: false, best_move_accuracy: 0}
       r = require('./../../src/server/models/rating_formula_342')
-      should(r(playerGame, GAME_RESULT.MAFIA_WIN)).be.eql(4.0)
+      should(r(playerGame, GAME_RESULT.MAFIA_WIN)).be.eql(3.0)
     )
   )
 )
