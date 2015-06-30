@@ -38,7 +38,14 @@ module.exports = (done)->
             "firstKilledNight": 0
             "firstKilledDay": 0
             "fouls": 0
+            "extraScoresPerWin": 0
           }
+        isWinner = (
+          result == GAME_RESULT.CITIZENS_WIN and playerGame.role == PLAYER_ROLES.CITIZEN or
+          result == GAME_RESULT.CITIZENS_WIN and playerGame.role == PLAYER_ROLES.SHERIFF or
+          result == GAME_RESULT.MAFIA_WIN and playerGame.role == PLAYER_ROLES.MAFIA or
+          result == GAME_RESULT.MAFIA_WIN and playerGame.role == PLAYER_ROLES.DON
+        )
         cachedPlayer[playerName]["rating"] += rating(playerGame, result)
         cachedPlayer[playerName]["winsCitizen"] += 1 if result == GAME_RESULT.CITIZENS_WIN and playerGame.role == PLAYER_ROLES.CITIZEN
         cachedPlayer[playerName]["winsSheriff"] += 1 if result == GAME_RESULT.CITIZENS_WIN and playerGame.role == PLAYER_ROLES.SHERIFF
@@ -55,6 +62,7 @@ module.exports = (done)->
         cachedPlayer[playerName]["fouls"] += playerGame.fouls
         cachedPlayer[playerName]["bestMoveAttempts"] += 1 if playerGame.took_best_move
         cachedPlayer[playerName]["foundedMafiaOnBestMove"] += playerGame.best_move_accuracy if playerGame.took_best_move
+        cachedPlayer[playerName]["extraScoresPerWin"] += playerGame.extra_scores if isWinner and playerGame.is_best
       commonStats = []
       for name in names
         if cachedPlayer[name]["bestMoveAttempts"]
@@ -64,6 +72,8 @@ module.exports = (done)->
         delete cachedPlayer[name]["foundedMafiaOnBestMove"]
         delete cachedPlayer[name]["bestMoveAttempts"]
         cachedPlayer[name]["name"] = name
+        wins = cachedPlayer[name]["winsCitizen"] + cachedPlayer[name]["winsSheriff"] + cachedPlayer[name]["winsMafia"] + cachedPlayer[name]["winsDon"]
+        cachedPlayer[name]["extraScoresPerWin"] = if wins > 0 then cachedPlayer[name]["extraScoresPerWin"] / wins else 0.0
         commonStats.push(cachedPlayer[name])
       commonStats.sort(comparator)
       top10 = if commonStats.length >= 10 then commonStats[-10..] else commonStats
@@ -82,7 +92,7 @@ module.exports = (done)->
                   if err
                     done(err, null)
                   else
-                    done(null, top10)
+                    done(null, top10, commonStats)
                 )
               ).error((err)->
                 done(err, null)

@@ -360,15 +360,16 @@ if process.env.MASONS_ENV == 'TEST'
           buildModels(paper1, (err, dbmodels)->
             if err
               done(err)
-            rebuildCache((err, commonStats)->
+            rebuildCache((err, top10)->
               if err
                 done(err)
-              commonStats.should.have.length(10)
+              top10.should.have.length(10)
               done()
             )
           )
         )
       )
+
       describe('game3-2014-04-10 and same synthetic: same players but another winning party', ()->
         paper1 = require('./TestGame').game_10_03[0]
         paper2 = require('./TestGame').game_10_03[1]
@@ -392,6 +393,73 @@ if process.env.MASONS_ENV == 'TEST'
               )
             )
 
+          )
+        )
+      )
+
+      describe('game 1 and game 2 at Masons Masters 16.03', ->
+        paper1 = require('./TestGame').masonsMasters[0]
+        paper2 = require('./TestGame').masonsMasters[1]
+        it('should show that Женька-Печенька has zero extra scores per wins', (done) ->
+          buildModels(paper1, (err, dbmodels)->
+            if err
+              done(err)
+            buildModels(paper2, (err, dbmodels)->
+              if err
+                done(err)
+              rebuildCache((err, top10, commonStats)->
+                if err
+                  done(err)
+                for player in commonStats
+                  if player.name == 'Женька-Печенька'
+                    player.extraScoresPerWin.should.be.eql(0.0)
+                    done()
+                    return
+                done("Not ready")
+              )
+            )
+          )
+        )
+
+        it('should show that Озб has 3 extra scores per wins', (done) ->
+          buildModels(paper1, (err, dbmodels)->
+            if err
+              done(err)
+            buildModels(paper2, (err, dbmodels)->
+              if err
+                done(err)
+              rebuildCache((err, top10, commonStats)->
+                if err
+                  done(err)
+                for player in commonStats
+                  if player.name == 'Озб'
+                    player.extraScoresPerWin.should.be.eql(6 / 2 )
+                    done()
+                    return
+                done("Not ready")
+              )
+            )
+          )
+        )
+
+        it('should show that kors has 2 extra scores per wins', (done) ->
+          buildModels(paper1, (err, dbmodels)->
+            if err
+              done(err)
+            buildModels(paper2, (err, dbmodels)->
+              if err
+                done(err)
+              rebuildCache((err, top10, commonStats)->
+                if err
+                  done(err)
+                for player in commonStats
+                  if player.name == 'kors'
+                    player.extraScoresPerWin.should.be.eql(2.0)
+                    done()
+                    return
+                done("Not ready")
+              )
+            )
           )
         )
       )
