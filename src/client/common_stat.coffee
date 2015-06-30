@@ -50,6 +50,7 @@ $(->
       player['averageRating'] = (parseFloat(player.rating) / parseFloat(player.gamesTotal)).toFixed(2)
       player['winsTotal'] = parseInt(player.winsCitizen) + parseInt(player.winsSheriff) + parseInt(player.winsMafia) + parseInt(player.winsDon)
       player['bestMoveAccuracy'] = player.bestMoveAccuracy.toFixed(2)
+      player['extraScoresPerWin'] = player.extraScoresPerWin.toFixed(2)
       result.push(player)
     result
 
@@ -69,7 +70,7 @@ $(->
       winsAttrs = "wins-citizen=#{player.winsCitizen} wins-sheriff=#{player.winsSheriff} wins-mafia=#{player.winsMafia} wins-don=#{player.winsDon}"
       impactAttrs = "best-player=#{player.bestPlayer} first-killed-at-night=#{player.firstKilledNight}"
       ratingsAttrs = "rating=#{player.rating}"
-      $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td #{gamesAttrs} #{winsAttrs} #{impactAttrs} #{ratingsAttrs}>#{(playercomparator.average(player) + playercomparator.experience(player)).toFixed(2)}</td><td>#{player.gamesTotal}</td><td>#{player.winsTotal}</td><td>#{player.rating}</td></tr>").appendTo('.common-rating tbody')
+      $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td #{gamesAttrs} #{winsAttrs} #{impactAttrs} #{ratingsAttrs}>#{(playercomparator.average(player) + playercomparator.experience(player)).toFixed(2)}</td><td>#{player.gamesTotal}</td><td>#{player.winsTotal}</td><td>#{player.extraScoresPerWin}</td><td>#{player.rating}</td></tr>").appendTo('.common-rating tbody')
       $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.winsTotal}</td><td>#{player.winsCitizen}</td><td>#{player.winsSheriff}</td><td>#{player.winsMafia}</td><td>#{player.winsDon}</td></tr>").appendTo('.wins tbody')
       $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.gamesTotal}</td><td>#{player.gamesCitizen}</td><td>#{player.gamesSheriff}</td><td>#{player.gamesMafia}</td><td>#{player.gamesDon}</td></tr>").appendTo('.roles tbody')
       $("<tr><td></td><td><a class='player-name' href='/personal/#{player.name}' target='_blank'>#{player.name}</a></td><td>#{player.likes}</td><td>#{player.bestPlayer}</td><td>#{player.bestMoveAccuracy}</td><td>#{player.firstKilledNight}</td><td>#{player.firstKilledDay}</td><td>#{player.fouls}</td></tr>").appendTo('.impact tbody')
