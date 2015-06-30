@@ -21,9 +21,10 @@ module.exports = (app) ->
     app.get(AUTH_URL, passport.authenticate('vk'))
 
     app.get(AUTH_CALLBACK_URL, passport.authenticate('vk', {
-      successRedirect: HOME_PAGE
       failureRedirect: AUTH_URL
-    }))
+    }), (req, res)->
+      res.redirect(req.session.returnTo || HOME_PAGE)
+    )
 
     app.get('/logout', (req, res) ->
         req.logout()
@@ -32,7 +33,9 @@ module.exports = (app) ->
 
     ensureAuthenticated = (req, res, next) ->
       if req.isAuthenticated() then next()
-      else res.redirect(AUTH_URL)
+      else
+        req.session.returnTo = req.url
+        res.redirect(AUTH_URL)
 
     app.get('/admin', ensureAuthenticated, (req, res)->
         res.render('admin_index', {})
