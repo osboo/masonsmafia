@@ -70,17 +70,29 @@ window.renderTable = (data) ->
   $(".first-killed-at-day-total").html(data["first-killed-at-day-total"])
 
 window.renderWinsPlot = (data) ->
-  zipped = []
-  prev = {gameID: "0", winsMinusLosses: "0", date: "0"}
+  evenings = []
+  prev = {gameID: "0", winsMinusLosses: "0", date: "0", gameResult: ""}
+  wins = 0
+  losses = 0
   for game in data.efficiency
     if game.date != prev.date
-      zipped.push(prev)
+      prev.wins = wins
+      prev.losses = losses
+      evenings.push(prev)
+      wins = 0
+      losses = 0
+    if parseInt(game.gameResult) > 0
+      wins += 1
+    else
+      losses += 1
     prev = game
-  zipped.push(prev)
-  zipped.shift()
-  for game in zipped
-    game.date = parseInt(game.date, 10)
-    game.winsMinusLosses = parseInt(game.winsMinusLosses, 10)
+  prev.wins = wins
+  prev.losses = losses
+  evenings.push(prev)
+  evenings.shift()
+  for evening in evenings
+    evening.date = parseInt(evening.date, 10)
+    evening.winsMinusLosses = parseInt(evening.winsMinusLosses, 10)
 
   $('#winloss').remove()
   $('#rolesWinrate').remove()
@@ -93,12 +105,19 @@ window.renderWinsPlot = (data) ->
 
   new Morris.Line({
     element: 'winloss',
-    data: zipped,
+    data: evenings,
     xkey: 'date',
     ykeys: ['winsMinusLosses'],
     labels: ['win-loss'],
-    dateFormat: (milliseconds) ->
-      moment(new Date(milliseconds)).format('D MMMM, YYYY')
+    hideHover: true
+    hoverCallback: (index, options, content, row)->
+      message = """
+      <div class="morris-hover-row-label">#{moment(new Date(evenings[index].date)).format('D MMMM, YYYY')}</div>
+      <div class="morris-hover-point">win-loss: #{evenings[index].winsMinusLosses}</div>
+      <div class="morris-hover-point-green">Побед: #{evenings[index].wins}</div>
+      <div class="morris-hover-point-red">Поражений: #{evenings[index].losses}</div>
+      """
+      return message
   })
 
   rolesWinrateData = [
@@ -132,7 +151,7 @@ window.renderWinsPlot = (data) ->
   lossrate = 100 - winrate
   new Morris.Donut({
     element: 'winrate',
-    data: zipped,
+    data: evenings,
     data: [
       {label: "Победы", value: winrate},
       {label: "Поражения", value: lossrate}

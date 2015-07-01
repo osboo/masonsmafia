@@ -67,6 +67,7 @@ module.exports = (playerName, done)->
             gameID: games[i].id
             date: games[i].date.getTime()
             winsMinusLosses: delta
+            gameResult: delta
           })
           profile.rating += rating(playerGame, result)
           profile.winsCitizen += 1 if result == GAME_RESULT.CITIZENS_WIN and playerGame.role == PLAYER_ROLES.CITIZEN

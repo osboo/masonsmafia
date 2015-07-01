@@ -45,5 +45,17 @@ if process.env.MASONS_ENV == 'TEST'
           done()
         )
       )
+
+      it('shoold show that kors has win-loss equal to 1', (done) ->
+        ComputePersonal("kors", (err, profile) ->
+          if err
+            done(error)
+          profile.efficiency[2].winsMinusLosses.should.be.eql(1)
+          profile.efficiency[0].gameResult.should.be.eql(-1)
+          profile.efficiency[1].gameResult.should.be.eql(1)
+          profile.efficiency[2].gameResult.should.be.eql(1)
+          done()
+        )
+      )
     )
   )
