@@ -136,14 +136,17 @@ window.renderWinsPlot = (data) ->
     hideHover:'auto'
   })
 
-  redWinrate = if data["wins-total"] then Math.floor((data.winsCitizen + data.winsSheriff) * 100 / data["wins-total"]) else 0
+  redWinrate = if (data.gamesCitizen + data.gamesSheriff) then (data.winsCitizen + data.winsSheriff) / (data.gamesCitizen + data.gamesSheriff) else 0
+  blackWinrate = if (data.gamesMafia + data.gamesDon) then (data.winsMafia + data.winsDon) / (data.gamesMafia + data.gamesDon) else 0
+  console.log(redWinrate / (redWinrate + blackWinrate))
+  redWinrate = if (redWinrate + blackWinrate) then Math.floor(100 * redWinrate / (redWinrate + blackWinrate)) else 0
   blackWinrate = 100 - redWinrate
 
   new Morris.Donut({
     element: 'commandWinrate',
     data: [
-      {label: "Доля красных побед", value: redWinrate},
-      {label: "Доля чёрных побед", value: blackWinrate}
+      {label: "Преобладание красной линии", value: redWinrate},
+      {label: "Преобладание чёрной линии", value: blackWinrate}
     ]
   })
 
