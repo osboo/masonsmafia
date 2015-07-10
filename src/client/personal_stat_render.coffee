@@ -147,7 +147,8 @@ window.renderWinsPlot = (data) ->
     data: [
       {label: "Преобладание красной линии", value: redWinrate},
       {label: "Преобладание чёрной линии", value: blackWinrate}
-    ]
+    ],
+    colors: ["#AE0814", "#080808"]
   })
 
   winrate = if data["games-total"] then Math.floor(data["wins-total"] / data["games-total"] * 100) else 0
