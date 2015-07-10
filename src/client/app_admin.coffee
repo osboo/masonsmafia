@@ -214,6 +214,14 @@ app.controller('playersTableCtrl', ['$scope', ($scope)->
 
   $scope.overrideCheckbox = (current)->
     $scope.$parent.players[current].isBest = ($scope.$parent.players[current].extraScores > 0.0)
+
+  $scope.getRoleCSSClass = (role)->
+    if role == 'Мирный'
+      return 'citizen-dropbox-value'
+    if role in ['Мафия', 'Дон']
+      return 'mafia-dropbox-value'
+    if role == 'Шериф'
+      return 'sheriff-dropbox-value'
 ])
 
 FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/
