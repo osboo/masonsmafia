@@ -1,4 +1,4 @@
-#Развёртывание сервера
+# Развёртывание сервера
 1. sudo apt-get install git
 1. cd `Checkout directory`
 1. Установить [MySQL](http://help.ubuntu.ru/wiki/mysql) `sudo apt-get install mysql-server`
@@ -11,11 +11,11 @@
 Создать базу данных и юзера в соответствие с настройками (проще через MySQL Workbench)
 1. `coffee src/server/sync.coffee` (только для dev окружения)
 
-#Для запуска серверного приложения:
+# Для запуска серверного приложения:
 
 `coffee -c -o src/static/js src/client && coffee src/server/app.coffee`
 
-#Для запуска mocha тестов:
+# Для запуска mocha тестов:
 1. MASONS_ENV=TEST
 1. Создать __masons_test__ базу  данных и юзера в соответствие с настройками (проще через MySQL Workbench)
 1. user interface=bdd
