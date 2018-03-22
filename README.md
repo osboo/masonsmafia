@@ -22,7 +22,7 @@
 1. pre-build step=coffee -c src && coffee -c tests
 
 # Running server container
-First, run database container see [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md)
+First, run database container. See [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md)
 
 Then run container in user defined network:
 
@@ -57,3 +57,5 @@ Create __docker-compose.yml__ file with following:
 Then run:
 
     docker-compose up
+
+Before the first run the database should be initialized by app-required schema and user settings. See [here](https://github.com/osboo/masonsmafia-db#initialization)
