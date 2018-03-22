@@ -12,7 +12,7 @@ if process.env.MASONS_ENV == 'TEST'
       dbName: 'masons_test'
       login: 'masons'
       password: 'masons'
-      host: 'localhost'
+      host: "#{process.env.MYSQL_HOST}"
 else
   conf =
     app:
@@ -27,7 +27,7 @@ else
       dbName: 'masons'
       login: 'masons'
       password: 'masons'
-      host: 'localhost'
+      host: "#{process.env.MYSQL_HOST}"
 
 module.exports = (section) ->
     return conf[section]
