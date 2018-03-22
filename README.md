@@ -25,6 +25,7 @@
 First, run database container see [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md)
 
 Then run container in user defined network:
+
     docker run -p 3000:3000 \
     --name <APP CONTAINER NAME> \
     --env "MYSQL_HOST=<DB CONTAINER NAME>" \
