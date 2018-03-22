@@ -22,7 +22,7 @@
 1. pre-build step=coffee -c src && coffee -c tests
 
 # Running server container
-First, run database container see [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md)
+First, run database container. See [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md#run-the-container)
 
 Then run container in user defined network:
 
@@ -40,6 +40,7 @@ Create __docker-compose.yml__ file with following:
     services:
       db:
         image: osboo/masonsmafia-db
+        container_name: <DB CONTAINER NAME>
         volumes:
           - <LOCAL PATH>:/var/lib/mysql
         environment:
@@ -50,10 +51,49 @@ Create __docker-compose.yml__ file with following:
         depends_on:
           - db
         image: osboo/masonsmafia-app
+        container_name: <APP CONTAINER NAME>
         ports:
           - "3000:3000"
         environment:
           MYSQL_HOST: db
+          
 Then run:
 
     docker-compose up
+
+Before the first run the database should be initialized by app-required schema and user settings. See [here](https://github.com/osboo/masonsmafia-db#initialization)
+Aliases `<DB CONTAINER NAME>` and `<APP CONTAINER NAME>` will define the name of containers to apply initialization command (by default docker creates containers with random unpredictable names).
+
+# Run Mocha tests via docker
+Make __docker-compose.test.yml__ with following configuration:
+
+    version: '3'
+
+    services:
+      db:
+        image: osboo/masonsmafia-db
+        container_name: testdb
+        volumes:
+          - <TEMPORARY LOCAL STORAGE>:/var/lib/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: mypassword
+          MYSQL_HOST: db
+
+      app:
+        depends_on:
+          - db
+        image: osboo/masonsmafia-app
+        container_name: testapp
+        ports:
+          - "3000:3000"
+        environment:
+          MYSQL_HOST: db
+          MASONS_ENV: TEST
+          
+ Then spin up containers:
+    
+    docker-compose -f docker-compose.test.yml up
+
+- For unit-tests call: `docker exec -it testapp ./node_modules/mocha/bin/mocha -u bdd ./tests/unit-tests`
+- For integration tests (db): `docker exec -it testapp ./node_modules/mocha/bin/mocha -u bdd ./tests/dbtest`
+- For integration tests (add new games): `docker exec -it testapp ./node_modules/mocha/bin/mocha -u bdd ./tests/personal_statistics_test`

@@ -16,8 +16,8 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-# Transpile sources
-RUN coffee -c src
+# Transpile sources and tests
+RUN coffee -c src && coffee -c tests
 
 # Run server
 EXPOSE 3000
