@@ -16,7 +16,17 @@
 
 # For mocha test run:
 1. MASONS_ENV=TEST
-1. Создать __masons_test__ базу  данных и юзера в соответствие с настройками (проще через MySQL Workbench)
+1. Create __masons_test__ schema and user in accordane with `conf` (it is easier via MySQL Workbench)
 1. user interface=bdd
 1. test directory=`Checkout directory/tests`
 1. pre-build step=coffee -c src && coffee -c tests
+
+# Running server container
+First, run database container see [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md)
+
+Then run container in user defined network:
+    docker run -p 3000:3000 \
+    --name <APP CONTAINER NAME> \
+    --env "MYSQL_HOST=<DB CONTAINER NAME>" \
+    --net mynet \
+    osboo/masonsmafia-app
