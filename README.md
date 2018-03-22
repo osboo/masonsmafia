@@ -90,6 +90,7 @@ Make __docker-compose.test.yml__ with following configuration:
           MYSQL_HOST: db
           MASONS_ENV: TEST
           
+ Then initialize the fresh local store. See database documentation [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md#initialization-for-tests) 
  Then spin up containers:
     
     docker-compose -f docker-compose.test.yml up
