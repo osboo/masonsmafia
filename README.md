@@ -31,3 +31,29 @@ Then run container in user defined network:
     --env "MYSQL_HOST=<DB CONTAINER NAME>" \
     --net mynet \
     osboo/masonsmafia-app
+
+# Run via docker-compose
+Create __docker-compose.yml__ file with following:
+
+    version: '3'
+
+    services:
+      db:
+        image: osboo/masonsmafia-db
+        volumes:
+          - <LOCAL PATH>:/var/lib/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: <PASSWORD>
+          MYSQL_HOST: db
+
+      app:
+        depends_on:
+          - db
+        image: osboo/masonsmafia-app
+        ports:
+          - "3000:3000"
+        environment:
+          MYSQL_HOST: db
+Then run:
+
+    docker-compose up
