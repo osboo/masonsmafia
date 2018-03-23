@@ -25,7 +25,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "start" : "coffee -c -o src/static/js src/client && coffee src/server/app.coffee"
+    "start": "coffee -c -o src/static/js src/client && coffee src/server/app.coffee"
   },
   "repository": {
     "type": "git",

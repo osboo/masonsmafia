@@ -3,12 +3,13 @@
 1. cd `Checkout directory`
 1. Install [MySQL](http://help.ubuntu.ru/wiki/mysql) `sudo apt-get install mysql-server`
 1. Install [Workbench](http://dev.mysql.com/downloads/workbench/)
-1. `sudo apt-get install nodejs npm`
-1. `sudo ln -s /usr/bin/nodejs /usr/bin/node`
-1. `sudo npm install -g coffee-script`
-1. `sudo coffee -c src`
-1. Look at `src/server/conf.coffee`Create schema and user in accordance with `conf` file (it is easier to do this via MySQL Workbench)
-1. `coffee src/server/sync.coffee` (For first initialization)
+1. `curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -`
+1. `sudo apt-get install -y nodejs`
+1. `sudo npm install -g coffeescript`
+1. `coffee -c src`
+1. `npm install`
+1. Look at `src/server/conf.coffee`. Create schema and user in accordance with `conf` file (it is easier to do this via MySQL Workbench)
+1. `export MYSQL_HOST=localhost && coffee src/server/sync.coffee` (For first initialization)
 
 # Run server application:
 
