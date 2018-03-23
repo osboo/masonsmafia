@@ -1,5 +1,6 @@
 .idea
 .map
+node_modules
 src/**/*.js
 tests/**/*.js
 src/static/json/common_stat_responce.json
