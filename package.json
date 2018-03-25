@@ -14,6 +14,8 @@
     "express": "~3.4.8",
     "font-awesome": "~4.1.0",
     "jade": "~1.1.5",
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
     "lodash": "~2.4.1",
     "moment": "~2.6.0",
     "morris.js": "~0.5.0",
@@ -26,8 +28,7 @@
     "sleep": "~1.1.4",
     "supertest": "~0.11.0",
     "tablesorter": "~2.30.1",
-    "typeahead.js": "~0.10.1",
-    "webpack-jquery-ui": "^1.0.0"
+    "typeahead.js": "~0.10.1"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
