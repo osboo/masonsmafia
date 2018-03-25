@@ -8,12 +8,11 @@
 1. `sudo npm install -g coffeescript`
 1. `coffee -c src`
 1. `npm install`
-1. Look at `src/server/conf.coffee`. Create schema and user in accordance with `conf` file (it is easier to do this via MySQL Workbench)
-1. `export MYSQL_HOST=localhost && coffee src/server/sync.coffee` (For first initialization)
+1. `export MYSQL_HOST=localhost && coffee src/server/init.coffee` (For first initialization)
 
 # Run server application:
 
-`coffee -c -o src/static/js src/client && coffee src/server/app.coffee`
+`export MYSQL_HOST=localhost && npm start`
 
 # For mocha test run:
 1. MASONS_ENV=TEST
