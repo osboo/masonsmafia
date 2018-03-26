@@ -19,6 +19,9 @@ COPY . .
 # Transpile sources and tests
 RUN coffee -c src && coffee -c tests
 
+# Build frontend
+RUN npm run build
+
 # Run server
 EXPOSE 3000
 CMD [ "npm", "start" ]

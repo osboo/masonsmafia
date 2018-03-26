@@ -1,5 +1,9 @@
+.idea
+.map
 node_modules
-bower_components
-npm-debug.log
-src/**/*.js
+src/client/**/*.js
+src/server/**/*.js
 tests/**/*.js
+src/static/json/*.*
+src/static/fonts/*.*
+src/static/img/*.*
