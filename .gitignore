@@ -1,8 +1,10 @@
 .idea
 .map
 node_modules
-src/**/*.js
+src/client/**/*.js
+src/server/**/*.js
+src/static/js/*.js
 tests/**/*.js
-src/static/json/common_stat_responce.json
-src/static/json/top10.json
-src/static/json/players.json
+src/static/json/*.*
+src/static/fonts/*.*
+src/static/img/*.*
