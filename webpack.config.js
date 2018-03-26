@@ -6,16 +6,9 @@ config = {
 
     output: {
         path: path.resolve(__dirname, "src/static"),
-        filename: 'js/vendors.dist.js'
+        filename: 'js/vendors.dist.js',
+        publicPath: '/'
     },
-
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: "jquery/dist/jquery.min.js",
-            jQuery: "jquery/dist/jquery.min.js",
-            "window.jQuery": "jquery/dist/jquery.min.js"
-        })
-    ],
 
     module: {
         rules: [
@@ -30,14 +23,15 @@ config = {
             {
                 test: /\.(svg|ttf|eot|woff|woff2)$/,
                 loader: "file-loader",
-                options: { name: "./fonts/[name].[ext]" }
+                options: {
+                    name: "./fonts/[name].[ext]",
+                }
             },
             {
                 test: /\.(jpe?g|png|gif)$/i,
                 loader: "file-loader",
                 query: {
-                    name: '[name].[ext]',
-                    outputPath: './img/'
+                    name: './img/[name].[ext]',
                 }
             },
             {
@@ -51,8 +45,30 @@ config = {
                         loader: 'expose-loader',
                         options: '$'
                     },
-        ]
+                ]
+            },
+            {
+                test: require.resolve('typeahead.js/dist/bloodhound.min.js'),
+                use: {
+                    loader: 'expose-loader',
+                    options: 'Bloodhound'
+                },
+            },
+            {
+                test: require.resolve('raphael'),
+                use: {
+                    loader: 'expose-loader',
+                    options: 'Raphael'
+                },
+            },
+            {
+                test: require.resolve('moment'),
+                use: {
+                    loader: 'expose-loader',
+                    options: 'moment'
+                },
             }
+
         ]
     },
 
