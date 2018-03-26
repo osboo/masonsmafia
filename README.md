@@ -8,6 +8,7 @@
 1. `sudo npm install -g coffeescript`
 1. `coffee -c src`
 1. `npm install`
+1. `npm run build`
 1. `export MYSQL_HOST=localhost && coffee src/server/init.coffee` (For first initialization)
 
 # Run server application:
@@ -19,7 +20,7 @@
 1. Create __masons_test__ schema and user in accordane with `conf` (it is easier via MySQL Workbench)
 1. user interface=bdd
 1. test directory=`Checkout directory/tests`
-1. pre-build step=coffee -c src && coffee -c tests
+1. pre-build step=`coffee -c src && coffee -c tests`
 
 # Running server container
 First, run database container. See [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md#run-the-container)
