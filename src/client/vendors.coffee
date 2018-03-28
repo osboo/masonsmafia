@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.css'
+import 'tablesorter/dist/css/theme.bootstrap_3.min.css'
 import 'morris.js/morris.css'
 
 import 'jquery-ui/ui/widgets/tooltip.js'

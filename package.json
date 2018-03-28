@@ -1,6 +1,6 @@
 {
   "name": "masonsmafia",
-  "version": "1.1.21",
+  "version": "1.0.0",
   "description": "Masons mafia club statistics",
   "main": "/src/server/app.coffee",
   "directories": {
@@ -17,7 +17,7 @@
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
     "lodash": "~2.4.1",
-    "moment": "~2.6.0",
+    "moment": "^2.6.0",
     "morris.js": "~0.5.0",
     "mysql": "~2.10.1",
     "passport": "~0.1.18",
