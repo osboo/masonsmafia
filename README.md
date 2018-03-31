@@ -39,13 +39,13 @@ First, run database container.
 ## Initialization of database
 If `<LOCAL PATH>` contains data then the container works with it. If there is a need in firsr database initialization (fresh install or running in testing envrironment) then following command should be executed:
 
-    docker exec -it -e MYSQL_ROOT_PASSWORD=<PASSWORD> <DB CONTAINER NAME> coffee src/server/init.coffee
+    docker exec -it <DB CONTAINER NAME> coffee src/server/init.coffee
     
 ## Initialization for tests
 Before each Mocha tests run the database should be initialized. Please also note that the container volume should be stateless so it must be cleaned after each test run.
 Command to inititialize the database in test env:
 
-    docker exec -it -e MYSQL_ROOT_PASSWORD=<PASSWORD> -e MASONS_ENV=TEST <DB CONTAINER NAME> coffee src/server/init.coffee
+    docker exec -it -e MASONS_ENV=TEST <DB CONTAINER NAME> coffee src/server/init.coffee
 
 ## Running the app
 Then run container in user defined network (`mynet` in this example):

@@ -1,0 +1,27 @@
+{
+  "name": "masonsmafia",
+  "version": "1.1.21",
+  "description": "Masons mafia club statistics",
+  "main": "./run-db.sh",
+  "dependencies": {
+    "mysql": "~2.10.2",
+    "sequelize": "^2.0.6",
+    "lodash": "~2.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osboo/masonsmafia.git"
+  },
+  "keywords": [
+    "mafia",
+    "tomsk",
+    "мафия",
+    "томск",
+    "masons"
+  ],
+  "author": "osboo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/osboo/masonsmafia/issues"
+  }
+}
