@@ -9,8 +9,6 @@ module.exports = (db, DataTypes)->
       type: DataTypes.STRING
       allowNull: false
       unique: true
-      validate:
-        notNull: true
 
     service_role:
         type: DataTypes.ENUM(SERVICE_ROLES.USER, SERVICE_ROLES.ADMIN)
@@ -19,6 +17,8 @@ module.exports = (db, DataTypes)->
     },{
       associate: (models)->
         Player.hasMany(models.PlayerGame)
+      charset: 'utf8',
+      collate: 'utf8_unicode_ci'
     }
   )
 

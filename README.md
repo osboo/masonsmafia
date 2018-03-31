@@ -23,9 +23,32 @@
 1. pre-build step=`coffee -c src && coffee -c tests`
 
 # Running server container
-First, run database container. See [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md#run-the-container)
+First, run database container.
 
-Then run container in user defined network:
+## Run the database container
+
+    docker network create mynet
+    docker run -d -p 3306:3306 \
+    --env "MYSQL_ROOT_PASSWORD=<PASSWORD>" \
+    --env "MYSQL_HOST=<CONTAINER NAME>" \
+    --name <CONTAINER NAME> \
+    --volume <LOCAL PATH>:/var/lib/mysql \
+    --net mynet \
+    osboo/masonsmafia-db
+
+## Initialization of database
+If `<LOCAL PATH>` contains data then the container works with it. If there is a need in firsr database initialization (fresh install or running in testing envrironment) then following command should be executed:
+
+    docker exec -it -e MYSQL_ROOT_PASSWORD=<PASSWORD> <DB CONTAINER NAME> coffee src/server/init.coffee
+    
+## Initialization for tests
+Before each Mocha tests run the database should be initialized. Please also note that the container volume should be stateless so it must be cleaned after each test run.
+Command to inititialize the database in test env:
+
+    docker exec -it -e MYSQL_ROOT_PASSWORD=<PASSWORD> -e MASONS_ENV=TEST <DB CONTAINER NAME> coffee src/server/init.coffee
+
+## Running the app
+Then run container in user defined network (`mynet` in this example):
 
     docker run -p 3000:3000 \
     --name <APP CONTAINER NAME> \
@@ -62,7 +85,7 @@ Then run:
 
     docker-compose up
 
-Before the first run the database should be initialized by app-required schema and user settings. See [here](https://github.com/osboo/masonsmafia-db#initialization)
+Before the first run the database should be initialized by app-required schema and user settings.
 Aliases `<DB CONTAINER NAME>` and `<APP CONTAINER NAME>` will define the name of containers to apply initialization command (by default docker creates containers with random unpredictable names).
 
 # Run Mocha tests via docker
@@ -91,7 +114,7 @@ Make __docker-compose.test.yml__ with following configuration:
           MYSQL_HOST: db
           MASONS_ENV: TEST
           
- Then initialize the fresh local store. See database documentation [here](https://github.com/osboo/masonsmafia-db/blob/master/README.md#initialization-for-tests) 
+ Then initialize the fresh local store.
  Then spin up containers:
     
     docker-compose -f docker-compose.test.yml up

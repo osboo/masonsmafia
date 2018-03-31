@@ -6,8 +6,6 @@ module.exports = (db, Sequelize)->
       type: Sequelize.ENUM
       values: [PLAYER_ROLES.CITIZEN, PLAYER_ROLES.SHERIFF, PLAYER_ROLES.MAFIA, PLAYER_ROLES.DON]
       allowNull: false
-      validate:
-        notEmpty: true
 
     fouls:
       type: Sequelize.INTEGER
@@ -49,5 +47,7 @@ module.exports = (db, Sequelize)->
       associate: (models)->
         PlayerGame.belongsTo(models.Game)
         PlayerGame.belongsTo(models.Player)
+      charset: 'utf8',
+      collate: 'utf8_unicode_ci'
     }
   )
