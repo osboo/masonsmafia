@@ -6,15 +6,18 @@ rating = require('./rating_formula_342')
 Sequelize = require('sequelize')
 comparator = require('./PlayerComparatorLoader')
 
-module.exports = (done)->
-  db.PlayerGame.all().success((playerGames)->
-    chainer = new Sequelize.Utils.QueryChainer
-    for playerGame in playerGames
-      chainer.add(playerGame, 'getGame', [])
-      chainer.add(playerGame, 'getPlayer', [])
-    cachedPlayer = {}
-    names = []
-    chainer.runSerially().success((chainerResults)->
+promisingRebuildCache = (done)->
+  new Promise( (resolve, reject)->
+    try
+      playerGames = await db.PlayerGame.all()
+      chainerResults = []
+      for playerGame in playerGames
+        game = await playerGame.getGame()
+        player = await playerGame.getPlayer()
+        chainerResults.push(game)
+        chainerResults.push(player)
+      cachedPlayer = {}
+      names = []
       for i in [0...playerGames.length]
         result = chainerResults[2 * i].result
         playerName = chainerResults[2 * i + 1].name
@@ -78,30 +81,34 @@ module.exports = (done)->
       commonStats.sort(comparator)
       top10 = if commonStats.length >= 10 then commonStats[-10..] else commonStats
 
-      fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats, null, 2), (err)->
-        if err
-          done(err, null)
-        else
-          fs.writeFile("#{__dirname}/../../static/json/top10.json", JSON.stringify(top10, null, 2), (err)->
-            if err
-              done(err, null)
-            else
-              db.Player.all().success((players)->
+      promisingWriteFiles = ()->
+        new Promise( (resolve, reject)->
+          fs.writeFile("#{__dirname}/../../static/json/common_stat_responce.json", JSON.stringify(commonStats, null, 2), (err)->
+          if err
+            reject(err)
+          else
+            fs.writeFile("#{__dirname}/../../static/json/top10.json", JSON.stringify(top10, null, 2), (err)->
+              if err
+                reject(err)
+              else
+                players = await db.Player.all()
                 fs.writeFile("#{__dirname}/../../static/json/players.json",
                   JSON.stringify((player.name for player in players), null, 2), (err)->
                   if err
-                    done(err, null)
+                    reject(err)
                   else
-                    done(null, top10, commonStats)
+                    resolve({top10: top10, common: commonStats})
                 )
-              ).error((err)->
-                done(err, null)
-              )
+            )
           )
         )
-    ).error((err)->
-      done(err, null)
-    )
-  ).error((err)->
-    done(err, null)
+      result = await promisingWriteFiles()
+      done(null, result.top10, result.common)
+      resolve(result)
+    catch err
+      done(err, null, null)
+      reject(err)
   )
+
+module.exports = (done)->
+  result = await promisingRebuildCache(done)
