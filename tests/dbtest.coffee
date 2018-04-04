@@ -30,9 +30,7 @@ if process.env.MASONS_ENV == 'TEST'
   describe('Test games', ()->
 
     beforeEach(()->
-      db.sequelize.sync({force: true}).complete((err)->
-        should.not.exist(err)
-      )
+      db.sequelize.sync({force: true}).complete((err)->should.not.exist(err))
     )
 
     describe('Player model', ()->
@@ -66,10 +64,10 @@ if process.env.MASONS_ENV == 'TEST'
         paper = require('./TestGame').game_10_03[0]
         models = {}
         it('should build all db models with no problems', ()->
-          buildModels(paper, (err, dbmodels)->
+          try
+            models = await buildModels(paper)
+          catch err
             should.not.exist(err)
-            models = dbmodels
-          )
         )
 
         it('should take a place at 2014-03-10', ()->
@@ -96,19 +94,18 @@ if process.env.MASONS_ENV == 'TEST'
         )
 
         it('should have Катафалк as sheriff', ()->
-          buildModels(paper, (err, dbmodels)->
-            should.not.exist(err)
-            models = dbmodels
+          try
+            models = await buildModels(paper)
             gameID = models.Game.id
             player = await db.Player.find({where: {name: 'Катафалк'}})
             playerId = player.id
             playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
             playerGame.role.should.be.eql(constants.PLAYER_ROLES.SHERIFF)
-          )
+          catch err
+            should.not.exist(err)
         )
 
-        checkRole = (name, role, err, dbmodels)->
-          should.not.exist(err)
+        checkRole = (name, role, dbmodels)->
           models = dbmodels
           gameID = models.Game.id
           player = await db.Player.find({where: {name: name}})
@@ -117,124 +114,102 @@ if process.env.MASONS_ENV == 'TEST'
           playerGame.role.should.be.eql(role)
 
         it('should have Агрессор as a don', ()->
-          buildModels(paper, (err, dbmodels)->
-            checkRole('Агрессор', constants.PLAYER_ROLES.DON, err, dbmodels)
-          )
+          models = await buildModels(paper)
+          checkRole('Агрессор', constants.PLAYER_ROLES.DON, models)
         )
 
         it('should have FrankLin as a mafia', ()->
-          buildModels(paper, (err, dbmodels)->
-            checkRole('FrankLin', constants.PLAYER_ROLES.MAFIA, err, dbmodels)
-          )
+          models = await buildModels(paper)
+          checkRole('FrankLin', constants.PLAYER_ROLES.MAFIA, models)
         )
 
         it('should have Кошка as a mafia', ()->
-          buildModels(paper, (err, dbmodels)->
-            checkRole('Кошка', constants.PLAYER_ROLES.MAFIA, err, dbmodels)
-          )
+          models = await buildModels(paper)
+          checkRole('Кошка', constants.PLAYER_ROLES.MAFIA, models)
         )
 
         it('should have Малика without likes', ()->
-          buildModels(paper, (err, dbmodels)->
-            should.not.exist(err)
-            models = dbmodels
-            gameID = models.Game.id
-            player = await db.Player.find({where: {name: 'Малика'}})
-            playerId = player.id
-            playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
-            playerGame.likes.should.be.eql(0)
-            playerGame.fouls.should.be.eql(1)
-          )
+          models = await buildModels(paper)
+          gameID = models.Game.id
+          player = await db.Player.find({where: {name: 'Малика'}})
+          playerId = player.id
+          playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
+          playerGame.likes.should.be.eql(0)
+          playerGame.fouls.should.be.eql(1)
         )
 
         it('should have Рон`s best move with accuracy 2', ()->
-          buildModels(paper, (err, dbmodels)->
-            should.not.exist(err)
-            models = dbmodels
-            gameID = models.Game.id
-            player = await db.Player.find({where: {name: 'Рон'}})
-            playerId = player.id
-            playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
-            playerGame.took_best_move.should.be.eql(true)
-            playerGame.best_move_accuracy.should.be.eql(2)
-          )
+          models = await buildModels(paper)
+          gameID = models.Game.id
+          player = await db.Player.find({where: {name: 'Рон'}})
+          playerId = player.id
+          playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
+          playerGame.took_best_move.should.be.eql(true)
+          playerGame.best_move_accuracy.should.be.eql(2)
         )
+
         it('should have Рон killed at first night', ()->
-          buildModels(paper, (err, dbmodels)->
-            should.not.exist(err)
-            models = dbmodels
-            gameID = models.Game.id
-            player = await db.Player.find({where: {name: 'Рон'}})
-            playerId = player.id
-            playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
-            playerGame.is_killed_first_at_night.should.be.eql(true)
-          )
+          models = await buildModels(paper)
+          gameID = models.Game.id
+          player = await db.Player.find({where: {name: 'Рон'}})
+          playerId = player.id
+          playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
+          playerGame.is_killed_first_at_night.should.be.eql(true)
         )
 
         it('should have FrankLin, Хедин and Кошка as the best players', ()->
-          buildModels(paper, (err, dbmodels)->
-            models = dbmodels
-            gameID = models.Game.id
-            players = []
-            ['FrankLin', 'Хедин', 'Кошка'].forEach((playerName)->
-              player = await db.Player.find({where: {name: playerName}}) 
-              players.push(player)
-            )
-            playerGames = (await db.PlayerGame.find({where: ["PlayerId=#{player.id} and GameId=#{gameID}"]}) for player in players)
-            for playerGame in playerGames
-              playerGame.is_best.should.be.eql(true)
+          models = await buildModels(paper)
+          gameID = models.Game.id
+          players = []
+          ['FrankLin', 'Хедин', 'Кошка'].forEach((playerName)->
+            player = await db.Player.find({where: {name: playerName}}) 
+            players.push(player)
           )
+          playerGames = (await db.PlayerGame.find({where: ["PlayerId=#{player.id} and GameId=#{gameID}"]}) for player in players)
+          for playerGame in playerGames
+            playerGame.is_best.should.be.eql(true)
         )
 
         it('should have FrankLin, Хедин and Кошка as players with 0.5 extra scores', ()->
-          buildModels(paper, (err, dbmodels)->
-            models = dbmodels
-            gameID = models.Game.id
-            players = []
-            ['FrankLin', 'Хедин', 'Кошка'].forEach((playerName)->
-              player = await db.Player.find({where: {name: playerName}}) 
-              players.push(player)
-            )
-            playerGames = (await db.PlayerGame.find({where: ["PlayerId=#{player.id} and GameId=#{gameID}"]}) for player in players)
-            for playerGame in playerGames
-              playerGame.extra_scores.should.be.eql(0.5)
+          models = await buildModels(paper)
+          gameID = models.Game.id
+          players = []
+          ['FrankLin', 'Хедин', 'Кошка'].forEach((playerName)->
+            player = await db.Player.find({where: {name: playerName}}) 
+            players.push(player)
           )
+          playerGames = (await db.PlayerGame.find({where: ["PlayerId=#{player.id} and GameId=#{gameID}"]}) for player in players)
+          for playerGame in playerGames
+            playerGame.extra_scores.should.be.eql(0.5)
         )
 
         it('should have Марвел as a first killed by day player', ()->
-          buildModels(paper, (err, dbmodels)->
-            models = dbmodels
-            gameID = models.Game.id
-            player = await db.Player.find({where: {name: 'Марвел'}})
-            playerId = player.id
-            playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
-            playerGame.is_killed_first_by_day.should.be.eql(true)
-          )
+          models = await buildModels(paper)
+          gameID = models.Game.id
+          player = await db.Player.find({where: {name: 'Марвел'}})
+          playerId = player.id
+          playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
+          playerGame.is_killed_first_by_day.should.be.eql(true)
         )
       )
     )
+
     describe('/models/RebuildCache', ()->
       describe('game3-2014-03-10', ()->
         paper1 = require('./TestGame').game_10_03[0]
         it('should retrieve array with 10 players', ()->
-          await buildModels(paper1, (err, dbmodels)->
-            should.not.exist(err)
-          )
-          top10 = {}
-          await rebuildCache((err, outTop10)-> top10 = outTop10)
+          await buildModels(paper1)
+          [top10, common] = await rebuildCache()
           top10.should.have.length(10)
         )
 
         it('should have Марвел as a first killed by day player', ()->
-          buildModels(paper1, (err, dbmodels)->
-            should.not.exist(err)
-            models = dbmodels
-            gameID = models.Game.id
-            player = await db.Player.find({where: {name: 'Марвел'}})
-            playerId = player.id
-            playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
-            playerGame.is_killed_first_by_day.should.be.eql(true)
-          )
+          models = await buildModels(paper1)
+          gameID = models.Game.id
+          player = await db.Player.find({where: {name: 'Марвел'}})
+          playerId = player.id
+          playerGame = await db.PlayerGame.find({where: ["PlayerId=#{playerId} and GameId=#{gameID}"]})
+          playerGame.is_killed_first_by_day.should.be.eql(true)
         )
       )
     )
@@ -242,78 +217,55 @@ if process.env.MASONS_ENV == 'TEST'
       paper1 = require('./TestGame').game_10_03[0]
       paper2 = require('./TestGame').game_10_03[1]
       it('should show that FrankLin has 2.5 average rating', ()->
-        await buildModels(paper1, (err, dbmodels)->
-          should.not.exist(err)
-          await buildModels(paper2, (err, dbmodels)->
-            should.not.exist(err)
-            average = 0.0
-            await rebuildCache((err, top10)->
-              should.not.exist(err)
-              for player in top10
-                if player.name == "FrankLin"
-                  average = player.rating / (player.gamesCitizen + player.gamesSheriff + player.gamesMafia + player.gamesDon)
-                  return
-            )
-            average.should.be.eql(5 / 2)
-          )
-        )
+        await buildModels(paper1)
+        await buildModels(paper2)
+        average = 0.0
+        [top10, common] = await rebuildCache()
+        for player in top10
+          if player.name == "FrankLin"
+            average = player.rating / (player.gamesCitizen + player.gamesSheriff + player.gamesMafia + player.gamesDon)
+            break
+        average.should.be.eql(5 / 2)
       )
     )
+
     describe('game 1 and game 2 at Masons Masters 16.03', ->
       paper1 = require('./TestGame').masonsMasters[0]
       paper2 = require('./TestGame').masonsMasters[1]
       it('should show that Женька-Печенька has zero extra scores per wins', () ->
-        await buildModels(paper1, (err, dbmodels)->
-          should.not.exist(err)
-          await buildModels(paper2, (err, dbmodels)->
-            should.not.exist(err)
-            p = {}
-            await rebuildCache((err, top10, commonStats)->
-              should.not.exist(err)
-              for player in commonStats
-                if player.name == 'Женька-Печенька'
-                  p = player
-                  return
-            )
-            p.extraScoresPerWin.should.be.eql(0.0)
-          )
-        )
+        await buildModels(paper1)
+        await buildModels(paper2)
+        p = {}
+        [top10, commonStats] = await rebuildCache()
+        for player in commonStats
+          if player.name == 'Женька-Печенька'
+            p = player
+            break
+        p.extraScoresPerWin.should.be.eql(0.0)
       )
 
       it('should show that Озб has 3 extra scores per wins', () ->
-        await buildModels(paper1, (err, dbmodels)->
-          should.not.exist(err)
-          await buildModels(paper2, (err, dbmodels)->
-            should.not.exist(err)
-            p = {}
-            await rebuildCache((err, top10, commonStats)->
-              should.not.exist(err)
-              for player in commonStats
-                if player.name == 'Озб'
-                  p = player
-                  return
-            )
-            p.extraScoresPerWin.should.be.eql(6 / 2 )
-          )
-        )
+        await buildModels(paper1)
+        await buildModels(paper2)
+        p = {}
+        [top10, commonStats] = await rebuildCache()
+        for player in commonStats
+          if player.name == 'Озб'
+            p = player
+            break
+        p.extraScoresPerWin.should.be.eql(6 / 2 )
       )
 
       it('should show that kors has 2 extra scores per wins', () ->
-        await buildModels(paper1, (err, dbmodels)->
-          should.not.exist(err)
-          await buildModels(paper2, (err, dbmodels)->
-            should.not.exist(err)
-            p = {}
-            await rebuildCache((err, top10, commonStats)->
-              should.not.exist(err)
-              for player in commonStats
-                if player.name == 'kors'
-                  p = player
-                  return
-            )
-            p.extraScoresPerWin.should.be.eql(2.0)
-          )
-        )
+        await buildModels(paper1)
+        await buildModels(paper2)
+        p = {}
+        [top10, commonStats] = await rebuildCache()
+        for player in commonStats
+          if player.name == 'kors'
+            p = player
+            break
+        p.extraScoresPerWin.should.be.eql(2.0)
       )
     )
   )

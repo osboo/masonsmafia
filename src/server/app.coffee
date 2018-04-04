@@ -22,12 +22,13 @@ app.set('models', require('./models/db'))
 require('./controllers/index')(app)
 require('./controllers/auth')(app)
 require('./controllers/game')(app)
-require('./models/RebuildCache')((err, result)->
-  if err
-    throw err
+initCache = ()->
+  try
+    await require('./models/RebuildCache')()
+  catch err
+    console.error("Rebuild cache failed #{err}")
 
-  app.listen(conf.port)
-  console.log("Start listening #{conf.port}")
-)
+app.listen(conf.port)
+console.log("Start listening #{conf.port}")
 
 module.exports = app

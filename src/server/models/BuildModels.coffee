@@ -4,7 +4,7 @@ db = require('./db')
 fs = require('fs')
 Sequelize = require('sequelize')
 
-module.exports = (paper, done)->
+buildModelsAsync = (paper, done)->
   try
     game = await db.Game.create({
       result: paper.result
@@ -37,7 +37,22 @@ module.exports = (paper, done)->
     models.Game = game
     models.Players = players
     models.PlayerGames = playerGames
-    fs.writeFile('paper.json', JSON.stringify(paper, null, 4), -> )
+    dumpPaper = ()->
+      new Promise( (resolve, reject)->
+        fs.writeFile('paper.json', JSON.stringify(paper, null, 4), (err)->
+          reject(err) if err
+          resolve(paper) if not err
+        )
+      )
+    await dumpPaper()
     done(null, models)
-  catch error
-    done(error, null)
+  catch err
+    done(err, null)
+
+module.exports = (paper) ->
+  new Promise( (resolve, reject) ->
+    buildModelsAsync(paper, (err, models)->
+      reject(err) if err
+      resolve(models) if not err
+    )
+  )
