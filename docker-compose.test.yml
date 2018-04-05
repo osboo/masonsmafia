@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: osboo/masonsmafia-db
+    container_name: testdb
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_HOST: db
+  
+  app:
+    depends_on:
+      - db
+    image: osboo/masonsmafia-app
+    container_name: testapp
+    ports:
+      - "3000:3000"
+    environment:
+      MYSQL_HOST: db
+      MASONS_ENV: TEST
+      
