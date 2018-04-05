@@ -20,12 +20,11 @@ module.exports = (app) ->
     )
 
     app.get('/personal_stat', (req, res)->
-      computerPersonal(req.query.name, (error, profile)->
-        if error
-          res.status(404).send(JSON.stringify(error))
-        else
-          res.json(profile)
-      )
+        try
+            profile = await computerPersonal(req.query.name)
+            res.json(profile)
+        catch error
+            res.status(404).send(JSON.stringify(error))
     )
 
     app.get('/help', (req, res)->

@@ -22,9 +22,10 @@ app.set('models', require('./models/db'))
 require('./controllers/index')(app)
 require('./controllers/auth')(app)
 require('./controllers/game')(app)
-initCache = ()->
+do ()->
   try
     await require('./models/RebuildCache')()
+    console.log('Cache rebuilt')
   catch err
     console.error("Rebuild cache failed #{err}")
 

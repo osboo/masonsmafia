@@ -37,7 +37,7 @@ First, run database container.
     osboo/masonsmafia-db
 
 ## Initialization of database
-If `<LOCAL PATH>` contains data then the container works with it. If there is a need in firsr database initialization (fresh install or running in testing envrironment) then following command should be executed:
+If `<LOCAL PATH>` contains data then the container works with it. If there is a need in first database initialization (fresh install or running in testing envrironment) then following command should be executed:
 
     docker exec -it <DB CONTAINER NAME> coffee src/server/init.coffee
     
@@ -114,7 +114,8 @@ Make __docker-compose.test.yml__ with following configuration:
           MYSQL_HOST: db
           MASONS_ENV: TEST
           
- Then initialize the fresh local store.
+ Then initialize the fresh local store [see above](#initialization-of-database).
+
  Then spin up containers:
     
     docker-compose -f docker-compose.test.yml up
