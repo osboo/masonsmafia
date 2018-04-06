@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 const game_13_03_1 = {
   "referee": "Sam",
   "date": "2014-03-13",

@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 const games = {
   game_01_12: require('./2013-12-01/01_12'),
   game_07_12: require('./2013-12-07/07_12'),

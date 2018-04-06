@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 const constants = require('./../../src/server/models/constants');
 
 const game_10_03_3 = {
