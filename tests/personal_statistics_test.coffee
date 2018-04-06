@@ -8,7 +8,11 @@ if process.env.MASONS_ENV == 'TEST'
     describe('Games at Masons Masters', ()->
 
       beforeEach(()->
-        await db.sequelize.sync({force: true}).complete((err)->)
+        try
+          await db.sequelize.sync({force: true})
+        catch err
+          console.error(err)
+          should.not.exist(err)
         paper1 = require('./TestGame').masonsMasters[0]
         paper2 = require('./TestGame').masonsMasters[1]
         paper3 = require('./TestGame').masonsMasters[2]

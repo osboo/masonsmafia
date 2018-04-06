@@ -30,7 +30,11 @@ if process.env.MASONS_ENV == 'TEST'
   describe('Test games', ()->
 
     beforeEach(()->
-      db.sequelize.sync({force: true}).complete((err)->should.not.exist(err))
+      try
+        await db.sequelize.sync({force: true})
+      catch err
+        console.error(err)
+        should.not.exist(err)
     )
 
     describe('Player model', ()->

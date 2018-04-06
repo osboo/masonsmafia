@@ -15,7 +15,7 @@ COPY ./db/package*.json ./
 RUN npm install
 
 # Bundle app source
-COPY ./src/server/conf.coffee ./src/server/conf.coffee
+COPY ./src/server/conf.js ./src/server/conf.js
 COPY ./src/server/init.coffee ./src/server/init.coffee
 COPY ./src/server/models/. ./src/server/models/.
 

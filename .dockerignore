@@ -1,10 +1,9 @@
 .idea
 .map
 node_modules
-src/client/**/*.js
-src/server/**/*.js
-tests/**/*.js
 src/static/json/*.*
 src/static/fonts/*.*
 src/static/img/*.*
 .travis.yml
+paper.json
+

@@ -1,10 +1,8 @@
 .idea
 .map
 node_modules
-src/client/**/*.js
-src/server/**/*.js
 src/static/js/*.js
-tests/**/*.js
 src/static/json/*.*
 src/static/fonts/*.*
 src/static/img/*.*
+paper.json
