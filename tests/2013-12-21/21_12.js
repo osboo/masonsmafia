@@ -1,4 +1,4 @@
-game_21_12_1 = {
+const game_21_12_1 = {
   "referee": "Озб",
   "date": "2013-12-21",
   "result": "mafia_win",
@@ -88,9 +88,9 @@ game_21_12_1 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_21_12_2 = {
+const game_21_12_2 = {
   "referee": "Озб",
   "date": "2013-12-21",
   "result": "mafia_win",
@@ -180,6 +180,6 @@ game_21_12_2 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-module.exports = [game_21_12_1, game_21_12_2]
+module.exports = [game_21_12_1, game_21_12_2];

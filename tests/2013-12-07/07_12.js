@@ -1,4 +1,4 @@
-game_07_12_1 = {
+const game_07_12_1 = {
   "referee": "kazzantip",
   "date": "2013-12-07",
   "result": "mafia_win",
@@ -88,9 +88,9 @@ game_07_12_1 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_07_12_2 = {
+const game_07_12_2 = {
   "referee": "kazzantip",
   "date": "2013-12-07",
   "result": "mafia_win",
@@ -180,9 +180,9 @@ game_07_12_2 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_07_12_3 = {
+const game_07_12_3 = {
   "referee": "Sam",
   "date": "2013-12-07",
   "result": "mafia_win",
@@ -272,6 +272,6 @@ game_07_12_3 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-module.exports = [game_07_12_1, game_07_12_2, game_07_12_3]
+module.exports = [game_07_12_1, game_07_12_2, game_07_12_3];

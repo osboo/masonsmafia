@@ -1,24 +1,35 @@
-SERVICE_ROLES = require('./constants').SERVICE_ROLES
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const { SERVICE_ROLES } = require('./constants');
 
-module.exports = (db, DataTypes)->
-  Player = db.define('Player', {
-    vk_id:
+module.exports = function(db, DataTypes){
+  let Player;
+  return Player = db.define('Player', {
+    vk_id: {
         type: DataTypes.STRING
+      },
 
-    name:
-      type: DataTypes.STRING
-      allowNull: false
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
       unique: true
+    },
 
-    service_role:
-        type: DataTypes.ENUM(SERVICE_ROLES.USER, SERVICE_ROLES.ADMIN)
-        defaultValue: SERVICE_ROLES.USER
+    service_role: {
+        type: DataTypes.ENUM(SERVICE_ROLES.USER, SERVICE_ROLES.ADMIN),
+        defaultValue: SERVICE_ROLES.USER,
         allowNull: false
+      }
     },{
-      associate: (models)->
-        Player.hasMany(models.PlayerGame)
+      associate(models){
+        return Player.hasMany(models.PlayerGame);
+      },
       charset: 'utf8',
       collate: 'utf8_unicode_ci'
     }
-  )
+  );
+};
 

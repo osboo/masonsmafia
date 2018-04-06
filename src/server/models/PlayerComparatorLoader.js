@@ -1,3 +1,3 @@
-comparator = require('./../../client/PlayerComparator')
+const comparator = require('./../../client/PlayerComparator');
 
-module.exports = comparator.compare
+module.exports = comparator.compare;

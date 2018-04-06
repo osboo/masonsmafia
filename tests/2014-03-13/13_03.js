@@ -1,4 +1,4 @@
-game_13_03_1 = {
+const game_13_03_1 = {
   "referee": "Sam",
   "date": "2014-03-13",
   "result": "mafia_win",
@@ -88,9 +88,9 @@ game_13_03_1 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_13_03_2 = {
+const game_13_03_2 = {
   "referee": "Sam",
   "date": "2014-03-13",
   "result": "mafia_win",
@@ -180,9 +180,9 @@ game_13_03_2 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_13_03_2_table2 = {
+const game_13_03_2_table2 = {
   "referee": "Хедин",
   "date": "2014-03-13",
   "result": "mafia_win",
@@ -272,9 +272,9 @@ game_13_03_2_table2 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_13_03_6 = {
+const game_13_03_6 = {
   "referee": "Хедин",
   "date": "2014-03-13",
   "result": "citizens_win",
@@ -364,9 +364,9 @@ game_13_03_6 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_13_03_5 = {
+const game_13_03_5 = {
   "referee": "Озб",
   "date": "2014-02-13",
   "result": "mafia_win",
@@ -456,9 +456,9 @@ game_13_03_5 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_13_03_1_table2 = {
+const game_13_03_1_table2 = {
   "referee": "Хедин",
   "date": "2014-03-13",
   "result": "mafia_win",
@@ -548,6 +548,6 @@ game_13_03_1_table2 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-module.exports = [game_13_03_1, game_13_03_2, game_13_03_5, game_13_03_6, game_13_03_1_table2, game_13_03_2_table2]
+module.exports = [game_13_03_1, game_13_03_2, game_13_03_5, game_13_03_6, game_13_03_1_table2, game_13_03_2_table2];

@@ -1,50 +1,52 @@
-passport = require('passport')
-Vk = require('passport-vkontakte').Strategy
-conf = require('../conf')('auth')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const passport = require('passport');
+const Vk = require('passport-vkontakte').Strategy;
+const conf = require('../conf')('auth');
 
-AUTH_URL = '/auth/vk'
-AUTH_CALLBACK_URL = '/auth/callback'
-HOME_PAGE = '/'
+const AUTH_URL = '/auth/vk';
+const AUTH_CALLBACK_URL = '/auth/callback';
+const HOME_PAGE = '/';
 
-module.exports = (app) ->
-    onProfileGot = (accessToken, refreshToken, profile, done) ->
-      if profile.id in [688901]
-        return done(null, profile)
-      done('It is another user:(', null)
+module.exports = function(app) {
+    const onProfileGot = function(accessToken, refreshToken, profile, done) {
+      if ([688901].includes(profile.id)) {
+        return done(null, profile);
+      }
+      return done('It is another user:(', null);
+    };
 
     passport.use('vk', new Vk({
-        clientID: conf.id
-        clientSecret: conf.secret
+        clientID: conf.id,
+        clientSecret: conf.secret,
         callbackURL: AUTH_CALLBACK_URL
-    }, onProfileGot))
+    }, onProfileGot));
 
-    app.get(AUTH_URL, passport.authenticate('vk'))
+    app.get(AUTH_URL, passport.authenticate('vk'));
 
     app.get(AUTH_CALLBACK_URL, passport.authenticate('vk', {
       failureRedirect: AUTH_URL
-    }), (req, res)->
-      res.redirect(req.session.returnTo || HOME_PAGE)
-    )
+    }), (req, res)=> res.redirect(req.session.returnTo || HOME_PAGE));
 
-    app.get('/logout', (req, res) ->
-        req.logout()
-        res.redirect(HOME_PAGE)
-    )
+    app.get('/logout', function(req, res) {
+        req.logout();
+        return res.redirect(HOME_PAGE);
+    });
 
-    ensureAuthenticated = (req, res, next) ->
-      if req.isAuthenticated() then next()
-      else
-        req.session.returnTo = req.url
-        res.redirect(AUTH_URL)
+    const ensureAuthenticated = function(req, res, next) {
+      if (req.isAuthenticated()) { return next();
+      } else {
+        req.session.returnTo = req.url;
+        return res.redirect(AUTH_URL);
+      }
+    };
 
-    app.get('/admin', ensureAuthenticated, (req, res)->
-        res.render('admin_index', {})
-      )
+    app.get('/admin', ensureAuthenticated, (req, res)=> res.render('admin_index', {}));
 
-    passport.serializeUser((user, done) ->
-        done(null, user.id)
-    )
+    passport.serializeUser((user, done) => done(null, user.id));
 
-    passport.deserializeUser((user, done) ->
-        done(null, user)
-    )
+    return passport.deserializeUser((user, done) => done(null, user));
+  };

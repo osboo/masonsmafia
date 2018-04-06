@@ -1,4 +1,4 @@
-game_16_03_3 = {
+const game_16_03_3 = {
   "referee": "kazzantip",
   "date": "2014-03-20",
   "result": "citizens_win",
@@ -88,9 +88,9 @@ game_16_03_3 = {
       "extraScores": 2
     }
   ]
-}
+};
 
-game_16_03_2 = {
+const game_16_03_2 = {
   "referee": "Наталья Сергеевна",
   "date": "2014-03-20",
   "result": "mafia_win",
@@ -180,9 +180,9 @@ game_16_03_2 = {
       "extraScores": 0
     }
   ]
-}
+};
 
-game_16_03_1 = {
+const game_16_03_1 = {
   "referee": "kazzantip",
   "date": "2014-03-20",
   "result": "citizens_win",
@@ -272,6 +272,6 @@ game_16_03_1 = {
       "extraScores": 1.5
     }
   ]
-}
+};
 
-module.exports = [game_16_03_2, game_16_03_3, game_16_03_1]
+module.exports = [game_16_03_2, game_16_03_3, game_16_03_1];
