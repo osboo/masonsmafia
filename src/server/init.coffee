@@ -2,39 +2,54 @@ config = require('./conf')('db')
 Sequelize = require('sequelize')
 db = require('./models/db')
 
-connection = new Sequelize(config.dbName, config.login, config.password, {
-    host: config.host,
-    dialect: 'mysql',
-    logging: false
-})
-
 createSchema = (db)->
-    db.sequelize.authenticate().complete((err)->
-        db.sequelize.sync({force: true}).complete((err) ->
-            console.error("Error while db sync #{err}") if err
-            console.log("Sync done")
-            true
-        )
-    )
+    try
+        await db.sequelize.authenticate()
+        await db.sequelize.sync({force: true})
+        console.log("Sync done")
+    catch err
+        console.error("Error while db sync #{err}")
 
-connection.authenticate().complete((err)->
-  if err
-    console.error("#{err} \n Attempt to create database and user from scratch...")
+attemptToCreateSchema = (done)->
+    try
+        await db.sequelize.authenticate()
+        console.log('Connected, creating schema..')
+        createSchema(db)
+        done()
+    catch err
+        console.error("#{err}") 
+        console.log("Attempt to create database and user from scratch...")
+        initConnection = new Sequelize("mysql", "root", "#{process.env.MYSQL_ROOT_PASSWORD}", {
+            host: config.host,
+            dialect: 'mysql',
+            logging: false
+        })
 
-    initConnection = new Sequelize("mysql", "root", "#{process.env.MYSQL_ROOT_PASSWORD}", {
-        host: config.host,
-        dialect: 'mysql',
-        logging: false
-    })
-
-    initConnection.query("CREATE DATABASE IF NOT EXISTS #{config.dbName};").then(()-> 
+        await initConnection.query("CREATE DATABASE IF NOT EXISTS #{config.dbName};")
         console.log("Database #{config.dbName} created")
-        initConnection.query("GRANT ALL PRIVILEGES ON #{config.dbName}.* TO '#{config.login}'@'%' IDENTIFIED BY '#{config.password}';").then(()-> 
-            console.log("User #{config.login} created")
-            initConnection.query("FLUSH PRIVILEGES;").then(()->createSchema(db))
+        await initConnection.query("GRANT ALL PRIVILEGES ON #{config.dbName}.* TO '#{config.login}'@'%' IDENTIFIED BY '#{config.password}';")
+        console.log("User #{config.login} created")
+        await initConnection.query("FLUSH PRIVILEGES;")
+        createSchema(db)
+        done()
+
+do init = ()->
+    try
+        p = new Promise((resolve, reject)->
+            timerId = setInterval( ()->
+                try
+                    await attemptToCreateSchema(resolve)
+                    clearInterval(timerId)
+                catch err
+                    console.log("Failed attempt: #{err}")
+            , 10000)
+
+            setTimeout(()->
+                clearInterval(timerId)
+                reject("Cannot rebuild in 60 sec")
+            , 60000)
         )
-    )
-  else
-    console.log('Connected, creating schema..')
-    createSchema(db)
-)
+        await p
+    catch err
+        console.log("#{err}")
+
