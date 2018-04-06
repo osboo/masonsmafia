@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/osboo/masonsmafia.svg?branch=master)](https://travis-ci.org/osboo/masonsmafia)
 # Server installation
 1. sudo apt-get install git
 1. cd `Checkout directory`
@@ -114,12 +115,16 @@ Make __docker-compose.test.yml__ with following configuration:
           MYSQL_HOST: db
           MASONS_ENV: TEST
           
- Then initialize the fresh local store [see above](#initialization-of-database).
-
  Then spin up containers:
     
-    docker-compose -f docker-compose.test.yml up
+    docker-compose -f docker-compose.test.yml up -d
 
+ Then initialize the fresh local store [see above](#initialization-of-database).
+
+ And restart containers again (first run is unsuccessfull as database it not initialized):
+
+    docker-compose -f docker-compose.test.yml restart
+  
 - For unit-tests call: `docker exec -it testapp ./node_modules/mocha/bin/mocha -u bdd ./tests/unit-tests`
 - For integration tests (db): `docker exec -it testapp ./node_modules/mocha/bin/mocha -u bdd ./tests/dbtest`
 - For integration tests (add new games): `docker exec -it testapp ./node_modules/mocha/bin/mocha -u bdd ./tests/personal_statistics_test`
