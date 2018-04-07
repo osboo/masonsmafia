@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 config = {
-    entry: './src/client/vendors.coffee',
+    entry: './src/client/vendors.js',
 
     output: {
         path: path.resolve(__dirname, "src/static"),
