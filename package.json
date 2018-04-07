@@ -2,7 +2,7 @@
   "name": "masonsmafia",
   "version": "1.0.0",
   "description": "Masons mafia club statistics",
-  "main": "/src/server/app.coffee",
+  "main": "/src/server/app.js",
   "directories": {
     "test": "tests"
   },
@@ -48,7 +48,7 @@
   "scripts": {
     "test": "coffee -c src && coffee -c tests && mocha -u bdd ./tests/unit-tests && mocha -u bdd --timeout 60000 ./tests/dbtest && mocha -u bdd --timeout 60000 ./tests/personal_statistics_test",
     "build": "coffee -c -o src/static/js src/client && coffee -c src/server && webpack",
-    "start": "coffee src/server/app.coffee"
+    "start": "node src/server/app.js"
   },
   "repository": {
     "type": "git",

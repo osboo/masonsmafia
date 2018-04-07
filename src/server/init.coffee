@@ -36,18 +36,18 @@ attemptToCreateSchema = (done)->
 do init = ()->
     try
         p = new Promise((resolve, reject)->
+            attempts = 0
             timerId = setInterval( ()->
                 try
+                    attempts += 1
                     await attemptToCreateSchema(resolve)
                     clearInterval(timerId)
                 catch err
                     console.log("Failed attempt: #{err}")
+                    if attempts > 6
+                        clearInterval(timerId)
+                        reject("Cannot rebuild in 60 sec")
             , 10000)
-
-            setTimeout(()->
-                clearInterval(timerId)
-                reject("Cannot rebuild in 60 sec")
-            , 60000)
         )
         await p
     catch err
