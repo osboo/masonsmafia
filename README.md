@@ -6,11 +6,9 @@
 1. Install [Workbench](http://dev.mysql.com/downloads/workbench/)
 1. `curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -`
 1. `sudo apt-get install -y nodejs`
-1. `sudo npm install -g coffeescript`
-1. `coffee -c src`
 1. `npm install`
 1. `npm run build`
-1. `export MYSQL_HOST=localhost && coffee src/server/init.coffee` (For first initialization)
+1. `export MYSQL_HOST=localhost && node src/server/init.js` (For first initialization)
 
 # Run server application:
 
@@ -21,7 +19,6 @@
 1. Create __masons_test__ schema and user in accordane with `conf` (it is easier via MySQL Workbench)
 1. user interface=bdd
 1. test directory=`Checkout directory/tests`
-1. pre-build step=`coffee -c src && coffee -c tests`
 
 # Running server container
 First, run database container.
@@ -40,13 +37,13 @@ First, run database container.
 ## Initialization of database
 If `<LOCAL PATH>` contains data then the container works with it. If there is a need in first database initialization (fresh install or running in testing envrironment) then following command should be executed:
 
-    docker exec -it <DB CONTAINER NAME> coffee src/server/init.coffee
+    docker exec -it <DB CONTAINER NAME> node src/server/init.js
     
 ## Initialization for tests
 Before each Mocha tests run the database should be initialized. Please also note that the container volume should be stateless so it must be cleaned after each test run.
 Command to inititialize the database in test env:
 
-    docker exec -it -e MASONS_ENV=TEST <DB CONTAINER NAME> coffee src/server/init.coffee
+    docker exec -it -e MASONS_ENV=TEST <DB CONTAINER NAME> node src/server/init.js
 
 ## Running the app
 Then run container in user defined network (`mynet` in this example):

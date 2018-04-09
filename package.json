@@ -46,8 +46,8 @@
     "webpack-cli": "^2.0.13"
   },
   "scripts": {
-    "test": "coffee -c src && coffee -c tests && mocha -u bdd ./tests/unit-tests && mocha -u bdd --timeout 60000 ./tests/dbtest && mocha -u bdd --timeout 60000 ./tests/personal_statistics_test",
-    "build": "coffee -c -o src/static/js src/client && coffee -c src/server && webpack",
+    "test": "mocha -u bdd ./tests/unit-tests && mocha -u bdd --timeout 60000 ./tests/dbtest && mocha -u bdd --timeout 60000 ./tests/personal_statistics_test",
+    "build": "cp `find src/client -name '*.js' -not -iname 'vendors.js'` src/static/js && webpack",
     "start": "node src/server/app.js"
   },
   "repository": {
