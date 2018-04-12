@@ -7,19 +7,19 @@ if (process.env.MASONS_ENV === 'TEST') {
       port: 3000,
       sessionSecret: 'as9a9waiodnla21&&7aajwTaw7(',
       storeOptions: {
-        db: 2
-      }
+        db: 2,
+      },
     },
     auth: {
       id: '4128469',
-      secret: '5fPfSkh0MZGUMPd15F3y'
+      secret: '5fPfSkh0MZGUMPd15F3y',
     },
     db: {
       dbName: 'masons_test',
       login: 'masons',
       password: 'masons',
-      host: `${process.env.MYSQL_HOST}`
-    }
+      host: `${process.env.MYSQL_HOST}`,
+    },
   };
 } else {
   conf = {
@@ -27,20 +27,20 @@ if (process.env.MASONS_ENV === 'TEST') {
       port: 3000,
       sessionSecret: 'as9a9waiodnla21&&7aajwTaw7(',
       storeOptions: {
-        db: 2
-      }
+        db: 2,
+      },
     },
     auth: {
       id: '4128469',
-      secret: '5fPfSkh0MZGUMPd15F3y'
+      secret: '5fPfSkh0MZGUMPd15F3y',
     },
     db: {
       dbName: 'masons',
       login: 'masons',
       password: 'masons',
-      host: `${process.env.MYSQL_HOST}`
-    }
+      host: `${process.env.MYSQL_HOST}`,
+    },
   };
 }
 
-module.exports = section => conf[section];
+module.exports = (section) => conf[section];

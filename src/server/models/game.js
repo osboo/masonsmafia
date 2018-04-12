@@ -5,32 +5,32 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const { GAME_RESULT } = require('./constants');
+const {GAME_RESULT} = require('./constants');
 
-module.exports = function(db, DataTypes){
+module.exports = function(db, DataTypes) {
   let Game;
   return Game = db.define('Game', {
     result: {
       type: DataTypes.ENUM,
       values: [GAME_RESULT.MAFIA_WIN, GAME_RESULT.CITIZENS_WIN],
-      allowNull: false
+      allowNull: false,
     },
 
     date: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
     },
 
     referee: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
     }, {
-      associate(models){
+      associate(models) {
         return Game.hasMany(models.PlayerGame);
       },
       charset: 'utf8',
-      collate: 'utf8_unicode_ci'
+      collate: 'utf8_unicode_ci',
     }
   );
 };

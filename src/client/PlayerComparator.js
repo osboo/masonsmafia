@@ -6,7 +6,7 @@
  * DS208: Avoid top-level this
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const deepCompare = function(a, b){
+const deepCompare = function(a, b) {
   const aIsGreater = 1;
   const bIsGreater = -1;
   const gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon;
@@ -68,19 +68,27 @@ const deepCompare = function(a, b){
   return aIsGreater;
 };
 
-const experience = function(a){
+const experience = function(a) {
   const gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon;
   const winsA = a.winsCitizen + a.winsSheriff + a.winsMafia + a.winsDon;
   const winRateA = gamesA > 0 ? winsA / gamesA : 0.0;
-  if (winRateA > 0.3) { return Math.min(Math.log(gamesA) / Math.log(2), 8); } else { return 0.0; }
+  if (winRateA > 0.3) {
+ return Math.min(Math.log(gamesA) / Math.log(2), 8);
+} else {
+ return 0.0;
+}
 };
 
-const average = function(a){
+const average = function(a) {
   const gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon;
-  if (gamesA > 0) { return a.rating / gamesA; } else { return 0.0; }
+  if (gamesA > 0) {
+ return a.rating / gamesA;
+} else {
+ return 0.0;
+}
 };
 
-const compare = function(a, b){
+const compare = function(a, b) {
   const aIsGreater = 1;
   const bIsGreater = -1;
   const gamesA = a.gamesCitizen + a.gamesSheriff + a.gamesMafia + a.gamesDon;
@@ -89,7 +97,11 @@ const compare = function(a, b){
   const forceB = average(b) + experience(b);
   if (gamesA !== gamesB) {
       if ((Math.abs(forceA - forceB) / Math.max(forceA, forceB)) > 1e-3) {
-        if (forceA > forceB) { return aIsGreater; } else { return bIsGreater; }
+        if (forceA > forceB) {
+ return aIsGreater;
+} else {
+ return bIsGreater;
+}
       } else {
         return deepCompare(a, b);
       }
@@ -101,11 +113,11 @@ const compare = function(a, b){
 const comparator = {
   'compare': compare,
   'average': average,
-  'experience': experience
+  'experience': experience,
 };
 
 if ((typeof(module) !== 'undefined') && (typeof(module.exports) !== 'undefined')) {
   module.exports = comparator;
 } else {
-  this["playercomparator"] = comparator;
+  this['playercomparator'] = comparator; // eslint-disable-line no-invalid-this
 }

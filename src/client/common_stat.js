@@ -1,14 +1,5 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 $(function() {
-  $("[data-toggle='tooltip']").tooltip();
+  $('[data-toggle=\'tooltip\']').tooltip();
   $.extend($.tablesorter.themes.bootstrap, {
     table: 'table table-bordered table-striped table-responsive',
     header: 'bootstrap-header',
@@ -22,7 +13,7 @@ $(function() {
     hover: '',
     filterRow: '',
     even: '',
-    odd: ''
+    odd: '',
   });
 
   $.tablesorter.addWidget({
@@ -30,12 +21,12 @@ $(function() {
     format(table) {
       return __range__(0, table.tBodies[0].rows.length, false).map((i) =>
         $(`tbody tr:eq(\"${i}\") td:first`, table).html(i + 1));
-    }
+    },
   });
 
   $.tablesorter.addParser({
     id: 'ratingToString',
-    format(s, table, cell, cellIndex){
+    format(s, table, cell, cellIndex) {
       return {
       gamesCitizen: parseInt($(cell).attr('games-citizen')),
       gamesSheriff: parseInt($(cell).attr('games-sheriff')),
@@ -47,19 +38,30 @@ $(function() {
       winsDon: parseInt($(cell).attr('wins-don')),
       bestPlayer: parseInt($(cell).attr('best-player')),
       firstKilledNight: parseInt($(cell).attr('first-killed-at-night')),
-      rating: parseFloat($(cell).attr('rating'))
+      rating: parseFloat($(cell).attr('rating')),
       };
     },
-    type: 'text'
+    type: 'text',
   });
 
-  const extended = function(players){
+  const extended = function(players) {
     const result = [];
     for (let player of Array.from(players)) {
-      player['gamesTotal'] = parseInt(player.gamesCitizen) + parseInt(player.gamesSheriff) + parseInt(player.gamesMafia) + parseInt(player.gamesDon);
+      player['gamesTotal'] = parseInt(player.gamesCitizen) +
+                            parseInt(player.gamesSheriff) +
+                            parseInt(player.gamesMafia) +
+                            parseInt(player.gamesDon);
+
       player['rating'] = parseFloat(player.rating).toFixed(2);
-      player['averageRating'] = (parseFloat(player.rating) / parseFloat(player.gamesTotal)).toFixed(2);
-      player['winsTotal'] = parseInt(player.winsCitizen) + parseInt(player.winsSheriff) + parseInt(player.winsMafia) + parseInt(player.winsDon);
+
+      player['averageRating'] = (parseFloat(player.rating) /
+                                parseFloat(player.gamesTotal)).toFixed(2);
+
+      player['winsTotal'] = parseInt(player.winsCitizen) +
+                            parseInt(player.winsSheriff) +
+                            parseInt(player.winsMafia) +
+                            parseInt(player.winsDon);
+
       player['bestMoveAccuracy'] = player.bestMoveAccuracy.toFixed(2);
       player['extraScoresPerWin'] = player.extraScoresPerWin.toFixed(2);
       result.push(player);
@@ -67,7 +69,7 @@ $(function() {
     return result;
   };
 
-  const renderTables = function(players){
+  const renderTables = function(players) {
     $('.common-rating tbody').remove();
     $('.wins tbody').remove();
     $('.roles tbody').remove();
@@ -94,16 +96,16 @@ $(function() {
     })();
   };
 
-  const updateTables = function(urlString){
+  const updateTables = function(urlString) {
     const request = {
       url: urlString,
       dataType: 'json',
-      beforeSend(){
+      beforeSend() {
         $('.stat-tables').hide();
         return $('.loader').show();
       },
 
-      complete(){
+      complete() {
         $('.loader').hide();
         return $('.stat-tables').show();
       },
@@ -112,37 +114,37 @@ $(function() {
         renderTables(data);
         $('.common-rating').tablesorter({
           headers: {
-            0: { sorter: false},
-            2: { sorter: 'ratingToString'}
+            0: {sorter: false},
+            2: {sorter: 'ratingToString'},
           },
           sortList: [
-            [2, 1]
+            [2, 1],
           ],
           textSorter: {
-            2(a, b, direction, column, table){
+            2(a, b, direction, column, table) {
               return playercomparator.compare(a, b);
-            }
+            },
           },
-          theme: "bootstrap",
+          theme: 'bootstrap',
           widgets: ['uitheme', 'indexFirstColumn'],
-          headerTemplate: '{content} {icon}'
+          headerTemplate: '{content} {icon}',
         });
-        ['wins', 'roles', 'impact'].forEach(className=>
+        ['wins', 'roles', 'impact'].forEach((className)=>
           $(`.${className}`).tablesorter({
             headers: {
-              0: { sorter: false}
+              0: {sorter: false},
             },
             sortList: [
-              [2, 1]
+              [2, 1],
             ],
-            theme: "bootstrap",
+            theme: 'bootstrap',
             widgets: ['uitheme', 'indexFirstColumn'],
-            headerTemplate: '{content} {icon}'
+            headerTemplate: '{content} {icon}',
           })
         );
-        $('.stat-tables table').trigger("update");
-        return $('.stat-tables table').trigger("sorton");
-      }
+        $('.stat-tables table').trigger('update');
+        return $('.stat-tables table').trigger('sorton');
+      },
     };
     return $.ajax(request);
   };
@@ -151,12 +153,13 @@ $(function() {
   $('.top-10').click(function() {
     const values = {'все игроки': 'топ-10', 'топ-10': 'все игроки'};
     const links = {'все игроки': '/json/common_stat_responce.json', 'топ-10': '/json/top10.json'};
-    updateTables(links[$(this).html()]);
-    return $(this).html(values[$(this).html()]);
+    updateTables(links[$(this).html()]); // eslint-disable-line no-invalid-this
+    return $(this).html(values[$(this).html()]); // eslint-disable-line no-invalid-this
   });
 
   return updateTables('/json/top10.json');
 });
+
 function __range__(left, right, inclusive) {
   let range = [];
   let ascending = left < right;

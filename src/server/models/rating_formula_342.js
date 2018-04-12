@@ -5,13 +5,12 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const { PLAYER_ROLES } = require('./constants');
-const { GAME_RESULT } = require('./constants');
+const {PLAYER_ROLES} = require('./constants');
+const {GAME_RESULT} = require('./constants');
 
-module.exports = function(playerGame, gameResult){
+module.exports = function(playerGame, gameResult) {
   const winScores = {};
   const bestMoveScores = {};
-  let result = 0.0;
   winScores[PLAYER_ROLES.CITIZEN] = 3.0;
   winScores[PLAYER_ROLES.SHERIFF] = 3.0;
   winScores[PLAYER_ROLES.MAFIA] = 4.0;

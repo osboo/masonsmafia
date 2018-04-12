@@ -9,13 +9,13 @@
  */
 const app = angular.module('adminModule', ['ui.bootstrap']);
 
-app.factory('broadCastService', function($rootScope){
+app.factory('broadCastService', function($rootScope) {
   const broadcast = {};
   broadcast.broadCastSubmitEvent = ()=> $rootScope.$broadcast('SubmitEvent');
   return broadcast;
 });
 
-app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal, $http){
+app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal, $http) {
   $scope.dt = {value: null};
   $scope.referee = {value: ''};
   $scope.winningParty = {value: 'Мирные'};
@@ -28,47 +28,53 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
   $scope.previewMsg = [];
 
   $scope.names = [];
-  $http.get('/json/players.json').success(data=> $scope.names = data);
+  $http.get('/json/players.json').success((data)=> $scope.names = data);
 
-  $scope.openErrorPopup = function(){
-    let modalInstance = null;
-    return modalInstance = $modal.open({
+  $scope.openErrorPopup = function() {
+    let modalInstance = $modal.open({
       templateUrl: 'error_box.html',
       controller: 'popupInstanceCtrl',
       size: 'sm',
       resolve: {
-        msgs(){ return $scope.errors; }
-      }
+        msgs() {
+          return $scope.errors;
+        },
+      },
     });
+    return modalInstance;
   };
 
-  $scope.openPreviewPopup = function(){
-    let modalInstance = null;
-    return modalInstance = $modal.open({
+  $scope.openPreviewPopup = function() {
+    let modalInstance = $modal.open({
         templateUrl: 'preview.html',
         controller: 'popupInstanceCtrl',
         size: 'lg',
         resolve: {
-          msgs(){ return $scope.previewMsg; }
-        }
+          msgs() {
+            return $scope.previewMsg;
+          },
+        },
       }
     );
+    return modalInstance;
   };
 
 
-  $scope.openSuccessPopup = function(){
-    let modalInstance = null;
-    return modalInstance = $modal.open({
+  $scope.openSuccessPopup = function() {
+    let modalInstance = $modal.open({
       templateUrl: 'success_box.html',
       controller: 'popupInstanceCtrl',
       size: 'sm',
       resolve: {
-        msgs(){ return $scope.successMsg; }
-      }
+        msgs() {
+          return $scope.successMsg;
+        },
+      },
     });
+    return modalInstance;
   };
 
-  $scope.getPlayerbyRole = function(role){
+  $scope.getPlayerbyRole = function(role) {
     const result = [];
     for (let player of Array.from($scope.players)) {
       if (role === player.role) {
@@ -83,7 +89,7 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
     return result;
   };
 
-  $scope.getBestPlayers = function(){
+  $scope.getBestPlayers = function() {
     const result = [];
     for (let player of Array.from($scope.players)) {
       if (player.isBest) {
@@ -93,7 +99,7 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
     return result;
   };
 
-  $scope.getFirstKilledAtNight = function(){
+  $scope.getFirstKilledAtNight = function() {
     const foundedAccuracy = ' не брал лучший ход';
     for (let player of Array.from($scope.players)) {
       if (player.name === $scope.firstKilledAtNight) {
@@ -103,13 +109,17 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
     return {name: $scope.firstKilledAtNight, accuracy: foundedAccuracy};
   };
 
-  $scope.save = function(){
+  $scope.save = function() {
     let player;
     const roleDict = {'Мирный': 0, 'Шериф': 0, 'Мафия': 0, 'Дон': 0};
     $scope.errors = [];
     const namesDict = [];
-    if ($scope.firstKilledAtNight === null) { $scope.firstKilledAtNight = ''; }
-    if ($scope.firstKilledByDay === null) { $scope.firstKilledByDay = ''; }
+    if ($scope.firstKilledAtNight === null) {
+      $scope.firstKilledAtNight = '';
+    }
+    if ($scope.firstKilledByDay === null) {
+      $scope.firstKilledByDay = '';
+    }
     if (($scope.firstKilledAtNight === $scope.firstKilledByDay) && $scope.firstKilledAtNight) {
       $scope.errors.push(`Игрок ${$scope.firstKilledAtNight} убит и днём и ночью`);
     }
@@ -125,14 +135,16 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
     }
 
     for (let name in namesDict) {
-      const count = namesDict[name];
-      if (count > 1) {
-        $scope.errors.push(`Игрок ${name} встречается больше 1 раза`);
+      if (namesDict.hasOwnProperty(name)) {
+        const count = namesDict[name];
+        if (count > 1) {
+          $scope.errors.push(`Игрок ${name} встречается больше 1 раза`);
+        }
       }
     }
 
     if (roleDict['Мирный'] !== 6) {
-      $scope.errors.push("Мирных должно быть 6");
+      $scope.errors.push('Мирных должно быть 6');
     }
     if (roleDict['Шериф'] !== 1) {
       $scope.errors.push('Должен быть 1 шериф');
@@ -149,7 +161,7 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
     } else {
       $scope.previewMsg = [];
       $scope.previewMsg.push(`Судья: ${$scope.referee.value}`);
-      $scope.previewMsg.push(`Дата: ${moment($scope.dt.value).format("DD MMMM YYYY")}`);
+      $scope.previewMsg.push(`Дата: ${moment($scope.dt.value).format('DD MMMM YYYY')}`);
       $scope.previewMsg.push(`Победа: ${$scope.winningParty.value}`);
       $scope.previewMsg.push(`Дон: ${$scope.getPlayerbyRole('Дон').name}`);
       $scope.previewMsg.push(`Мафия: ${$scope.getPlayerbyRole('Мафия')[0].name}`);
@@ -157,7 +169,8 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
       $scope.previewMsg.push(`Шериф: ${$scope.getPlayerbyRole('Шериф').name}`);
       $scope.previewMsg.push('Лучшие игроки: ' + ((() => {
         const result = [];
-        for (player of Array.from($scope.getBestPlayers())) {           result.push(` ${[player.name, player.extraScores].join(' ')}`);
+        for (player of Array.from($scope.getBestPlayers())) {
+           result.push(` ${[player.name, player.extraScores].join(' ')}`);
         }
         return result;
       })()));
@@ -167,95 +180,95 @@ app.controller('formCtrl', ['$scope', '$modal', '$http', function($scope, $modal
     }
   };
 
-  $scope.submit = function(){
+  $scope.submit = function() {
     const paper = {
         referee: $scope.referee.value,
-        date: moment($scope.dt.value).format("YYYY-MM-DD"),
-        result: {"Мирные": "citizens_win", "Мафия": "mafia_win"}[$scope.winningParty.value],
+        date: moment($scope.dt.value).format('YYYY-MM-DD'),
+        result: {'Мирные': 'citizens_win', 'Мафия': 'mafia_win'}[$scope.winningParty.value],
         firstKilledAtNight: $scope.firstKilledAtNight,
         firstKilledByDay: $scope.firstKilledByDay,
         bestMoveAuthor: [0, 1, 2, 3].includes($scope.bestMoveAccuracy) ? $scope.firstKilledAtNight : '',
         bestMoveAccuracy: $scope.bestMoveAccuracy,
-        players: []
+        players: [],
       };
     for (let player of Array.from($scope.players)) {
       paper.players.push({
         name: player.name,
-        role: {"Мирный": "citizen", "Шериф": "sheriff", "Мафия":"mafia", "Дон":"don"}[player.role],
+        role: {'Мирный': 'citizen', 'Шериф': 'sheriff', 'Мафия': 'mafia', 'Дон': 'don'}[player.role],
         fouls: player.fouls,
         likes: player.likes,
         isBest: player.isBest,
-        extraScores: player.extraScores
+        extraScores: player.extraScores,
       });
     }
     return $http({
-      method: "POST",
-      url: "/game",
-      data: paper
-    }).success(function(data, status, headers, config){
+      method: 'POST',
+      url: '/game',
+      data: paper,
+    }).success(function(data, status, headers, config) {
       $scope.successMsg = data;
       return $scope.openSuccessPopup();
-    }).error(function(data, status, headers, config){
+    }).error(function(data, status, headers, config) {
       $scope.errors = data;
       return $scope.openErrorPopup();
     });
   };
 
   return $scope.$on('SubmitEvent', ()=> $scope.submit());
-}
+},
 ]);
 
-app.controller('popupInstanceCtrl', ['$scope', '$modalInstance', 'msgs', '$window', 'broadCastService', function($scope, $modalInstance, msgs, $window, broadCastService){
+app.controller('popupInstanceCtrl', ['$scope', '$modalInstance', 'msgs', '$window', 'broadCastService', function($scope, $modalInstance, msgs, $window, broadCastService) {
   $scope.msgs = msgs;
-  $scope.submit = function(){
+  $scope.submit = function() {
     broadCastService.broadCastSubmitEvent();
     return $modalInstance.close();
   };
   $scope.cancel = ()=> $modalInstance.dismiss();
-  return $scope.refresh = function(){
+  return $scope.refresh = function() {
     $modalInstance.close();
     return $window.location.reload();
   };
-}
+},
 ]);
 
-app.controller('datePickerCtrl', ['$scope', function($scope){
+app.controller('datePickerCtrl', ['$scope', function($scope) {
   $scope.today = ()=> $scope.$parent.dt = {value: new Date()};
 
   $scope.today();
 
-  return $scope.open = function($event){
+  return $scope.open = function($event) {
     $event.preventDefault();
     $event.stopPropagation();
     return $scope.opened = true;
   };
-}
+},
 ]);
 
-app.controller('refereeSelectCtrl', ['$scope', $scope=> $scope.$parent.referee = {value: ''}
+app.controller('refereeSelectCtrl', ['$scope', ($scope)=> $scope.$parent.referee = {value: ''},
 ]);
 
-app.controller('winPartyCtrl', ['$scope', $scope=> $scope.$parent.winningParty = {value: 'Мирные'}
+app.controller('winPartyCtrl', ['$scope', ($scope)=> $scope.$parent.winningParty = {value: 'Мирные'},
 ]);
 
-app.controller('playersTableCtrl', ['$scope', function($scope){
+app.controller('playersTableCtrl', ['$scope', function($scope) {
   $scope.roles = ['Мирный', 'Шериф', 'Мафия', 'Дон'];
   $scope.$parent.players = [
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
-    {role:$scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0}
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
+    {role: $scope.roles[0], name: '', fouls: 0, likes: 0, isBest: false, extraScores: 0.0},
   ];
 
-  $scope.overrideCheckbox = current=> $scope.$parent.players[current].isBest = ($scope.$parent.players[current].extraScores > 0.0);
+  $scope.overrideCheckbox = (current)=> $scope.$parent.players[current].isBest = ($scope.$parent.players[current].extraScores > 0.0);
 
-  return $scope.getRoleCSSClass = function(role){
+  return $scope.getRoleCSSClass = function(role) {
     if (role === 'Мирный') {
       return 'citizen-dropbox-value';
     }
@@ -266,15 +279,15 @@ app.controller('playersTableCtrl', ['$scope', function($scope){
       return 'sheriff-dropbox-value';
     }
   };
-}
+},
 ]);
 
 const FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/;
 app.directive('smartFloat', ()=>
     ({
         require: 'ngModel',
-        link(scope, elm, attrs, ctrl){
-            return ctrl.$parsers.unshift(function(viewValue){
+        link(scope, elm, attrs, ctrl) {
+            return ctrl.$parsers.unshift(function(viewValue) {
                 if (FLOAT_REGEXP.test(viewValue)) {
                     ctrl.$setValidity('float', true);
                     return parseFloat(viewValue.replace(',', '.'));
@@ -283,16 +296,16 @@ app.directive('smartFloat', ()=>
                     return undefined;
                   }
             });
-          }
+          },
     })
 );
 
-app.controller('LogCtrl', ['$scope', '$log', ($scope, $log)=> $scope.$log = $log
+app.controller('LogCtrl', ['$scope', '$log', ($scope, $log)=> $scope.$log = $log,
 ]);
 
 //  document on load:
 $(() =>
-  $(document).keydown(function(e){
+  $(document).keydown(function(e) {
     if ((e.keyCode === 8) && (e.target.tagName.toUpperCase() !== 'INPUT')) {
       return e.preventDefault();
     }

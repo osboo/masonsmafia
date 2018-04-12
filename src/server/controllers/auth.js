@@ -24,13 +24,13 @@ module.exports = function(app) {
     passport.use('vk', new Vk({
         clientID: conf.id,
         clientSecret: conf.secret,
-        callbackURL: AUTH_CALLBACK_URL
+        callbackURL: AUTH_CALLBACK_URL,
     }, onProfileGot));
 
     app.get(AUTH_URL, passport.authenticate('vk'));
 
     app.get(AUTH_CALLBACK_URL, passport.authenticate('vk', {
-      failureRedirect: AUTH_URL
+      failureRedirect: AUTH_URL,
     }), (req, res)=> res.redirect(req.session.returnTo || HOME_PAGE));
 
     app.get('/logout', function(req, res) {
@@ -39,7 +39,8 @@ module.exports = function(app) {
     });
 
     const ensureAuthenticated = function(req, res, next) {
-      if (req.isAuthenticated()) { return next();
+      if (req.isAuthenticated()) {
+ return next();
       } else {
         req.session.returnTo = req.url;
         return res.redirect(AUTH_URL);

@@ -1,0 +1,14 @@
+extends: google
+parserOptions:
+  ecmaVersion: 8
+  sourceType: module
+
+rules:
+  max-len:
+    - 'warn'
+    - code: 80
+      tabWidth: 2
+      ignoreUrls: true
+      ignorePattern: '^goog\.(module|require)'
+  require-jsdoc: off
+  one-var: off
