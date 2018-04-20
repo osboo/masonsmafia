@@ -12,3 +12,9 @@ install:
 
 script:
   - docker exec -it testapp npm run test
+
+after_success:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker push osboo/masonsmafia-db
+  - docker push osboo/masonsmafia-app
+  
